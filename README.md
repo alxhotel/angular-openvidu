@@ -1,7 +1,7 @@
 # openvidu-webcomponent
 OpenVidu room videoconference element implemented as an Angular 2 Component
 
-<a href="https://github.com/alxhote/openvidu-webcomponent-app">
+<a href="https://github.com/alxhotel/openvidu-webcomponent-app">
   DEMO
 </a>
 
