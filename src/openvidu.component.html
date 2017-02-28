@@ -1,0 +1,62 @@
+<div class="openvidu">
+	
+	<!-- LOADING -->
+	<div class="loading-screen" *ngIf="loading">
+		Loading OpenVidu...
+	</div>
+
+	<div class="loaded" *ngIf="!loading">
+
+		<!-- LOADING -->
+		<div class="connecting-screen" *ngIf="!session">
+			Connecting...
+		</div>
+		
+		<!-- VIDEO CHAT -->
+		<div class="wrapper" *ngIf="session">
+			
+			<!-- TOOLBAR -->
+			<div class="toolbar">
+				<md-toolbar color="primary">
+					<span>{{sessionId}}</span>
+					<span class="example-spacer"></span>
+					
+					<!-- RIGHT -->
+					<button md-icon-button [mdMenuTriggerFor]="menu">
+						<md-icon>more_vert</md-icon>
+					</button>
+					<md-menu #menu="mdMenu">
+						<button md-menu-item (click)="toggleFullscreen()">
+							<md-icon>fullscreen</md-icon>
+							<span>Pantalla Completa</span>
+						</button>
+					</md-menu>
+				</md-toolbar>
+			</div>
+			
+			<!-- MAIN VIDEO -->
+			<div class="main-video">
+				<stream class="main-stream" *ngIf="mainStream != null" [stream]="mainStream"></stream>
+			</div>
+			
+			<!-- BUTTONS & OTHERS VIDEOS -->
+			<div class="bottom-bar">
+				<div class="buttons">
+					<button md-fab class="toggle-mic" (click)="toggleMic()"><md-icon>mic</md-icon><md-icon class="disabled-icon">mic_off</md-icon></button>
+					
+					<button md-fab class="close-session" (click)="leaveSession()"><md-icon>call_end</md-icon></button>
+					
+					<button md-fab class="toggle-camera" (click)="toggleCamera()"><md-icon>videocam</md-icon><md-icon class="disabled-icon">videocam_off</md-icon></button>
+					
+				</div>
+				<div class="streams" *ngIf="streams.length > 0">
+					<stream class="stream" *ngFor="let s of streams" [stream]="s" [hidden]="s != mainStream">
+				
+					</stream>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+<div>
