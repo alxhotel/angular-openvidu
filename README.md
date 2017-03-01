@@ -7,38 +7,38 @@ OpenVidu room videoconference element implemented as an Angular 2 Component
 
 ## Install
 
-1. install openvidu-webcomponent node module
+1. Install `openvidu-webcomponent` node module
 
-```bash
-$ npm install openvidu-webcomponent --save
-```
+  ```bash
+  $ npm install openvidu-webcomponent --save
+  ```
 
-2. import OpenViduComponent to your AppModule
+2. Import `OpenViduComponent` to your AppModule
 
-```js
-import { NgModule } from '@angular/core';
-import { FormsModule } from "@angular/forms";
-import { BrowserModule  } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { OpenViduComponent } from 'openvidu-webcomponent';
+  ```js
+  import { NgModule } from '@angular/core';
+  import { FormsModule } from "@angular/forms";
+  import { BrowserModule  } from '@angular/platform-browser';
+  import { AppComponent } from './app.component';
+  import { OpenViduComponent } from 'openvidu-webcomponent';
 
-@NgModule({
-  imports: [BrowserModule, FormsModule, OpenViduComponent],
-  declarations: [AppComponent],
-  bootstrap: [ AppComponent ]
-})
-export class AppModule { }
-```   
+  @NgModule({
+    imports: [BrowserModule, FormsModule, OpenViduComponent],
+    declarations: [AppComponent],
+    bootstrap: [ AppComponent ]
+  })
+  export class AppModule { }
+  ```   
 
 ## Usage
 
-Add `hammer.js` in your html
+Add `hammer.js` in your html:
 
 ```html
 <script src="../node_modules/hammerjs/hammer.js"></script>
 ```
 
-You are ready. use it in your template
+You are ready. Use it in your template:
 
 ```html
 <openvidu [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId">
@@ -46,7 +46,7 @@ You are ready. use it in your template
 </openvidu>
 ```
 
-Optionally you can use this to listen for events:
+Optionally, you can use this to listen for events:
 
 ```html
 <openvidu [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId" (change)="onChange($event)">
