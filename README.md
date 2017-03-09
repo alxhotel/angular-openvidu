@@ -1,4 +1,4 @@
-# openvidu-webcomponent
+# angular-openvidu
 [![GitHub issues](https://img.shields.io/github/issues/openvidu/angular-openvidu.svg)](https://github.com/openvidu/angular-openvidu/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
 
