@@ -6,19 +6,26 @@
 
 [https://github.com/alxhotel/angular-openvidu-app](https://github.com/alxhotel/angular-openvidu-app)
 
-## About
-
-OpenVidu room videoconference element implemented as an Angular Component
-
-Pull requests are welcome.
-
 ## Table of contents
 
 - [About](#about)
+- [Features](#features)
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [Development](#development)
 - [License](#licence)
+
+## About
+
+OpenVidu room videoconference element implemented as an Angular Component
+
+## Features
+
+  - Join a group call
+  - Close group call
+  - Disable camera
+  - Mute microphone
+  - Fullscreen video
 
 ## Installation
 
@@ -76,7 +83,7 @@ Optionally, you can use this to listen for events:
 
 ## Development
 
-  Things to know to understand the implementation:
+  Things you need to know about the  implementation:
   
   1. **Events**
   
