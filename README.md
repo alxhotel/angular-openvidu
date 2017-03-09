@@ -64,6 +64,12 @@ You may also find it useful to view the [demo source](https://github.com/alxhote
 
 You are ready. Use it in your template:
 
+- `wsUrl`: Websocket URL pointing to your [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+- `sessionId`: An id for a session. Type: `String`.
+- `participantId`: An id for the participant joining the session. Type: `String`.
+
+**Note**: You will need a [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server). Check out [this page](https://github.com/OpenVidu/openvidu-docker) to deploy it with docker.
+
 ```html
 <openvidu [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId">
   Loading openvidu...
