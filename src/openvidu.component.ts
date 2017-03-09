@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Input, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, Input, OnInit, RendererV2 } from '@angular/core';
 import { OpenVidu, Session, Stream, Participant } from 'openvidu-browser';
 import EventEmitter = require('wolfy87-eventemitter');
 import screenfull = require('screenfull');
@@ -43,8 +43,9 @@ export class OpenViduComponent implements OnInit {
 	@Input() wsUrl: string;
 	@Input() sessionId: string;
 	@Input() participantId: string;
+	@Input() activeGroupCall: boolean;
 
-	constructor() {
+	constructor(private renderer: RendererV2) {
 		
 	}
 	

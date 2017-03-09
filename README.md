@@ -1,42 +1,59 @@
 # openvidu-webcomponent
-OpenVidu room videoconference element implemented as an Angular 2 Component
+[![GitHub issues](https://img.shields.io/github/issues/openvidu/angular-openvidu.svg)](https://github.com/openvidu/angular-openvidu/issues)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
 
-<a href="https://github.com/alxhotel/openvidu-webcomponent-app">
-  DEMO
-</a>
+## Demo
 
-## Install
+[https://github.com/alxhotel/angular-openvidu-app](https://github.com/alxhotel/angular-openvidu-app)
 
-1. Install `openvidu-webcomponent` node module
+## About
 
-  ```bash
-  $ npm install openvidu-webcomponent --save
-  ```
+OpenVidu room videoconference element implemented as an Angular Component
+
+Pull requests are welcome.
+
+## Table of contents
+
+- [About](#about)
+- [Installation](#installation)
+- [Documentation](#documentation)
+- [Development](#development)
+- [License](#licence)
+
+## Installation
+
+1. Install `angular-openvidu` node module through npm:
+
+```bash
+$ npm install angular-openvidu --save
+```
 
 2. Import `OpenViduComponent` to your AppModule
 
-  ```js
-  import { NgModule } from '@angular/core';
-  import { FormsModule } from "@angular/forms";
-  import { BrowserModule  } from '@angular/platform-browser';
-  import { AppComponent } from './app.component';
-  import { OpenViduComponent } from 'openvidu-webcomponent';
+```js
+import { NgModule } from '@angular/core';
+import { FormsModule } from "@angular/forms";
+import { BrowserModule  } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { OpenViduComponent } from 'openvidu-webcomponent';
 
-  @NgModule({
-    imports: [BrowserModule, FormsModule, OpenViduComponent],
-    declarations: [AppComponent],
-    bootstrap: [ AppComponent ]
-  })
-  export class AppModule { }
-  ```   
+@NgModule({
+  imports: [BrowserModule, FormsModule, OpenViduComponent],
+  declarations: [AppComponent],
+  bootstrap: [ AppComponent ]
+})
+export class AppModule { }
+```
 
-## Usage
+You may also find it useful to view the [demo source](https://github.com/alxhotel/angular-openvidu-app/blob/master/src/app/app.component.ts).
 
-Add `hammer.js` in your html:
+3. Add `hammer.js` in your html:
 
 ```html
 <script src="../node_modules/hammerjs/hammer.js"></script>
 ```
+
+## Usage
 
 You are ready. Use it in your template:
 
@@ -54,7 +71,10 @@ Optionally, you can use this to listen for events:
 </openvidu>
 ```
 
-## For Developers
+## Documentation
+
+
+## Development
 
   Things to know to understand the implementation:
   
@@ -96,3 +116,8 @@ Optionally, you can use this to listen for events:
   4. [Angular Material](https://github.com/angular/material2): used to display the toolbar, buttons and all animations.
 
   5. `screenfull`: used to toggle the fullscreen mode of the streaming.
+
+
+## License
+
+MIT
