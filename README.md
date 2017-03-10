@@ -8,7 +8,7 @@ In this demo you will see an implementation of `angular-openvidu` where you can 
 
 Follow the instructions from the app's README to test it out.
 
-Link to the repository: [https://github.com/alxhotel/angular-openvidu-app](https://github.com/alxhotel/angular-openvidu-app)
+Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](https://github.com/alxhotel/angular-openvidu-demo)
 
 ## Table of contents
 
