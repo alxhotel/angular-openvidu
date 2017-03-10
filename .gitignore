@@ -57,9 +57,4 @@ __build__/**
 nbproject
 
 # Generated #
-*.js
-!karma.conf.js
-!karma-test-shim.js
-*.map
-*.d.ts
 typings
