@@ -11,14 +11,14 @@
   "bugs": {
     "url": "https://github.com/openvidu/angular-openvidu/issues"
   },
-  "main": "dist/index.bundle.js",
-  "module": "dist/index.js",
-  "jsnext:main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "typings": "dist/index.d.ts",
+  "main": "index.bundle.js",
+  "module": "index.js",
+  "jsnext:main": "index.js",
+  "types": "index.d.ts",
+  "typings": "index.d.ts",
   "scripts": {
     "lint": "tslint 'src/**/*.ts'",
-    "build": "rimraf dist && gulp css && ts-node tools/inline-styles.ts && tsc -p tsconfig.json && rollup -c rollup.config.js dist/index.js > dist/index.bundle.js && mv src/openvidu.component.ts.bak src/openvidu.component.ts && cp package.json dist && cp README.md dist"
+    "build": "rimraf dist && gulp css && ts-node tools/inline-files.ts && tsc -p tsconfig.json && rollup -c rollup.config.js dist/index.js > dist/index.bundle.js && mv src/openvidu.component.ts.bak src/openvidu.component.ts && cp package.json dist && cp README.md dist"
   },
   "dependencies": {
     "@angular/common": "^4.0.0-rc.2",
