@@ -1,5 +1,5 @@
 # angular-openvidu
-[![GitHub issues](https://img.shields.io/github/issues/openvidu/angular-openvidu.svg)](https://github.com/openvidu/angular-openvidu/issues)
+[![Dependency Status](https://david-dm.org/openvidu/angular-openvidu.svg)](https://david-dm.org/openvidu/angular-openvidu)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
 
 ## Demo
