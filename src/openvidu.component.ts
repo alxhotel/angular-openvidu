@@ -98,8 +98,6 @@ export class OpenViduComponent implements OnInit {
 		this.session.addEventListener('update-main-speaker', (participantEvent: any) => {
 			console.warn("Update main speaker");
 
-			console.log(participantEvent.participantId);
-			console.log(this.streams);
 			// TODO.: make a fix in Openvidu ?
 			// "participantId" is not a participant ID, is a stream ID
 			if (this.streams == null) this.streams = []; 
@@ -109,8 +107,6 @@ export class OpenViduComponent implements OnInit {
 					var streams = this.participants[this.streams[i].getParticipant().getId()].getStreams();
 					// Use any stream
 					this.mainStream = streams[Object.keys(streams)[0]];
-					console.log("UPDATED TO: ", this.participants[this.streams[i].getParticipant().getId()]);
-					console.log("MAIN: ", this.mainStream);
 					break;
 				}
 			}
@@ -129,7 +125,7 @@ export class OpenViduComponent implements OnInit {
 			
 			var newStream = streamEvent.stream;
 			this.streams.push(newStream);
-			// Also added to participant
+			// Also add to participant
 			this.participants[newStream.getParticipant().getId()].addStream(newStream);
 		});
 		this.session.addEventListener('participant-published', () => {

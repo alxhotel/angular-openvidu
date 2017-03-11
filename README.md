@@ -46,7 +46,7 @@ OpenVidu room videoconference element implemented as an Angular Component
 	import { FormsModule } from "@angular/forms";
 	import { BrowserModule  } from '@angular/platform-browser';
 	import { AppComponent } from './app.component';
-	import { OpenViduComponent } from 'openvidu-webcomponent';
+	import { OpenViduComponent } from 'angular-openvidu';
 
 	@NgModule({
 	  imports: [BrowserModule, FormsModule, OpenViduComponent],
