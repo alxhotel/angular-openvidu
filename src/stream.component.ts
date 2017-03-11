@@ -1,53 +1,59 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { Stream, Session } from 'openvidu-browser';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'stream',
-    styles: [`
-		.main-stream video {
-			width: 100%;
-		}
-        /*.participant {
-	        float: left;
-	        width: 20%;
-	        margin: 10px;
-        }
-        .participant video {
-	        width: 100%;
-	        height: auto;
-        }*/`],
+	styles: [`.flip-screen {
+  -webkit-transform: scaleX(-1);
+      -ms-transform: scaleX(-1);
+          transform: scaleX(-1);
+}
+`],
     template: `
 		<div class='participant'>
-			<span>{{stream.getId()}}</span>
-			<video autoplay="true" [src]="videoSrc" [muted]="muted"></video>
+			<span>{{stream.getParticipant().id}}</span>
+			<video #videoStream class="" autoplay="true" [src]="videoSrc" [muted]="muted"></video>
         </div>`
 })
 export class StreamComponent {
 
-    @Input()
-    stream: Stream;
+	// HTML elements
+	@ViewChild('videoStream') videoStream: ElementRef;
 
     videoSrc: SafeUrl;
 	
 	muted: boolean;
 
-    constructor(private sanitizer: DomSanitizer) { }
+    constructor(private domSanitizer: DomSanitizer, private renderer: Renderer) { }
 
-    ngOnInit() {
+	private _stream: Stream;
+	get stream(): Stream {
+		return this._stream;
+	}
+
+	@Input('stream')
+	set stream(val: Stream) {
+		this._stream = val;
+		
+		// Loop until you get a WrStream
         let int = setInterval(() => {
             if (this.stream.getWrStream()) {
-                this.videoSrc = this.sanitizer.bypassSecurityTrustUrl(
+                this.videoSrc = this.domSanitizer.bypassSecurityTrustUrl(
                     URL.createObjectURL(this.stream.getWrStream())
 				);
-                console.log("Video tag src=" + this.videoSrc);
-				
-				this.muted = this.stream.isLocalMirrored();
+                console.log("Video tag src = " + this.videoSrc);
 				
                 clearInterval(int);
             }
         }, 1000);
+		
+		this.muted = this.stream.isLocalMirrored();
+		// If local, flip screen
+		this.renderer.setElementClass(this.videoStream.nativeElement, 'flip-screen', this.stream.isLocalMirrored());
+	}
 
+    ngOnInit() {
         //this.stream.addEventListener('src-added', () => {
         //    this.video.src = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.stream.getWrStream())).toString();
         //});

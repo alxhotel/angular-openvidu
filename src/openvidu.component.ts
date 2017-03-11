@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, ViewEncapsulation, Input, OnInit, Renderer, ElementRef, ViewChild } from '@angular/core';
+import { MdButton } from '@angular/material';
 import { OpenVidu, Session, Stream, Participant } from 'openvidu-browser';
 import EventEmitter = require('wolfy87-eventemitter');
 import screenfull = require('screenfull');
@@ -11,17 +12,16 @@ import screenfull = require('screenfull');
 })
 export class OpenViduComponent implements OnInit {
 
+	// HTML elements
+	@ViewChild('main') mainElement: ElementRef;
+	@ViewChild('toggleMicView') toggleMicElement: MdButton;
+	@ViewChild('toggleCameraView') toggleCameraElement: MdButton;
+
 	private ee = new EventEmitter();
 	
 	private openVidu: OpenVidu;
 
-	private loading: boolean;
-	
-	private connected = false;
-	
-	private joinedRoom = false;
-
-	//Session
+	// Session
 	private session: Session;
 
 	// Participants
@@ -36,28 +36,34 @@ export class OpenViduComponent implements OnInit {
 	// Rest of peers
 	private streams: Stream[] = [];
 
+	private joinedRoom: boolean = false;
+	private connected: boolean = false;
+
+	// Flags for HTML elements
+	private userMessage: string = "Loading OpenViudu...";
 	private micDisabled: boolean = false;
 	private cameraDisabled: boolean = false;
+	private isFullscreen: boolean = false;
 
 	//Join form
 	@Input() wsUrl: string;
 	@Input() sessionId: string;
 	@Input() participantId: string;
-	@Input() activeGroupCall: boolean;
 
-	constructor(private renderer: Renderer2) {
+	constructor(private renderer: Renderer) {
 		
 	}
 	
 	ngOnInit() {
-		// Loading...
-		this.loading = true;
-
+		// Set listeners
 		window.onbeforeunload = () => {
 			if (this.openVidu) {
 				this.openVidu.close(true);
 			}
 		}
+		
+		// Display message
+		this.userMessage = "Connecting...";
 		
 		// Setup connection to server
 		this.openVidu = new OpenVidu(this.wsUrl);
@@ -65,8 +71,10 @@ export class OpenViduComponent implements OnInit {
 			if (error) return console.log(error);
 			
 			console.log(openVidu);
-			
 			this.connected = true;
+			
+			// Display message
+			this.userMessage = "Joining room...";
 			
 			this.joinSession(this.sessionId, this.participantId, (error: any) => {
 				if (error) console.log(error);
@@ -75,9 +83,6 @@ export class OpenViduComponent implements OnInit {
 
 			})
 		});
-
-		// Finish loading
-		this.loading = false;
 	}
 	
 	addEventListener(eventName: any, listener: any) {
@@ -90,7 +95,26 @@ export class OpenViduComponent implements OnInit {
 	
 	private setListeners() {
 		// Set listeners
-		this.session.addEventListener('update-main-speaker', this.updateMainSpeaker);
+		this.session.addEventListener('update-main-speaker', (participantEvent: any) => {
+			console.warn("Update main speaker");
+
+			console.log(participantEvent.participantId);
+			console.log(this.streams);
+			// TODO.: make a fix in Openvidu ?
+			// "participantId" is not a participant ID, is a stream ID
+			if (this.streams == null) this.streams = []; 
+			for (var i = 0; i < this.streams.length; i++) {
+				console.log(this.streams[i].getId());
+				if (this.streams[i].getId() == participantEvent.participantId) {
+					var streams = this.participants[this.streams[i].getParticipant().getId()].getStreams();
+					// Use any stream
+					this.mainStream = streams[Object.keys(streams)[0]];
+					console.log("UPDATED TO: ", this.participants[this.streams[i].getParticipant().getId()]);
+					console.log("MAIN: ", this.mainStream);
+					break;
+				}
+			}
+		});
 		this.session.addEventListener('error-room', () => {
 			console.warn("error-room");
 			
@@ -103,7 +127,10 @@ export class OpenViduComponent implements OnInit {
 		this.session.addEventListener('stream-added', (streamEvent: any) => {
 			console.warn("Stream added");
 			
-			this.streams.push(streamEvent.stream);
+			var newStream = streamEvent.stream;
+			this.streams.push(newStream);
+			// Also added to participant
+			this.participants[newStream.getParticipant().getId()].addStream(newStream);
 		});
 		this.session.addEventListener('participant-published', () => {
 			console.warn("Participant published");
@@ -118,12 +145,14 @@ export class OpenViduComponent implements OnInit {
 		this.session.addEventListener('participant-left', (participantEvent: any) => {
 			console.warn("Participant Left");
 			
-			delete this.participants[participantEvent.participant.id];
+			var oldParticipant = participantEvent.participant;
+			this.participants.splice(this.participants.indexOf(oldParticipant), 1);
 		});
-		this.session.addEventListener('stream-removed', () => {
+		this.session.addEventListener('stream-removed', (streamEvent: any) => {
 			console.warn("stream-removed");
 			
-			//this.removeVideoTag(streamEvent.stream);
+			var oldStream = streamEvent.stream;
+			this.streams.splice(this.streams.indexOf(oldStream), 1);
 		});
 		this.session.addEventListener('participant-evicted', () => {
 			console.warn("participant-evicted");
@@ -145,18 +174,6 @@ export class OpenViduComponent implements OnInit {
 			console.warn("error-media");
 			
 		});
-	}
-	
-	private updateMainSpeaker(participantEvent: any) {
-		console.warn("Update main speaker");
-		
-		var streams = this.participants[participantEvent.participantId].getStreams();
-		this.mainStream = streams[Object.keys(streams)[0]];
-	}
-
-	private removeVideoTag(stream: Stream) {
-		console.log("Stream removed");
-		this.streams.slice(this.streams.indexOf(stream), 1);
 	}
 
 	joinSession(sessionId: string, participantId: string, callback: any) {
@@ -194,6 +211,7 @@ export class OpenViduComponent implements OnInit {
 				this.myCamera = camera;
 				this.myCamera.mirrorLocalStream(this.myCamera.getWrStream());
 				this.mainStream = this.myCamera;
+				this.streams.push(this.myCamera);
 
 				// Debug
 				var allStreams = session.getStreams();
@@ -209,36 +227,36 @@ export class OpenViduComponent implements OnInit {
 	}
 	
 	toggleMic() {
-		var toggleMicButton = document.getElementsByClassName("toggle-mic")[0];
+		var toggleMicButton = this.toggleMicElement._getHostElement();
 		if (this.micDisabled) {
-			toggleMicButton.className = toggleMicButton.className.replace(/(?:^|\s)disabled(?!\S)/g , '')
+			this.renderer.setElementClass(toggleMicButton, 'disabled', false);
 			this.myCamera.getWebRtcPeer().audioEnabled = true;
 		} else {
-			toggleMicButton.className += " disabled";
+			this.renderer.setElementClass(toggleMicButton, 'disabled', true);
 			this.myCamera.getWebRtcPeer().audioEnabled = false;
 		}
 		this.micDisabled = !this.micDisabled;
-		
-		console.log(this.myCamera);
 	}
 	
 	toggleCamera() {
-		var toggleCameraButton = document.getElementsByClassName("toggle-camera")[0];
+		var toggleCameraButton = this.toggleCameraElement._getHostElement();
 		if (this.cameraDisabled) {
-			toggleCameraButton.className = toggleCameraButton.className.replace(/(?:^|\s)disabled(?!\S)/g , '')
+			this.renderer.setElementClass(toggleCameraButton, 'disabled', false);
 			this.myCamera.getWebRtcPeer().videoEnabled = true;
 		} else {
-			toggleCameraButton.className += " disabled";
+			this.renderer.setElementClass(toggleCameraButton, 'disabled', true);
 			this.myCamera.getWebRtcPeer().videoEnabled = false;
 		}
 		this.cameraDisabled = !this.cameraDisabled;
-		
-		console.log(this.myCamera);
 	}
 	
 	toggleFullscreen() {
-		// TODO
-		screenfull.request(document.getElementsByClassName('openvidu')[0]);
+		if (screenfull.isFullscreen) {
+			screenfull.exit();
+		} else {
+			screenfull.request(this.mainElement.nativeElement);
+		}
+		this.isFullscreen = screenfull.isFullscreen;
 	}
 
 	onLostConnection() {
@@ -249,9 +267,11 @@ export class OpenViduComponent implements OnInit {
 	}
 
 	leaveSession() {
+		this.mainStream = null;
 		this.session = null;
 		this.streams = [];
-		this.connected = false;
+		this.participants = [];
+		this.userMessage = "You left the room";
 		this.joinedRoom = false;
 		if (this.openVidu) {
 			this.openVidu.close(true);

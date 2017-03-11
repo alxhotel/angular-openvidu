@@ -29,7 +29,7 @@ OpenVidu room videoconference element implemented as an Angular Component
   - Close group call
   - Disable camera
   - Mute microphone
-  - Fullscreen video
+  - Toggle fullscreen video
 
 ## Installation
 
@@ -64,6 +64,11 @@ You may also find it useful to view the [demo source](https://github.com/alxhote
 	<script src="../node_modules/hammerjs/hammer.js"></script>
 	```
 
+4. Deploy (KMS) Kurento Media Server
+You will need a [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+
+Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-docker) to deploy it with docker.
+
 ## Usage
 
 You are ready. Use it in your template:
@@ -72,18 +77,8 @@ You are ready. Use it in your template:
 - `sessionId`: An id for a session. Type: `String`.
 - `participantId`: An id for the participant joining the session. Type: `String`.
 
-**Note**: You will need a [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server). Check out [this page](https://github.com/OpenVidu/openvidu-docker) to deploy it with docker.
-
 ```html
 <openvidu [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId">
-  Loading openvidu...
-</openvidu>
-```
-
-Optionally, you can use this to listen for events:
-
-```html
-<openvidu [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId" (change)="onChange($event)">
   Loading openvidu...
 </openvidu>
 ```

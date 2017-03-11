@@ -8,7 +8,7 @@ var lessDir = 'src/css/less';
 var cssDir = 'src/css';
 
 gulp.task('css', function () {
-	return gulp.src([lessDir + '/openvidu.component.less'])
+	return gulp.src([lessDir + '/openvidu.component.less', lessDir + '/stream.component.less'])
 		.pipe(less({style: 'compressed'}).on('error', gutil.log))
 		.pipe(autoprefixer('last 10 versions', 'ie 9'))
 		.pipe(gulp.dest(cssDir));

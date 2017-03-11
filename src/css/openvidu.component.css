@@ -1,29 +1,8 @@
 .openvidu {
+  width: 100%;
   height: 100%;
 }
-.openvidu .loading-screen {
-  height: 100%;
-  background: #000;
-  color: #fff;
-  font-weight: bold;
-  font-size: 22px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-.openvidu .loaded {
-  height: 100%;
-}
-.openvidu .loaded .connecting-screen {
+.openvidu .message-screen {
   height: 100%;
   background: #000;
   color: #fff;
@@ -42,15 +21,39 @@
       -ms-flex-pack: center;
           justify-content: center;
 }
-.openvidu .loaded .wrapper {
+.openvidu .wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   position: relative;
   height: 100%;
 }
-.openvidu .loaded .wrapper .main-video {
+.openvidu .wrapper .main-video {
+  position: relative;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   overflow: hidden;
   background: #111;
 }
-.openvidu .loaded .wrapper .main-video .main-stream .participant {
+.openvidu .wrapper .main-video .message {
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  right: 0px;
+  text-shadow: #000 1px 1px 3px;
+  z-index: 99;
+}
+.openvidu .wrapper .main-video .main-stream .participant {
   width: 100%;
   height: 100%;
   margin: 0px;
@@ -60,26 +63,41 @@
   display: -ms-flexbox;
   display: flex;
 }
-.openvidu .loaded .wrapper .main-video .main-stream .participant span {
+.openvidu .wrapper .main-video .main-stream .participant span {
   display: none;
 }
-.openvidu .loaded .wrapper .main-video .main-stream .participant video {
+.openvidu .wrapper .main-video .main-stream .participant video {
   width: 100%;
-  /* FIX: flip all my screens */
-  -webkit-transform: scaleX(-1);
-  -ms-transform: scaleX(-1);
-      transform: scaleX(-1);
 }
-.openvidu .loaded .wrapper .toolbar .example-icon {
+.openvidu .wrapper .main-video .name-placeholder {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  position: relative;
+}
+.openvidu .wrapper .main-video .name-placeholder div {
+  background: #70826a;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  margin: -80px 0px 0px -80px;
+  font-size: 100px;
+  color: #fff;
+  line-height: 160px;
+}
+.openvidu .wrapper .toolbar .example-icon {
   padding: 0 14px;
 }
-.openvidu .loaded .wrapper .toolbar .example-spacer {
+.openvidu .wrapper .toolbar .example-spacer {
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
 }
-.openvidu .loaded .wrapper .bottom-bar {
+.openvidu .wrapper .bottom-bar {
   bottom: 0;
   height: auto;
   left: 0;
@@ -87,48 +105,45 @@
   text-align: center;
   right: 0;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons {
+.openvidu .wrapper .bottom-bar .buttons {
   margin-bottom: 0;
   text-align: center;
   white-space: nowrap;
   position: relative;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button {
+.openvidu .wrapper .bottom-bar .buttons button {
   color: #fff;
   background-color: rgba(0, 0, 0, 0.4);
   margin: 16px 8px 40px 8px;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button:hover {
+.openvidu .wrapper .bottom-bar .buttons button:hover {
   background-color: rgba(0, 0, 0, 0.6);
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-mic.disabled,
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-camera.disabled {
+.openvidu .wrapper .bottom-bar .buttons button.toggle-mic.disabled,
+.openvidu .wrapper .bottom-bar .buttons button.toggle-camera.disabled {
   color: #000;
   background-color: #ffffff;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-mic.disabled md-icon,
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-camera.disabled md-icon {
+.openvidu .wrapper .bottom-bar .buttons button.toggle-mic.disabled md-icon,
+.openvidu .wrapper .bottom-bar .buttons button.toggle-camera.disabled md-icon {
   display: none;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-mic.disabled md-icon.disabled-icon,
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-camera.disabled md-icon.disabled-icon {
+.openvidu .wrapper .bottom-bar .buttons button.toggle-mic.disabled md-icon.disabled-icon,
+.openvidu .wrapper .bottom-bar .buttons button.toggle-camera.disabled md-icon.disabled-icon {
   display: inline-block;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-mic md-icon,
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-camera md-icon {
+.openvidu .wrapper .bottom-bar .buttons button.toggle-mic md-icon,
+.openvidu .wrapper .bottom-bar .buttons button.toggle-camera md-icon {
   display: inline-block;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-mic md-icon.disabled-icon,
-.openvidu .loaded .wrapper .bottom-bar .buttons button.toggle-camera md-icon.disabled-icon {
+.openvidu .wrapper .bottom-bar .buttons button.toggle-mic md-icon.disabled-icon,
+.openvidu .wrapper .bottom-bar .buttons button.toggle-camera md-icon.disabled-icon {
   display: none;
 }
-.openvidu .loaded .wrapper .bottom-bar .buttons button.close-session {
+.openvidu .wrapper .bottom-bar .buttons button.close-session {
   background-color: #db4437;
 }
-.openvidu .loaded .wrapper .bottom-bar .streams {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+.openvidu .wrapper .bottom-bar .streams {
   max-width: 100%;
   text-align: start;
   padding: 8px 24px 0 24px;
@@ -141,4 +156,29 @@
   direction: rtl;
   overflow: auto;
   overflow: -moz-scrollbars-none;
+}
+.openvidu .wrapper .bottom-bar .streams stream .participant {
+  position: relative;
+  width: 177px;
+  height: 100px;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+}
+.openvidu .wrapper .bottom-bar .streams stream .participant span {
+  position: absolute;
+  bottom: 10px;
+  text-overflow: ellipsis;
+  padding: 0px 10px;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-shadow: #000 1px 1px 3px;
+  width: 100%;
+  overflow: hidden;
+  direction: ltr;
+  z-index: 1;
+}
+.openvidu .wrapper .bottom-bar .streams stream .participant video {
+  width: 100%;
+  height: 100%;
 }

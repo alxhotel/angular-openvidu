@@ -1,62 +1,66 @@
-<div class="openvidu">
+<div #main class="openvidu">
 	
-	<!-- LOADING -->
-	<div class="loading-screen" *ngIf="loading">
-		Loading OpenVidu...
+	<!-- Messages to user -->
+	<div class="message-screen" *ngIf="userMessage && !session">
+		{{userMessage}}
 	</div>
-
-	<div class="loaded" *ngIf="!loading">
-
-		<!-- LOADING -->
-		<div class="connecting-screen" *ngIf="!session">
-			Connecting...
-		</div>
 		
-		<!-- VIDEO CHAT -->
-		<div class="wrapper" *ngIf="session">
-			
-			<!-- TOOLBAR -->
-			<div class="toolbar">
-				<md-toolbar color="primary">
-					<span>{{sessionId}}</span>
-					<span class="example-spacer"></span>
-					
-					<!-- RIGHT -->
-					<button md-icon-button [mdMenuTriggerFor]="menu">
-						<md-icon>more_vert</md-icon>
+	<!-- VIDEO CHAT -->
+	<div class="wrapper" *ngIf="session">
+
+		<!-- TOOLBAR -->
+		<div class="toolbar">
+			<md-toolbar color="primary">
+				<span>{{sessionId}}</span>
+				<span class="example-spacer"></span>
+
+				<!-- For fullscreen -->
+				<button md-icon-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="Fullscreen" mdTooltipPosition="below">
+					<md-icon>fullscreen</md-icon>
+				</button>
+				<button md-icon-button (click)="toggleFullscreen()" *ngIf="isFullscreen" mdTooltip="Exit fullscreen" mdTooltipPosition="below">
+					<md-icon>clear</md-icon>
+				</button>
+
+				<!-- RIGHT -->
+				<!--<button md-icon-button [mdMenuTriggerFor]="menu">
+					<md-icon>more_vert</md-icon>
+				</button>
+				<md-menu #menu="mdMenu">
+					<button md-menu-item (click)="toggleFullscreen()">
+						<md-icon>fullscreen</md-icon>
+						<span>Fullscreen</span>
 					</button>
-					<md-menu #menu="mdMenu">
-						<button md-menu-item (click)="toggleFullscreen()">
-							<md-icon>fullscreen</md-icon>
-							<span>Pantalla Completa</span>
-						</button>
-					</md-menu>
-				</md-toolbar>
-			</div>
-			
-			<!-- MAIN VIDEO -->
-			<div class="main-video">
-				<stream class="main-stream" *ngIf="mainStream != null" [stream]="mainStream"></stream>
-			</div>
-			
-			<!-- BUTTONS & OTHERS VIDEOS -->
-			<div class="bottom-bar">
-				<div class="buttons">
-					<button md-fab class="toggle-mic" (click)="toggleMic()"><md-icon>mic</md-icon><md-icon class="disabled-icon">mic_off</md-icon></button>
-					
-					<button md-fab class="close-session" (click)="leaveSession()"><md-icon>call_end</md-icon></button>
-					
-					<button md-fab class="toggle-camera" (click)="toggleCamera()"><md-icon>videocam</md-icon><md-icon class="disabled-icon">videocam_off</md-icon></button>
-					
-				</div>
-				<div class="streams" *ngIf="streams.length > 0">
-					<stream class="stream" *ngFor="let s of streams" [stream]="s" [hidden]="s != mainStream">
-				
-					</stream>
-				</div>
-			</div>
-			
+				</md-menu>-->
+			</md-toolbar>
 		</div>
-		
+
+		<!-- MAIN VIDEO -->
+		<div class="main-video">
+			<div class="message" *ngIf="streams.length == 1">You are alone in this room :(</div>
+			<stream class="main-stream" *ngIf="mainStream != null && mainStream.getWrStream() != null" [stream]="mainStream"></stream>
+			<div class="name-placeholder">
+				<div *ngIf="mainStream != null">{{mainStream.getParticipant().id.charAt(0)}}</div>
+				<div *ngIf="mainStream == null && participantId != null">{{participantId.charAt(0)}}</div>
+			</div>
+		</div>
+
+		<!-- BUTTONS & OTHERS VIDEOS -->
+		<div class="bottom-bar">
+			<div class="buttons">
+				<button #toggleMicView md-fab class="toggle-mic" (click)="toggleMic()"><md-icon>mic</md-icon><md-icon class="disabled-icon">mic_off</md-icon></button>
+
+				<button md-fab class="close-session" (click)="leaveSession()"><md-icon>call_end</md-icon></button>
+
+				<button #toggleCameraView md-fab class="toggle-camera" (click)="toggleCamera()"><md-icon>videocam</md-icon><md-icon class="disabled-icon">videocam_off</md-icon></button>
+
+			</div>
+			<div class="streams" *ngIf="streams.length > 1">
+				<stream class="stream" *ngFor="let s of streams" [stream]="s" [hidden]="s == mainStream">
+
+				</stream>
+			</div>
+		</div>
+
 	</div>
 <div>
