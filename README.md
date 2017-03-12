@@ -17,7 +17,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [Development](#development)
-- [License](#licence)
+- [License](#license)
 
 ## About
 
@@ -93,35 +93,23 @@ You are ready. Use it in your template:
   
   1. **Events**
   
-      a) `room-connected`: triggers when the client has established a session with the server
-      
-      b) `room-closed`: triggers when the room is closed
-      
-      c) `lost-connection`: triggers when you can't establish a connection to the server
-      
-      d) `error-room`: triggers when it was unable to join room
-      
-      e) `stream-added`: triggers when a new stream was added
-      
-      f) `stream-removed`: triggers when a stream was removed
-      
-      g) `participant-joined`: triggers when a participant has joined your room
-      
-      h) `particpant-published`: triggers when a participant is publised
-      
-      i) `participant-left`: triggers when a participant has left your room
-      
-      j) `participant-evicted`: triggers when a participant is evicted
-      
-      k) `upodate-main-speaker`: triggers when a the main speaker has been updated
-      
-      l) `newMessage`: triggers when a new message is recived
-      
-      m) `error-media`: triggers when an error occurs while trying to retrieve some media
-            
-      n) `custom-message-received`: triggers when a custom notificaction arrives
-      
-      
+	| Name                      | Description                                                        |
+	|---------------------------|--------------------------------------------------------------------|
+	| `room-connected`          | triggers when the client has established a session with the server |
+	| `room-closed`             | triggers when the room is closed                                   |
+	| `lost-connection`         | triggers when you can't establish a connection to the server       |
+	| `error-room`              | triggers when it was unable to join room                           |
+	| `stream-added`            | triggers when a new stream was added                               |
+	| `stream-removed`          | triggers when a stream was removed                                 |
+	| `participant-joined`      | triggers when a participant has joined your room                   |
+	| `particpant-published`    | triggers when a participant is publised                            |
+	| `participant-left`        | triggers when a participant has left your room                     |
+	| `participant-evicted`     | triggers when a participant is evicted                             |
+	| `upodate-main-speaker`    | triggers when a the main speaker has been updated                  |
+	| `newMessage`              | triggers when a new message is recived                             |
+	| `error-media`             | triggers when an error occurs while trying to retrieve some media  |
+	| `custom-message-received` | triggers when a custom notificaction arrives                       |
+
   2. **Stream component**: is the component in charge of displaying the video from each participant.
   
   3. **LESS**: the CSS stylesheet is compiled from the LESS file.
