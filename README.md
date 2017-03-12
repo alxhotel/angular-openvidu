@@ -56,7 +56,7 @@ OpenVidu room videoconference element implemented as an Angular Component
 	export class AppModule { }
 	```
 
-You may also find it useful to view the [demo source](https://github.com/alxhotel/angular-openvidu-app/blob/master/src/app/app.component.ts).
+	You may also find it useful to view the [demo source](https://github.com/alxhotel/angular-openvidu-app/blob/master/src/app/app.component.ts).
 
 3. Add `hammer.js` in your html:
 
@@ -64,10 +64,11 @@ You may also find it useful to view the [demo source](https://github.com/alxhote
 	<script src="../node_modules/hammerjs/hammer.js"></script>
 	```
 
-4. Deploy (KMS) Kurento Media Server
-You will need a [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+4. Deploy KMS (Kurento Media Server)
 
-Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-docker) to deploy it with docker.
+	You will need a [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+
+	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-docker) to deploy it with docker.
 
 ## Usage
 
