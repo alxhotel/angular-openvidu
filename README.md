@@ -20,7 +20,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 
 ## About
 
-OpenVidu room videoconference element implemented as an Angular Component
+[OpenVidu](https://github.com/OpenVidu) room videoconference element implemented as an [Angular Component](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
 
 ## Features
 
