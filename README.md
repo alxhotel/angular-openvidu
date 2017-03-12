@@ -105,7 +105,7 @@ Things you need to know about the  implementation:
 	| `error-media`             | triggers when an error occurs while trying to retrieve some media  |
 	| `custom-message-received` | triggers when a custom notificaction arrives                       |
 
-2. ]Stream component](https://github.com/alxhotel/angular-openvidu/blob/master/src/stream.component.ts): is the component in charge of displaying the video from each participant.
+2. [Stream component](https://github.com/alxhotel/angular-openvidu/blob/master/src/stream.component.ts): is the component in charge of displaying the video from each participant.
   
 3. [LESS](http://lesscss.org/): the CSS stylesheet is compiled from the LESS file.
   
