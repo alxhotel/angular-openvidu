@@ -1,5 +1,4 @@
 # angular-openvidu
-[![Dependency Status](https://david-dm.org/openvidu/angular-openvidu.svg)](https://david-dm.org/openvidu/angular-openvidu)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
 
 ## Demo
@@ -85,9 +84,9 @@ You are ready. Use it in your template:
 
 ## Development
 
-  Things you need to know about the  implementation:
-  
-  1. **Events**
+Things you need to know about the  implementation:
+
+1. **Events**
   
 	| Name                      | Description                                                        |
 	|---------------------------|--------------------------------------------------------------------|
@@ -102,18 +101,17 @@ You are ready. Use it in your template:
 	| `participant-left`        | triggers when a participant has left your room                     |
 	| `participant-evicted`     | triggers when a participant is evicted                             |
 	| `upodate-main-speaker`    | triggers when a the main speaker has been updated                  |
-	| `newMessage`              | triggers when a new message is recived                             |
+	| `newMessage`              | triggers when a new message is received                            |
 	| `error-media`             | triggers when an error occurs while trying to retrieve some media  |
 	| `custom-message-received` | triggers when a custom notificaction arrives                       |
 
-  2. **Stream component**: is the component in charge of displaying the video from each participant.
+2. ]Stream component](https://github.com/alxhotel/angular-openvidu/blob/master/src/stream.component.ts): is the component in charge of displaying the video from each participant.
   
-  3. **LESS**: the CSS stylesheet is compiled from the LESS file.
+3. [LESS](http://lesscss.org/): the CSS stylesheet is compiled from the LESS file.
   
-  4. [Angular Material](https://github.com/angular/material2): used to display the toolbar, buttons and all animations.
+4. [Angular Material](https://github.com/angular/material2): used to display the toolbar, buttons and all animations.
 
-  5. `screenfull`: used to toggle the fullscreen mode of the streaming.
-
+5. [screenfull](https://github.com/sindresorhus/screenfull.js): used to toggle the fullscreen mode of the streaming.
 
 ## License
 
