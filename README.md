@@ -15,7 +15,6 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 - [About](#about)
 - [Features](#features)
 - [Installation](#installation)
-- [Documentation](#documentation)
 - [Development](#development)
 - [License](#license)
 
@@ -74,7 +73,7 @@ OpenVidu room videoconference element implemented as an Angular Component
 
 You are ready. Use it in your template:
 
-- `wsUrl`: Websocket URL pointing to your [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+- `wsUrl`: Websocket URL pointing to your [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server). Type: `String`.
 - `sessionId`: An id for a session. Type: `String`.
 - `participantId`: An id for the participant joining the session. Type: `String`.
 
@@ -83,9 +82,6 @@ You are ready. Use it in your template:
   Loading openvidu...
 </openvidu>
 ```
-
-## Documentation
-
 
 ## Development
 
