@@ -1,5 +1,5 @@
 # angular-openvidu
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
 
 ## Demo
 
@@ -115,4 +115,4 @@ Things you need to know about the  implementation:
 
 ## License
 
-MIT
+Apache Software License 2.0 ©
