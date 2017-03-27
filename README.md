@@ -10,7 +10,7 @@ Follow the instructions from the [app's README](https://github.com/alxhotel/angu
 
 Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](https://github.com/alxhotel/angular-openvidu-demo)
 
-## Table of contents
+### Table of contents
 
 - [About](#about)
 - [Features](#features)
@@ -19,13 +19,13 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 - [Development](#development)
 - [License](#license)
 
-## About
+### About
 
 [OpenVidu](https://github.com/OpenVidu) room videoconference element implemented as an [Angular Component](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
 
 To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
 
-## Features
+### Features
 
 - Join a group call
 - Close group call
@@ -33,7 +33,7 @@ To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/We
 - Mute microphone
 - Toggle fullscreen video
 
-## Installation
+### Installation
 
 1. Install `angular-openvidu` node module through npm:
 
@@ -72,7 +72,7 @@ To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/We
 
 	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-sample-basic-plainjs#start-openvidu-development-server) to deploy it with docker.
 
-## Usage
+### Usage
 
 You are ready. Use it in your template:
 
@@ -86,11 +86,13 @@ You are ready. Use it in your template:
 </openvidu>
 ```
 
-## Development
+### Development
 
-Things you need to know about the implementation:
+Things you need to know:
 
-### 1. Events
+#### 1. Events
+
+This events are coming from `openvidu-browser`, AngularOpenVidu use them to implement the logic.
 
 | Name                      | Description                                                        |
 |---------------------------|--------------------------------------------------------------------|
@@ -109,7 +111,7 @@ Things you need to know about the implementation:
 | `error-media`             | triggers when an error occurs while trying to retrieve some media  |
 | `custom-message-received` | triggers when a custom notificaction arrives                       |
 
-### 2. Dependencies
+#### 2. Dependencies
 
 These are the main modules that make up AngularOpenVidu:
 
@@ -136,11 +138,11 @@ These are the main modules that make up AngularOpenVidu:
 [wolfy87-eventemitter-ni]: https://img.shields.io/npm/v/wolfy87-eventemitter.svg
 [wolfy87-eventemitter-nu]: https://www.npmjs.com/package/wolfy87-eventemitter
 
-### 3. CSS
+#### 3. CSS
 
 The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [Angular-CLI](https://github.com/angular/angular-cli)
 
-### 4. Files
+#### 4. Files
 
 | Filename | Description |
 |----|---|
@@ -151,7 +153,7 @@ The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [
 | `stream.component.html`   | stream component's LESS																					|
 | `stream.component.less`   | stream component's HTML																					|
 | `openvidu.module.ts`      | openvidu module																							|
-| `index.ts`				| file needed to export all components and directives top other components									|
+| `index.ts`				| file needed to export all components and directives to other components									|
 
 ## License
 
