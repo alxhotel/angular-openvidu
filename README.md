@@ -90,48 +90,66 @@ Things you need to know about the implementation:
 
 ### 1. Events
 
-	| Name                      | Description                                                        |
-	|---------------------------|--------------------------------------------------------------------|
-	| `room-connected`          | triggers when the client has established a session with the server |
-	| `room-closed`             | triggers when the room is closed                                   |
-	| `lost-connection`         | triggers when you can't establish a connection to the server       |
-	| `error-room`              | triggers when it was unable to join room                           |
-	| `stream-added`            | triggers when a new stream was added                               |
-	| `stream-removed`          | triggers when a stream was removed                                 |
-	| `participant-joined`      | triggers when a participant has joined your room                   |
-	| `particpant-published`    | triggers when a participant is publised                            |
-	| `participant-left`        | triggers when a participant has left your room                     |
-	| `participant-evicted`     | triggers when a participant is evicted                             |
-	| `upodate-main-speaker`    | triggers when a the main speaker has been updated                  |
-	| `newMessage`              | triggers when a new message is received                            |
-	| `error-media`             | triggers when an error occurs while trying to retrieve some media  |
-	| `custom-message-received` | triggers when a custom notificaction arrives                       |
+| Name                      | Description                                                        |
+|---------------------------|--------------------------------------------------------------------|
+| `room-connected`          | triggers when the client has established a session with the server |
+| `room-closed`             | triggers when the room is closed                                   |
+| `lost-connection`         | triggers when you can't establish a connection to the server       |
+| `error-room`              | triggers when it was unable to join room                           |
+| `stream-added`            | triggers when a new stream was added                               |
+| `stream-removed`          | triggers when a stream was removed                                 |
+| `participant-joined`      | triggers when a participant has joined your room                   |
+| `particpant-published`    | triggers when a participant is publised                            |
+| `participant-left`        | triggers when a participant has left your room                     |
+| `participant-evicted`     | triggers when a participant is evicted                             |
+| `upodate-main-speaker`    | triggers when a the main speaker has been updated                  |
+| `newMessage`              | triggers when a new message is received                            |
+| `error-media`             | triggers when an error occurs while trying to retrieve some media  |
+| `custom-message-received` | triggers when a custom notificaction arrives                       |
 
 ### 2. Dependencies
 
-	These are the main modules that make up AngularOpenvidu:
+These are the main modules that make up AngularOpenvidu:
 
-	| Module																					| Description														|
-	|-------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-	| [Openvidu Browser](https://github.com/OpenVidu/openvidu/tree/master/openvidu-browser)		| used to communicate with the Openvidu Server						|
-	| [Angular Material](https://github.com/angular/material2)									| used to display the toolbar, buttons and animations				|
-	| [Screenfull.js](https://github.com/sindresorhus/screenfull.js)							| used to toggle the fullscreen mode of the streaming				|
-	| [EventEmitter](https://github.com/Olical/EventEmitter)									| used to listen and emit events									|
+| Module | Version | Description |
+|---|---|---|
+| [Openvidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]			| used to communicate with the Openvidu Server				|
+| [Angular Material](@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]			| used to display the toolbar, buttons and animations		|
+| [Screenfull.js](screenfull.js)			| [![][screenfull.js-ni]][screenfull.js-nu]					| used to toggle the fullscreen mode of the streaming				|
+| [EventEmitter](wolfy87-eventemitter)		| [![][wolfy87-eventemitter-ni]][wolfy87-eventemitter-nu]	| used to listen and emit events						|
 
-3. [LESS](http://lesscss.org/): the CSS stylesheet is compiled from the LESS file.
+[openvidu-browser]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-browser
+[openvidu-browser-ni]: https://img.shields.io/npm/v/openvidu-browser.svg
+[openvidu-browser-nu]: https://www.npmjs.com/package/openvidu-browser
+
+[@angular/material]: https://github.com/angular/material2
+[@angular/material-ni]: https://img.shields.io/npm/v/@angular/material.svg
+[@angular/material-nu]: https://www.npmjs.com/package/@angular/material
+
+[screenfull.js]: https://github.com/sindresorhus/screenfull.js
+[screenfull.js-ni]: https://img.shields.io/npm/v/screenfull.js.svg
+[screenfull.js-nu]: https://www.npmjs.com/package/screenfull.js
+
+[wolfy87-eventemitter]: https://github.com/Olical/EventEmitter
+[wolfy87-eventemitter-ni]: https://img.shields.io/npm/v/wolfy87-eventemitter.svg
+[wolfy87-eventemitter-nu]: https://www.npmjs.com/package/wolfy87-eventemitter
+
+### 3. CSS
+
+The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [Angular-CLI](https://github.com/angular/angular-cli)
 
 ### 3. Files
 
-	| Filename                  | Description																	|
-	|---------------------------|-------------------------------------------------------------------------------|
-	| `openvidu.component.ts`   | in charge of running most the logic behind the component, such as						|
-	| `openvidu.component.less` | openvidu component's LESS														|
-	| `openvidu.component.html` | openvidu component's HTML														|
-	| `stream.component.ts`     | in charge of displaying the video from each participant						|
-	| `stream.component.html`   | openvidu component's LESS														|
-	| `stream.component.less`   | openvidu component's HTML														|
-	| `openvidu.module.ts`      | openvidu module																|
-	| `index.ts`				| file needed to export all components and directives top other components		|
+| Filename                  | Description																	|
+|---------------------------|-------------------------------------------------------------------------------|
+| `openvidu.component.ts`   | in charge of running most the logic behind the component, such as				|
+| `openvidu.component.less` | openvidu component's LESS														|
+| `openvidu.component.html` | openvidu component's HTML														|
+| `stream.component.ts`     | in charge of displaying the video from each participant						|
+| `stream.component.html`   | openvidu component's LESS														|
+| `stream.component.less`   | openvidu component's HTML														|
+| `openvidu.module.ts`      | openvidu module																|
+| `index.ts`				| file needed to export all components and directives top other components		|
 
 ## License
 
