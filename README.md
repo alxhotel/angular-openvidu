@@ -68,9 +68,9 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 	<script src="../node_modules/hammerjs/hammer.js"></script>
 	```
 
-4. Deploy ODS (OpenVidu Development Server)
+4. Deploy OpenVidu Server
 
-	You will need a [ODS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+	You will need a [OpenVidu Server](openvidu-server).
 
 	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-sample-basic-plainjs#start-openvidu-development-server) to deploy it with docker.
 
@@ -158,6 +158,24 @@ The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [
 | `stream.component.less`   | stream component's HTML																					|
 | `openvidu.module.ts`      | openvidu module																							|
 | `index.ts`				| file needed to export all components and directives to other components									|
+
+### Troubleshooting
+
+#### Why does it keep saying "Joining room..."?
+Yo must be having some trouble connecting to the OpenVidu Server's websocket.
+
+To make sure you are accepting its certificate got to:
+
+```
+https://[IP]:[PORT]/room
+```
+
+And make sure to accept its certificate. Then go back to the app and refresh the page.
+
+#### Got more questions?
+Open an issue on the AngularOpenVidu [issue tracker](issues)
+
+[issues]: https://github.com/alxhotel/angular-openvidu/issues
 
 ## License
 
