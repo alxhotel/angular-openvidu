@@ -23,6 +23,8 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 
 [OpenVidu](https://github.com/OpenVidu) room videoconference element implemented as an [Angular Component](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
 
+To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
+
 ## Features
 
 - Join a group call
@@ -74,7 +76,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 
 You are ready. Use it in your template:
 
-- `wsUrl`: Websocket URL pointing to your [Openvidu Server](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server). Type: `String`.
+- `wsUrl`: Websocket URL pointing to your [OpenVidu Server](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server). Type: `String`.
 - `sessionId`: An id for a session. Type: `String`.
 - `participantId`: An id for the participant joining the session. Type: `String`.
 
@@ -109,13 +111,13 @@ Things you need to know about the implementation:
 
 ### 2. Dependencies
 
-These are the main modules that make up AngularOpenvidu:
+These are the main modules that make up AngularOpenVidu:
 
 | Module | Version | Description |
 |---|---|---|
-| [Openvidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]			| used to communicate with the Openvidu Server				|
+| [OpenVidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]			| used to communicate with the OpenVidu Server				|
 | [Angular Material](@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]			| used to display the toolbar, buttons and animations		|
-| [Screenfull.js](screenfull.js)			| [![][screenfull.js-ni]][screenfull.js-nu]					| used to toggle the fullscreen mode of the streaming				|
+| [Screenfull.js](screenfull.js)			| [![][screenfull.js-ni]][screenfull.js-nu]					| used to toggle the fullscreen mode of the streaming		|
 | [EventEmitter](wolfy87-eventemitter)		| [![][wolfy87-eventemitter-ni]][wolfy87-eventemitter-nu]	| used to listen and emit events						|
 
 [openvidu-browser]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-browser
@@ -138,18 +140,18 @@ These are the main modules that make up AngularOpenvidu:
 
 The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [Angular-CLI](https://github.com/angular/angular-cli)
 
-### 3. Files
+### 4. Files
 
-| Filename                  | Description																	|
-|---------------------------|-------------------------------------------------------------------------------|
-| `openvidu.component.ts`   | in charge of running most the logic behind the component, such as				|
-| `openvidu.component.less` | openvidu component's LESS														|
-| `openvidu.component.html` | openvidu component's HTML														|
-| `stream.component.ts`     | in charge of displaying the video from each participant						|
-| `stream.component.html`   | openvidu component's LESS														|
-| `stream.component.less`   | openvidu component's HTML														|
-| `openvidu.module.ts`      | openvidu module																|
-| `index.ts`				| file needed to export all components and directives top other components		|
+| Filename | Description |
+|----|---|
+| `openvidu.component.ts`   | in charge of running most the logic behind the component, such as adding new participants to the screen	|
+| `openvidu.component.less` | openvidu component's LESS																					|
+| `openvidu.component.html` | openvidu component's HTML																					|
+| `stream.component.ts`     | in charge of displaying the video from each participant													|
+| `stream.component.html`   | stream component's LESS																					|
+| `stream.component.less`   | stream component's HTML																					|
+| `openvidu.module.ts`      | openvidu module																							|
+| `index.ts`				| file needed to export all components and directives top other components									|
 
 ## License
 
