@@ -4,7 +4,7 @@ import { writeFileSync, readFileSync } from 'fs';
 let openviduComponent = readFileSync('src/openvidu.component.ts').toString();
 writeFileSync('src/openvidu.component.ts.bak', openviduComponent);
 
-const openviduComponentStyles = readFileSync('src/css/openvidu.component.css');
+const openviduComponentStyles = readFileSync('src/openvidu.component.css');
 openviduComponent = openviduComponent.replace(/styleUrls:\s*\[.*?\]/, `styles: [\`${openviduComponentStyles}\`]`);
 
 const openviduComponentHtml = readFileSync('src/openvidu.component.html');
@@ -16,7 +16,7 @@ writeFileSync('src/openvidu.component.ts', openviduComponent);
 let streamComponent = readFileSync('src/stream.component.ts').toString();
 writeFileSync('src/stream.component.ts.bak', streamComponent);
 
-const streamComponentStyles = readFileSync('src/css/stream.component.css');
+const streamComponentStyles = readFileSync('src/stream.component.css');
 streamComponent = streamComponent.replace(/styleUrls:\s*\[.*?\]/, `styles: [\`${streamComponentStyles}\`]`);
 
 writeFileSync('src/stream.component.ts', streamComponent);
