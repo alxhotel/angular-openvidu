@@ -4,9 +4,9 @@
 
 **AngularOpenVidu** is a room videoconference component library for [Angular](https://angular.io/).
 
-It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Components](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
+It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Components](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html).
 
-To be able to work in the browser, AngularOpenVidu uses [openvidu-browser](openvidu-browser) to communicate with the [OpenVidu Server](openvidu-server).
+To be able to work in the browser, AngularOpenVidu uses [openvidu-browser](openvidu-browser) to communicate with the [OpenVidu Server](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
 
 To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
 
@@ -70,7 +70,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 
 4. Deploy OpenVidu Server
 
-	You will need a [OpenVidu Server](openvidu-server).
+	You will need a [OpenVidu Server](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
 
 	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-sample-basic-plainjs#start-openvidu-development-server) to deploy it with docker.
 
@@ -162,7 +162,7 @@ The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [
 ### Troubleshooting
 
 #### Why does it keep saying "Joining room..."?
-Yo must be having some trouble connecting to the OpenVidu Server's websocket.
+You must be having some trouble connecting to the OpenVidu Server's websocket.
 
 To make sure you are accepting its certificate got to:
 
@@ -173,10 +173,10 @@ https://[IP]:[PORT]/room
 And make sure to accept its certificate. Then go back to the app and refresh the page.
 
 #### Got more questions?
-Open an issue on the AngularOpenVidu [issue tracker](issues)
+Open an issue on the AngularOpenVidu [issue tracker](issues).
 
 [issues]: https://github.com/alxhotel/angular-openvidu/issues
 
-## License
+### License
 
 Apache Software License 2.0 ©
