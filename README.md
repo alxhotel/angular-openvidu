@@ -2,28 +2,26 @@
 [![Dependency Status](https://david-dm.org/alxhotel/angular-openvidu.svg)](https://david-dm.org/alxhotel/angular-openvidu)
 [![GitHub license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
 
-## Demo
+[OpenVidu](https://github.com/OpenVidu) room videoconference element implemented as an [Angular Component](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
 
-In this demo you will see an implementation of `angular-openvidu` where you can test ALL the features included in this component.
-
-Follow the instructions from the [app's README](https://github.com/alxhotel/angular-openvidu-demo) to test it out.
-
-Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](https://github.com/alxhotel/angular-openvidu-demo)
+To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
 
 ### Table of contents
 
-- [About](#about)
+- [Demo](#demo)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Development](#development)
 - [License](#license)
 
-### About
+### Demo
 
-[OpenVidu](https://github.com/OpenVidu) room videoconference element implemented as an [Angular Component](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
+In this demo you will see an implementation of `angular-openvidu` where you can test ALL the features included in this component.
 
-To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
+Follow the instructions from the [app's README](https://github.com/alxhotel/angular-openvidu-demo) to test it out.
+
+Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](https://github.com/alxhotel/angular-openvidu-demo)
 
 ### Features
 
