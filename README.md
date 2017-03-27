@@ -127,8 +127,8 @@ These are the main modules that make up AngularOpenvidu:
 [@angular/material-nu]: https://www.npmjs.com/package/@angular/material
 
 [screenfull.js]: https://github.com/sindresorhus/screenfull.js
-[screenfull.js-ni]: https://img.shields.io/npm/v/screenfull.js.svg
-[screenfull.js-nu]: https://www.npmjs.com/package/screenfull.js
+[screenfull.js-ni]: https://img.shields.io/npm/v/screenfull.svg
+[screenfull.js-nu]: https://www.npmjs.com/package/screenfull
 
 [wolfy87-eventemitter]: https://github.com/Olical/EventEmitter
 [wolfy87-eventemitter-ni]: https://img.shields.io/npm/v/wolfy87-eventemitter.svg
