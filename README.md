@@ -66,7 +66,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 
 	You will need a [KMS](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
 
-	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-docker) to deploy it with docker.
+	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-sample-basic-plainjs#start-openvidu-development-server) to deploy it with docker.
 
 ## Usage
 

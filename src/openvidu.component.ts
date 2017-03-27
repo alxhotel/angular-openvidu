@@ -7,8 +7,7 @@ import screenfull = require('screenfull');
 @Component({
 	selector: 'openvidu',
 	templateUrl: './openvidu.component.html',
-	styleUrls: ['./css/openvidu.component.css'],
-	encapsulation: ViewEncapsulation.None
+	styleUrls: ['./openvidu.component.less']
 })
 export class OpenViduComponent implements OnInit {
 
@@ -101,10 +100,11 @@ export class OpenViduComponent implements OnInit {
 			// TODO.: make a fix in Openvidu ?
 			// "participantId" is not a participant ID, is a stream ID
 			if (this.streams == null) this.streams = []; 
-			for (var i = 0; i < this.streams.length; i++) {
-				console.log(this.streams[i].getId());
-				if (this.streams[i].getId() == participantEvent.participantId) {
-					var streams = this.participants[this.streams[i].getParticipant().getId()].getStreams();
+			
+			for (let stream of this.streams) {
+				console.log(stream.getId());
+				if (stream.getId() == participantEvent.participantId) {
+					var streams = this.participants[stream.getParticipant().getId()].getStreams();
 					// Use any stream
 					this.mainStream = streams[Object.keys(streams)[0]];
 					break;
@@ -172,7 +172,7 @@ export class OpenViduComponent implements OnInit {
 		});
 	}
 
-	joinSession(sessionId: string, participantId: string, callback: any) {
+	private joinSession(sessionId: string, participantId: string, callback: any) {
 		if (!this.connected) callback(new Error("Not connected to server yet"));
 		
 		// Set attributes
@@ -222,7 +222,7 @@ export class OpenViduComponent implements OnInit {
 		});
 	}
 	
-	toggleMic() {
+	private toggleMic() {
 		var toggleMicButton = this.toggleMicElement._getHostElement();
 		if (this.micDisabled) {
 			this.renderer.setElementClass(toggleMicButton, 'disabled', false);
@@ -234,7 +234,7 @@ export class OpenViduComponent implements OnInit {
 		this.micDisabled = !this.micDisabled;
 	}
 	
-	toggleCamera() {
+	private toggleCamera() {
 		var toggleCameraButton = this.toggleCameraElement._getHostElement();
 		if (this.cameraDisabled) {
 			this.renderer.setElementClass(toggleCameraButton, 'disabled', false);
@@ -246,7 +246,7 @@ export class OpenViduComponent implements OnInit {
 		this.cameraDisabled = !this.cameraDisabled;
 	}
 	
-	toggleFullscreen() {
+	private toggleFullscreen() {
 		if (screenfull.isFullscreen) {
 			screenfull.exit();
 		} else {
@@ -255,14 +255,14 @@ export class OpenViduComponent implements OnInit {
 		this.isFullscreen = screenfull.isFullscreen;
 	}
 
-	onLostConnection() {
+	private onLostConnection() {
 		if (!this.joinedRoom) {
 			console.warn('Not connected to room, ignoring lost connection notification');
 			return false;
 		}
 	}
 
-	leaveSession() {
+	private leaveSession() {
 		this.mainStream = null;
 		this.session = null;
 		this.streams = [];
