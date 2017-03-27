@@ -2,9 +2,13 @@
 [![Dependency Status](https://david-dm.org/alxhotel/angular-openvidu.svg)](https://david-dm.org/alxhotel/angular-openvidu)
 [![GitHub license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
 
-[OpenVidu](https://github.com/OpenVidu) room videoconference element implemented as an [Angular Component](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
+**AngularOpenVidu** is a room videoconference component library for [Angular](https://angular.io/).
 
-To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
+It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Components](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html)
+
+To be able to work in the browser, AngularOpenVidu uses [openvidu-browser](openvidu-browser) to communicate with the [OpenVidu Server](openvidu-server).
+
+To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
 
 ### Table of contents
 
@@ -17,7 +21,7 @@ To use AngularOpenVidu in the browser, [WebRTC](https://en.wikipedia.org/wiki/We
 
 ### Demo
 
-In this demo you will see an implementation of `angular-openvidu` where you can test ALL the features included in this component.
+In this demo you will see a use case of `angular-openvidu`, where you can test ALL the features included in this component.
 
 Follow the instructions from the [app's README](https://github.com/alxhotel/angular-openvidu-demo) to test it out.
 
@@ -135,6 +139,8 @@ These are the main modules that make up AngularOpenVidu:
 [wolfy87-eventemitter]: https://github.com/Olical/EventEmitter
 [wolfy87-eventemitter-ni]: https://img.shields.io/npm/v/wolfy87-eventemitter.svg
 [wolfy87-eventemitter-nu]: https://www.npmjs.com/package/wolfy87-eventemitter
+
+[openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
 
 #### 3. CSS
 
