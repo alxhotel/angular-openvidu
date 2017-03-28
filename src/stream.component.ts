@@ -45,7 +45,7 @@ export class StreamComponent {
 
 		// If local, mute video
 		this.muted = this.stream.isLocalMirrored();
-		
+
 		// If local, flip screen
 		this.renderer.setElementClass(this.videoStream.nativeElement, 'flip-screen', this.stream.isLocalMirrored());
 	}

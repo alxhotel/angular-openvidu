@@ -6,7 +6,7 @@
 
 It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Components](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html).
 
-To be able to work in the browser, AngularOpenVidu uses [openvidu-browser](openvidu-browser) to communicate with the [OpenVidu Server](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+To be able to work in the browser, AngularOpenVidu uses [openvidu-browser][openvidu-browser] to communicate with the [OpenVidu Server][openvidu-server].
 
 To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support is required (Chrome, Firefox, Opera).
 
@@ -23,9 +23,9 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 
 In this demo you will see a use case of `angular-openvidu`, where you can test ALL the features included in this component.
 
-Follow the instructions from the [app's README](https://github.com/alxhotel/angular-openvidu-demo) to test it out.
+Follow the instructions from the [app's README][angular-openvidu-demo] to test it out.
 
-Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](https://github.com/alxhotel/angular-openvidu-demo)
+Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angular-openvidu-demo]
 
 ### Features
 
@@ -70,7 +70,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 
 4. Deploy OpenVidu Server
 
-	You will need a [OpenVidu Server](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server).
+	You will need a [OpenVidu Server][openvidu-server].
 
 	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-sample-basic-plainjs#start-openvidu-development-server) to deploy it with docker.
 
@@ -78,7 +78,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo](http
 
 You are ready. Use it in your template:
 
-- `wsUrl`: Websocket URL pointing to your [OpenVidu Server](https://github.com/OpenVidu/openvidu/tree/master/openvidu-server). Type: `String`.
+- `wsUrl`: Websocket URL pointing to your [OpenVidu Server][openvidu-server]. Type: `String`.
 - `sessionId`: An id for a session. Type: `String`.
 - `participantId`: An id for the participant joining the session. Type: `String`.
 
@@ -140,8 +140,6 @@ These are the main modules that make up AngularOpenVidu:
 [wolfy87-eventemitter-ni]: https://img.shields.io/npm/v/wolfy87-eventemitter.svg
 [wolfy87-eventemitter-nu]: https://www.npmjs.com/package/wolfy87-eventemitter
 
-[openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
-
 #### 3. CSS
 
 The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [Angular-CLI](https://github.com/angular/angular-cli)
@@ -173,10 +171,16 @@ https://[IP]:[PORT]/room
 And make sure to accept its certificate. Then go back to the app and refresh the page.
 
 #### Got more questions?
-Open an issue on the AngularOpenVidu [issue tracker](issues).
-
-[issues]: https://github.com/alxhotel/angular-openvidu/issues
+Open an issue on the AngularOpenVidu [issue tracker][issues].
 
 ### License
 
 Apache Software License 2.0 ©
+
+
+
+[issues]: https://github.com/alxhotel/angular-openvidu/issues
+
+[openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
+
+[angular-openvidu-demo]: https://github.com/alxhotel/angular-openvidu-demo
