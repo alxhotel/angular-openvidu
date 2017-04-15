@@ -1,6 +1,7 @@
 # angular-openvidu
-[![Dependency Status](https://david-dm.org/alxhotel/angular-openvidu.svg)](https://david-dm.org/alxhotel/angular-openvidu)
-[![GitHub license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE)
+[![Travis][travis-image]](travis-url)
+[![Dependency Status][dependency-status-image]](dependency-status-url)
+[![GitHub license][license-image]](license-url)
 
 **AngularOpenVidu** is a room videoconference component library for [Angular](https://angular.io/).
 
@@ -12,14 +13,14 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 
 ### Table of contents
 
-- [Demo](#demo)
+- [App Demo](#demo)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Development](#development)
 - [License](#license)
 
-### Demo
+### App Demo
 
 In this demo you will see a use case of `angular-openvidu`, where you can test ALL the features included in this component.
 
@@ -50,10 +51,10 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 	import { FormsModule } from "@angular/forms";
 	import { BrowserModule  } from '@angular/platform-browser';
 	import { AppComponent } from './app.component';
-	import { OpenViduComponent } from 'angular-openvidu';
+	import { OpenViduModule } from 'angular-openvidu';
 
 	@NgModule({
-	  imports: [BrowserModule, FormsModule, OpenViduComponent],
+	  imports: [BrowserModule, FormsModule, OpenViduModule],
 	  declarations: [AppComponent],
 	  bootstrap: [ AppComponent ]
 	})
@@ -78,51 +79,66 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 
 You are ready. Use it in your template:
 
-- `wsUrl`: Websocket URL pointing to your [OpenVidu Server][openvidu-server]. Type: `String`.
-- `sessionId`: An id for a session. Type: `String`.
-- `participantId`: An id for the participant joining the session. Type: `String`.
-
 ```html
 <openvidu [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId">
 	Loading openvidu...
 </openvidu>
 ```
 
+#### Propeties
+
+| Name | Type | Description
+|---|---|---|
+| `wsUrl`			| `String`, required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
+| `sessionId`		| `String`, required | An id for a session |
+| `participantId`	| `String`, required | An id for the participant joining the session |
+| `toolbarColor`	| `String`, optional (default: `primary`) | Toolbar color. Possible values: `primary`, `accent`, `warn`) |
+
+#### Events
+
+This events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
+
+These are the events AngularOpenVidu exposes for the user of the module.
+
+To use them just do:
+
+```html
+<openvidu (eventName)="myEventHandler()">
+	Loading openvidu...
+</openvidu>
+```
+
+| Name | Params | Description |
+|---|---|---|
+| `onRoomConnected`          | `No params` | triggers when the client has established a session with the server |
+| `onRoomClosed`             | `No params` | triggers when the room is closed                                   |
+| `onLostConnection`         | `No params` | triggers when you can't establish a connection to the server       |
+| `onParticipantJoined`      | `({participantId: participantId})` | triggers when a participant has joined your room                   |
+| `onParticipantLeft`        | `({participantId: participantId})` | triggers when a participant has left your room                     |
+| `onErrorMedia`             | `({error: error})` | triggers when an error occurs while trying to retrieve some media  |
+
+
 ### Development
 
-Things you need to know:
+To compile, just run:
 
-#### 1. Events
+```bash
+$ npm run build
+```
 
-This events are coming from `openvidu-browser`, AngularOpenVidu use them to implement the logic.
+Then, you will see the module compiled in the `dist` folder.
 
-| Name                      | Description                                                        |
-|---------------------------|--------------------------------------------------------------------|
-| `room-connected`          | triggers when the client has established a session with the server |
-| `room-closed`             | triggers when the room is closed                                   |
-| `lost-connection`         | triggers when you can't establish a connection to the server       |
-| `error-room`              | triggers when it was unable to join room                           |
-| `stream-added`            | triggers when a new stream was added                               |
-| `stream-removed`          | triggers when a stream was removed                                 |
-| `participant-joined`      | triggers when a participant has joined your room                   |
-| `particpant-published`    | triggers when a participant is publised                            |
-| `participant-left`        | triggers when a participant has left your room                     |
-| `participant-evicted`     | triggers when a participant is evicted                             |
-| `upodate-main-speaker`    | triggers when a the main speaker has been updated                  |
-| `newMessage`              | triggers when a new message is received                            |
-| `error-media`             | triggers when an error occurs while trying to retrieve some media  |
-| `custom-message-received` | triggers when a custom notificaction arrives                       |
+Things you need to know before contributing to this project:
 
-#### 2. Dependencies
+#### 1. Dependencies
 
 These are the main modules that make up AngularOpenVidu:
 
 | Module | Version | Description |
 |---|---|---|
-| [OpenVidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]			| used to communicate with the OpenVidu Server				|
-| [Angular Material](@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]			| used to display the toolbar, buttons and animations		|
-| [Screenfull.js](screenfull.js)			| [![][screenfull.js-ni]][screenfull.js-nu]					| used to toggle the fullscreen mode of the streaming		|
-| [EventEmitter](wolfy87-eventemitter)		| [![][wolfy87-eventemitter-ni]][wolfy87-eventemitter-nu]	| used to listen and emit events						|
+| [OpenVidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]		| used to communicate with the OpenVidu Server				|
+| [Angular Material](@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]		| used to display the toolbar, buttons and animations		|
+| [Angular BigScreen](bigscren)				| [![][bigscreen-ni]][bigscreen.js-nu]					| used to toggle the fullscreen mode of the streaming		|
 
 [openvidu-browser]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-browser
 [openvidu-browser-ni]: https://img.shields.io/npm/v/openvidu-browser.svg
@@ -132,45 +148,60 @@ These are the main modules that make up AngularOpenVidu:
 [@angular/material-ni]: https://img.shields.io/npm/v/@angular/material.svg
 [@angular/material-nu]: https://www.npmjs.com/package/@angular/material
 
-[screenfull.js]: https://github.com/sindresorhus/screenfull.js
-[screenfull.js-ni]: https://img.shields.io/npm/v/screenfull.svg
-[screenfull.js-nu]: https://www.npmjs.com/package/screenfull
+[bigscreen]: https://github.com/alxhotel/angular-bigscreen
+[bigscreen-ni]: https://img.shields.io/npm/v/angular-bigscreen.svg
+[bigscreen-nu]: https://www.npmjs.com/package/angular-bigscreen
 
-[wolfy87-eventemitter]: https://github.com/Olical/EventEmitter
-[wolfy87-eventemitter-ni]: https://img.shields.io/npm/v/wolfy87-eventemitter.svg
-[wolfy87-eventemitter-nu]: https://www.npmjs.com/package/wolfy87-eventemitter
+#### 2. CSS
 
-#### 3. CSS
+The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with a custom [gulp file](http://gulpjs.com/)
 
-The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with [Angular-CLI](https://github.com/angular/angular-cli)
-
-#### 4. Files
-
-| Filename | Description |
-|----|---|
-| `openvidu.component.ts`   | in charge of running most the logic behind the component, such as adding new participants to the screen	|
-| `openvidu.component.less` | openvidu component's LESS																					|
-| `openvidu.component.html` | openvidu component's HTML																					|
-| `stream.component.ts`     | in charge of displaying the video from each participant													|
-| `stream.component.html`   | stream component's LESS																					|
-| `stream.component.less`   | stream component's HTML																					|
-| `openvidu.module.ts`      | openvidu module																							|
-| `index.ts`				| file needed to export all components and directives to other components									|
 
 ### Troubleshooting
 
 #### Why does it keep saying "Joining room..."?
-You must be having some trouble connecting to the OpenVidu Server's websocket.
+This can be for 2 reasons:
 
-To make sure you are accepting its certificate got to:
+1. You may be having some trouble connecting to the OpenVidu Server's websocket.
 
-```
-https://[IP]:[PORT]/room
-```
+	To make sure you are accepting its certificate go to:
 
-And make sure to accept its certificate. Then go back to the app and refresh the page.
+	- `[IP]`: Openvidu Server IP
+	- `[PORT]`: Openvidu Server port
+
+	```
+	https://[IP]:[PORT]/room
+	```
+
+	And make sure to accept its certificate. Then go back to the app and refresh the page.
+
+2. If you are accessing the app through a host different from `localhost` then you need to enable `HTTPS`.
+
+	At least in Google Chrome, this is because: *Any website which has integrated geolocation technology, screen-sharing, WebRTC and more, will now be required
+	 to be served from a secure (HTTPS) site.*
+
+	You could use [ngrok](https://ngrok.com/) to make an SSL tunnel to your computer. Or you could create a self-signed certificate,
+	but don't use it in production.
+
+	Create an SSL key:
+
+	- `[SSL_KEY_PATH]`: your SSL key path
+	- `[SSL_CERT_PATH]`: your SSL cert path
+
+	```bash
+	$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "[SSL_KEY_PATH]" -out "[SSL_CERT_PATH]"
+	```
+
+	To enable HTTPS just run `angular-cli` with this command:
+
+	```bash
+	$ ng serve --ssl true --ssl-key "[SSL_KEY_PATH]" --ssl-cert "[SSL_CERT_PATH]" --host=0.0.0.0
+	```
+
+	Since you are not using `localhost`, you need `host=0.0.0.0` to listen for all IPs; you can change it to listen only for the IPs needed.
 
 #### Got more questions?
+
 Open an issue on the AngularOpenVidu [issue tracker][issues].
 
 ### License
@@ -178,9 +209,15 @@ Open an issue on the AngularOpenVidu [issue tracker][issues].
 Apache Software License 2.0 ©
 
 
-
-[issues]: https://github.com/alxhotel/angular-openvidu/issues
-
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
 
 [angular-openvidu-demo]: https://github.com/alxhotel/angular-openvidu-demo
+
+[issues]: https://github.com/alxhotel/angular-openvidu/issues
+
+[travis-image]: https://img.shields.io/travis/alxhotel/angular-openvidu/master.svg
+[travis-url]: https://travis-ci.org/alxhotel/angular-openvidu
+[dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu.svg
+[dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu
+[license-image]: hhttps://img.shields.io/badge/License-Apache%202.0-blue.svg
+[license-url]: https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE

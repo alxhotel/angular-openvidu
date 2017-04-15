@@ -3,3 +3,47 @@
       -ms-transform: scaleX(-1);
           transform: scaleX(-1);
 }
+stream.main-stream .participant {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  float: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+stream.main-stream .participant span {
+  display: none;
+}
+stream.main-stream .participant video {
+  width: 100%;
+}
+stream.side-stream {
+  margin: 0px 20px;
+}
+stream .participant {
+  position: relative;
+  width: 177px;
+  height: 100px;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+}
+stream .participant span {
+  position: absolute;
+  bottom: 10px;
+  text-overflow: ellipsis;
+  padding: 0px 10px;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-shadow: #000 1px 1px 3px;
+  width: 100%;
+  overflow: hidden;
+  direction: ltr;
+  z-index: 1;
+}
+stream .participant video {
+  width: 100%;
+  height: 100%;
+}

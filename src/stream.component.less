@@ -3,6 +3,25 @@
 }
 
 stream {
+	&.main-stream {
+		.participant {
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			float: none;
+			display: flex;
+
+			span {
+				display: none;
+			}
+			video {
+				width: 100%;
+			}
+		}
+	}
+	&.side-stream {
+		margin: 0px 20px;
+	}
 	.participant {
 		position: relative;
 		width: 177px;

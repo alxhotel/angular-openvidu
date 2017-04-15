@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { Stream, Session } from 'openvidu-browser';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
@@ -6,26 +6,23 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 	selector: 'stream',
 	styleUrls: ['./stream.component.less'],
 	template: `
-		<div class='participant'>
-			<span>{{stream.getParticipant().id}}</span>
+		<div class="participant">
+			<span #name></span>
 			<video #videoStream class="" autoplay="true" [src]="videoSrc" [muted]="muted"></video>
-        </div>`
+        </div>`,
+	encapsulation: ViewEncapsulation.None
 })
-export class StreamComponent {
+export class StreamComponent implements OnInit {
 
 	// HTML elements
+	@ViewChild('name') name: ElementRef;
 	@ViewChild('videoStream') videoStream: ElementRef;
 
-	videoSrc: SafeUrl;
-
-	muted: boolean;
+	private videoSrc: SafeUrl;
+	private muted: boolean;
+	private _stream: Stream;
 
 	constructor(private domSanitizer: DomSanitizer, private renderer: Renderer) {}
-
-	private _stream: Stream;
-	get stream(): Stream {
-		return this._stream;
-	}
 
 	@Input('stream')
 	set stream(val: Stream) {
@@ -37,7 +34,7 @@ export class StreamComponent {
 				this.videoSrc = this.domSanitizer.bypassSecurityTrustUrl(
 					URL.createObjectURL(this.stream.getWrStream())
 				);
-				console.log("Video tag src = " + this.videoSrc);
+				console.log('Video tag src = ' + this.videoSrc);
 
 				clearInterval(int);
 			}
@@ -48,6 +45,13 @@ export class StreamComponent {
 
 		// If local, flip screen
 		this.renderer.setElementClass(this.videoStream.nativeElement, 'flip-screen', this.stream.isLocalMirrored());
+
+		// If local, show nice name
+		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? 'You' : this.stream.getParticipant().getId();
+	}
+
+	get stream(): Stream {
+		return this._stream;
 	}
 
 	ngOnInit() {
@@ -55,5 +59,5 @@ export class StreamComponent {
 		//    this.video.src = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.stream.getWrStream())).toString();
 		//});
 	}
-	
+
 }

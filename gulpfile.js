@@ -4,8 +4,8 @@ var uglify = require('gulp-uglify');
 var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 
-var lessDir = 'src/css/less';
-var cssDir = 'src/css';
+var lessDir = 'src';
+var cssDir = 'src';
 
 gulp.task('css', function () {
 	return gulp.src([lessDir + '/openvidu.component.less', lessDir + '/stream.component.less'])

@@ -10,7 +10,7 @@
 
 		<!-- TOOLBAR -->
 		<div class="toolbar">
-			<md-toolbar color="primary">
+			<md-toolbar [color]="toolbarColor">
 				<span>{{sessionId}}</span>
 				<span class="example-spacer"></span>
 
@@ -56,7 +56,7 @@
 
 			</div>
 			<div class="streams" *ngIf="streams.length > 1">
-				<stream class="stream" *ngFor="let s of streams" [stream]="s" [hidden]="s == mainStream">
+				<stream class="stream side-stream" *ngFor="let s of streams" [stream]="s" [ngClass]="{'hide-video': (s == mainStream)}">
 
 				</stream>
 			</div>

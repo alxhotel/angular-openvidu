@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
-import { StreamComponent } from "./stream.component";
-import { OpenViduComponent } from "./openvidu.component";
-
-const COMPONENTS_DIRECTIVES = [
-	StreamComponent,
-	OpenViduComponent,
-	MaterialModule
-];
+import { StreamComponent } from './stream.component';
+import { OpenViduComponent } from './openvidu.component';
 
 @NgModule({
 	imports: [
+		CommonModule,
 		MaterialModule.forRoot()
 	],
-	declarations: [COMPONENTS_DIRECTIVES],
-	exports: [COMPONENTS_DIRECTIVES],
-	providers: []
+	declarations: [
+		StreamComponent,
+		OpenViduComponent
+	],
+	exports: [
+		OpenViduComponent
+	]
 })
 export class OpenViduModule {
-	
+
 }
