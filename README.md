@@ -1,7 +1,7 @@
 # angular-openvidu
-[![Travis][travis-image]](travis-url)
-[![Dependency Status][dependency-status-image]](dependency-status-url)
-[![GitHub license][license-image]](license-url)
+[![Travis][travis-image]][travis-url]
+[![Dependency Status][dependency-status-image]][dependency-status-url]
+[![GitHub license][license-image]][license-url]
 
 **AngularOpenVidu** is a room videoconference component library for [Angular](https://angular.io/).
 
