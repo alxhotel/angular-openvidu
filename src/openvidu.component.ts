@@ -103,7 +103,7 @@ export class OpenViduComponent implements OnInit {
 		});
 
 		// Set listener
-		this.bigScreenService.onchange(() => {
+		this.bigScreenService.onChange(() => {
 			// TODO: check if mainElement is the one with fullscreen
 			this.isFullscreen = this.bigScreenService.isFullscreen();
 		});

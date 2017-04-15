@@ -1,15 +1,15 @@
 {
   "name": "angular-openvidu",
-  "description": "Simple, robust, OpenVidu videochat room component for Angular",
-  "version": "0.5.0",
+  "description": "Simple, robust, OpenVidu room videochat component for Angular",
+  "version": "0.5.1",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openvidu/angular-openvidu.git"
+    "url": "git+https://github.com/alxhotel/angular-openvidu.git"
   },
   "author": "Alex <alxmorais8@msn.com>",
   "bugs": {
-    "url": "https://github.com/openvidu/angular-openvidu/issues"
+    "url": "https://github.com/alxhotel/angular-openvidu/issues"
   },
   "main": "index.bundle.js",
   "module": "index.js",
@@ -17,9 +17,9 @@
   "types": "index.d.ts",
   "typings": "index.d.ts",
   "scripts": {
-	"clean": "rimraf dist/",
+    "clean": "rimraf dist/",
     "lint": "tslint -c tslint.json src/**/*.ts",
-	"css": "gulp css",
+    "css": "gulp css",
     "build": "npm run clean && npm run css && tsc -p tsconfig.json && ts-node tools/inline-files.ts && tsc -p tsconfig.json && rollup -c rollup.config.js dist/index.js > dist/index.bundle.js && ngc -p tsconfig.json && mv src/openvidu.component.ts.bak src/openvidu.component.ts && mv src/stream.component.ts.bak src/stream.component.ts && cp package.json dist && cp README.md dist",
     "test": "mocha --require ts-node/register src/**/*.spec.ts --recursive"
   },
@@ -36,7 +36,7 @@
     "hammerjs": "^2.0.8",
     "openvidu-browser": "^0.0.2",
     "rxjs": "^5.0.1",
-	"angular-bigscreen": "^0.1.0",
+    "angular-bigscreen": "^1.0.0",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "@types/node": "^7.0.8",
     "@types/requirejs": "^2.1.28",
     "@types/screenfull": "^3.0.28",
-	"chai": "^3.5.0",
+    "chai": "^3.5.0",
     "codelyzer": "~2.0.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
@@ -62,7 +62,7 @@
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.6.0",
-	"mocha": "^3.2.0",
+    "mocha": "^3.2.0",
     "protractor": "~5.1.1",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.5",
