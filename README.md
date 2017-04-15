@@ -44,7 +44,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 	$ npm install angular-openvidu --save
 	```
 
-2. Import `OpenViduComponent` to your AppModule
+2. Import `OpenViduModule` to your AppModule
 
 	```js
 	import { NgModule } from '@angular/core';
@@ -92,7 +92,6 @@ You are ready. Use it in your template:
 | `wsUrl`			| `String`, required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
 | `sessionId`		| `String`, required | An id for a session |
 | `participantId`	| `String`, required | An id for the participant joining the session |
-| `toolbarColor`	| `String`, optional (default: `primary`) | Toolbar color. Possible values: `primary`, `accent`, `warn`) |
 
 #### Events
 
@@ -138,7 +137,7 @@ These are the main modules that make up AngularOpenVidu:
 |---|---|---|
 | [OpenVidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]		| used to communicate with the OpenVidu Server				|
 | [Angular Material](@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]		| used to display the toolbar, buttons and animations		|
-| [Angular BigScreen](bigscren)				| [![][bigscreen-ni]][bigscreen.js-nu]					| used to toggle the fullscreen mode of the streaming		|
+| [Angular BigScreen](bigscren)				| [![][bigscreen-ni]][bigscreen-nu]						| used to toggle the fullscreen mode of the streaming		|
 
 [openvidu-browser]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-browser
 [openvidu-browser-ni]: https://img.shields.io/npm/v/openvidu-browser.svg
@@ -219,5 +218,5 @@ Apache Software License 2.0 ©
 [travis-url]: https://travis-ci.org/alxhotel/angular-openvidu
 [dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu.svg
 [dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu
-[license-image]: hhttps://img.shields.io/badge/License-Apache%202.0-blue.svg
+[license-image]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 [license-url]: https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE
