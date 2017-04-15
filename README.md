@@ -219,4 +219,4 @@ Apache Software License 2.0 ©
 [dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu.svg
 [dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu
 [license-image]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-[license-url]: https://raw.githubusercontent.com/openvidu/angular-openvidu/master/LICENSE
+[license-url]: https://raw.githubusercontent.com/alxhotel/angular-openvidu/master/LICENSE
