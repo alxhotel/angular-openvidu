@@ -6,7 +6,7 @@
 
 **AngularOpenVidu** is a room videoconference component library for [Angular](https://angular.io/).
 
-It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Style Guid](https://angular.io/styleguide).
+It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Style Guide](https://angular.io/styleguide).
 
 To be able to work in the browser, AngularOpenVidu uses [openvidu-browser][openvidu-browser] to communicate with the [OpenVidu Server][openvidu-server].
 
@@ -36,6 +36,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 - Disable camera
 - Mute microphone
 - Toggle fullscreen video
+- Send messages to the participants of the call
 
 ### Installation
 
@@ -173,46 +174,47 @@ $ gulp watch
 
 ### Troubleshooting
 
+#### Why does it keep saying "Connecting..."?
+
+You may be having some trouble connecting to the OpenVidu Server's websocket.
+
+To make sure you are accepting its certificate go to:
+
+- `[IP]`: Openvidu Server IP
+- `[PORT]`: Openvidu Server port
+
+```
+https://[IP]:[PORT]/room
+```
+
+And make sure to accept its certificate. Then go back to the app and refresh the page.
+
 #### Why does it keep saying "Joining room..."?
-This can be for 2 reasons:
 
-1. You may be having some trouble connecting to the OpenVidu Server's websocket.
+If you are accessing the app through a host different from `localhost` then you need to enable `HTTPS`.
 
-	To make sure you are accepting its certificate go to:
+At least in Google Chrome, this is because: *Any website which has integrated geolocation technology, screen-sharing, WebRTC and more, will now be required
+ to be served from a secure (HTTPS) site.*
 
-	- `[IP]`: Openvidu Server IP
-	- `[PORT]`: Openvidu Server port
+You could use [ngrok](https://ngrok.com/) to make an SSL tunnel to your computer. Or you could create a self-signed certificate,
+but don't use it in production.
 
-	```
-	https://[IP]:[PORT]/room
-	```
+Create an SSL key:
 
-	And make sure to accept its certificate. Then go back to the app and refresh the page.
+- `[SSL_KEY_PATH]`: your SSL key path
+- `[SSL_CERT_PATH]`: your SSL cert path
 
-2. If you are accessing the app through a host different from `localhost` then you need to enable `HTTPS`.
+```bash
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "[SSL_KEY_PATH]" -out "[SSL_CERT_PATH]"
+```
 
-	At least in Google Chrome, this is because: *Any website which has integrated geolocation technology, screen-sharing, WebRTC and more, will now be required
-	 to be served from a secure (HTTPS) site.*
+To enable HTTPS just run `angular-cli` with this command:
 
-	You could use [ngrok](https://ngrok.com/) to make an SSL tunnel to your computer. Or you could create a self-signed certificate,
-	but don't use it in production.
+```bash
+$ ng serve --ssl true --ssl-key "[SSL_KEY_PATH]" --ssl-cert "[SSL_CERT_PATH]" --host=0.0.0.0
+```
 
-	Create an SSL key:
-
-	- `[SSL_KEY_PATH]`: your SSL key path
-	- `[SSL_CERT_PATH]`: your SSL cert path
-
-	```bash
-	$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "[SSL_KEY_PATH]" -out "[SSL_CERT_PATH]"
-	```
-
-	To enable HTTPS just run `angular-cli` with this command:
-
-	```bash
-	$ ng serve --ssl true --ssl-key "[SSL_KEY_PATH]" --ssl-cert "[SSL_CERT_PATH]" --host=0.0.0.0
-	```
-
-	Since you are not using `localhost`, you need `host=0.0.0.0` to listen for all IPs; you can change it to listen only for the IPs needed.
+Since you are not using `localhost`, you need `host=0.0.0.0` to listen for all IPs; you can change it to listen only for the IPs needed.
 
 #### Got more questions?
 

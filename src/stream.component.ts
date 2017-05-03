@@ -26,8 +26,8 @@ export class StreamComponent implements OnInit {
 
 	@Input('stream')
 	set stream(val: Stream) {
-		if (val == null) return;
-		
+		if (val === null || val === undefined) return;
+
 		this._stream = val;
 
 		// Loop until you get a WrStream

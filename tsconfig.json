@@ -16,11 +16,13 @@
 		],
 		"types": [
 			"hammerjs",
-			"node"
+			"node",
+			"jasmine"
 		]
 	},
 	"files": [
-		"./src/index.ts"
+		"./src/index.ts",
+		"./src/openvidu.component.spec.ts"
 	],
 	"exclude": [
 		"node_modules",

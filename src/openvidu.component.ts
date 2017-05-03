@@ -77,7 +77,7 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 	chatMessages: any[] = [];
 
 	// Animations
-	chatButtonState: string = "show";
+	chatButtonState: string = 'show';
 
 	// Openvidu object
 	private openVidu: OpenVidu;
@@ -171,11 +171,11 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 	toggleChat() {
 		this.sidenav.toggle();
 	}
-	
+
 	onSidenavOpenStart() {
 		this.chatButtonState = 'hide';
 	}
-	
+
 	onSidenavCloseStart() {
 		this.chatButtonState = 'show';
 	}
@@ -225,12 +225,12 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 				console.log(stream.getId());
 				if (stream.getId() === participantEvent.participantId) {
 					var realParticipantId = stream.getParticipant().getId();
-					
+
 					// Check if it exists
 					if (this.participants[realParticipantId] === undefined) {
 						this.participants[realParticipantId] = stream.getParticipant();
 					}
-					
+
 					// Use first stream of participant
 					this.mainStream = stream;
 					break;

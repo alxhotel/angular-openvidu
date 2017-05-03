@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Share screen
 - Chat input color
 - Check whether camera is off
+- Divide component for new layouts
 
 ### Added
 - Add new events: `onCloseSession` and `onCustomMessageReceived`
@@ -20,6 +21,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Update main speaker when a participant leave
+- Mocha tests
 
 ## 0.5.0 - 2017-04-15
 ### Added
