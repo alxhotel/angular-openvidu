@@ -19,15 +19,44 @@ stream {
 			}
 		}
 	}
-	&.side-stream {
-		margin: 0px 20px;
+	&.square {
+		.participant {
+			display: flex;
+			justify-content: center;
+			width: 100px;
+			overflow: hidden;
+			
+			span {
+				text-align: center;
+				top: 45px;
+				white-space: normal;
+				word-break: break-all;
+			}
+			video {
+				width: auto;
+			}
+		}
+	}
+	&.hide-video {
+		.participant {
+			span {
+				text-align: center;
+				top: 45px;
+				white-space: normal;
+				word-break: break-all;
+			}
+			video {
+				display: none;
+			}
+		}
 	}
 	.participant {
 		position: relative;
 		width: 177px;
 		height: 100px;
 		box-shadow: 0 2px 5px 0 rgba(0,0,0,0.4);
-
+		background-color: rgba(0, 0, 0, 0.4);
+		
 		span {
 			position: absolute;
 			bottom: 10px;

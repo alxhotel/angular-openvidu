@@ -1,11 +1,12 @@
 # angular-openvidu
 [![Travis][travis-image]][travis-url]
 [![Dependency Status][dependency-status-image]][dependency-status-url]
+[![Angular style guide][codelyzer-image]][codelyzer-url]
 [![GitHub license][license-image]][license-url]
 
 **AngularOpenVidu** is a room videoconference component library for [Angular](https://angular.io/).
 
-It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Components](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html).
+It's written in [TypeScript](https://www.typescriptlang.org/), with the guidelines from [Angular Style Guid](https://angular.io/styleguide).
 
 To be able to work in the browser, AngularOpenVidu uses [openvidu-browser][openvidu-browser] to communicate with the [OpenVidu Server][openvidu-server].
 
@@ -48,14 +49,15 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 
 	```js
 	import { NgModule } from '@angular/core';
-	import { FormsModule } from "@angular/forms";
 	import { BrowserModule  } from '@angular/platform-browser';
+	import { FormsModule } from "@angular/forms";
 	import { AppComponent } from './app.component';
+
 	import { OpenViduModule } from 'angular-openvidu';
 
 	@NgModule({
-	  imports: [BrowserModule, FormsModule, OpenViduModule],
-	  declarations: [AppComponent],
+	  imports: [ BrowserModule, FormsModule, OpenViduModule ],
+	  declarations: [ AppComponent ],
 	  bootstrap: [ AppComponent ]
 	})
 	export class AppModule { }
@@ -87,11 +89,11 @@ You are ready. Use it in your template:
 
 #### Propeties
 
-| Name | Type | Description
-|---|---|---|
-| `wsUrl`			| `String`, required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
-| `sessionId`		| `String`, required | An id for a session |
-| `participantId`	| `String`, required | An id for the participant joining the session |
+| Name | Type | Optional | Description |
+|---|---|---|---|
+| `wsUrl`			| `String` | required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
+| `sessionId`		| `String` | required | An id for a session |
+| `participantId`	| `String` | required | An id for the current participant joining the session |
 
 #### Events
 
@@ -102,7 +104,7 @@ These are the events AngularOpenVidu exposes for the user of the module.
 To use them just do:
 
 ```html
-<openvidu (eventName)="myEventHandler()">
+<openvidu (eventName)="myEventHandler($event)">
 	Loading openvidu...
 </openvidu>
 ```
@@ -112,10 +114,12 @@ To use them just do:
 | `onRoomConnected`          | `No params` | triggers when the client has established a session with the server |
 | `onRoomClosed`             | `No params` | triggers when the room is closed                                   |
 | `onLostConnection`         | `No params` | triggers when you can't establish a connection to the server       |
-| `onParticipantJoined`      | `({participantId: participantId})` | triggers when a participant has joined your room                   |
-| `onParticipantLeft`        | `({participantId: participantId})` | triggers when a participant has left your room                     |
+| `onErrorRoom`              | `({error: error})` | triggers when there's an error, like a "time out" with the server       |
+| `onParticipantJoined`      | `({participantId: participantId})` | triggers when a participant has joined your room   |
+| `onParticipantLeft`        | `({participantId: participantId})` | triggers when a participant has left your room     |
 | `onErrorMedia`             | `({error: error})` | triggers when an error occurs while trying to retrieve some media  |
-
+| `onCloseSession`           | `No params` | triggers when the users clicks on the "end call" button |
+| `onNewMessage`             | `({room: room, user: user, message: message})` | triggers when a message from a participant is received |
 
 ### Development
 
@@ -155,6 +159,17 @@ These are the main modules that make up AngularOpenVidu:
 
 The CSS stylesheet is compiled from the [LESS](http://lesscss.org/) files with a custom [gulp file](http://gulpjs.com/)
 
+To build the LESS files just run:
+
+```sh
+$ gulp css
+```
+
+If you want to build the LESS files automatically every time there is a change, then run:
+
+```sh
+$ gulp watch
+```
 
 ### Troubleshooting
 
@@ -207,7 +222,6 @@ Open an issue on the AngularOpenVidu [issue tracker][issues].
 
 Apache Software License 2.0 ©
 
-
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
 
 [angular-openvidu-demo]: https://github.com/alxhotel/angular-openvidu-demo
@@ -218,5 +232,7 @@ Apache Software License 2.0 ©
 [travis-url]: https://travis-ci.org/alxhotel/angular-openvidu
 [dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu.svg
 [dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu
+[codelyzer-image]: https://img.shields.io/badge/code_style-codelyzer-brightgreen.svg
+[codelyzer-url]: https://github.com/mgechev/codelyzer
 [license-image]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 [license-url]: https://raw.githubusercontent.com/alxhotel/angular-openvidu/master/LICENSE

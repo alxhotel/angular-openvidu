@@ -19,8 +19,35 @@ stream.main-stream .participant span {
 stream.main-stream .participant video {
   width: 100%;
 }
-stream.side-stream {
-  margin: 0px 20px;
+stream.square .participant {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100px;
+  overflow: hidden;
+}
+stream.square .participant span {
+  text-align: center;
+  top: 45px;
+  white-space: normal;
+  word-break: break-all;
+}
+stream.square .participant video {
+  width: auto;
+}
+stream.hide-video .participant span {
+  text-align: center;
+  top: 45px;
+  white-space: normal;
+  word-break: break-all;
+}
+stream.hide-video .participant video {
+  display: none;
 }
 stream .participant {
   position: relative;
@@ -28,6 +55,7 @@ stream .participant {
   height: 100px;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
           box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 stream .participant span {
   position: absolute;

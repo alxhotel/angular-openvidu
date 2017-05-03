@@ -14,6 +14,9 @@
 				<span>{{sessionId}}</span>
 				<span class="example-spacer"></span>
 
+				<!--<button md-icon-button (click)="openSettings()" *ngIf="!isFullscreen" mdTooltip="Settings" mdTooltipPosition="below">
+					<md-icon>settings</md-icon>
+				</button>-->
 				<!-- For fullscreen -->
 				<button md-icon-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="Fullscreen" mdTooltipPosition="below">
 					<md-icon>fullscreen</md-icon>
@@ -35,32 +38,72 @@
 			</md-toolbar>
 		</div>
 
-		<!-- MAIN VIDEO -->
-		<div class="main-video">
-			<div class="message" *ngIf="streams.length == 1">You are alone in this room :(</div>
-			<stream class="main-stream" *ngIf="mainStream != null && mainStream.getWrStream() != null" [stream]="mainStream"></stream>
-			<div class="name-placeholder">
-				<div *ngIf="mainStream != null">{{mainStream.getParticipant().id.charAt(0)}}</div>
-				<div *ngIf="mainStream == null && participantId != null">{{participantId.charAt(0)}}</div>
+		<!-- CHAT -->
+		<md-sidenav-container>
+			<md-sidenav #sidenav mode="side" (open-start)="onSidenavOpenStart()" (close-start)="onSidenavCloseStart()">
+				<div class="messages">
+					<ul>
+						<li *ngFor="let message of chatMessages">
+							<div>
+								<span>{{(message.username == participantId) ? 'You' : message.username}}</span>
+								{{message.message}}
+							</div>
+							<span class="date">{{message.date | date: 'H:m'}}</span>
+						</li>
+					</ul>
+				</div>
+				<div class="bottom" (submit)="sendMessage(messageInput.value);" accept-charset="UTF-8">
+					<button #toggleChatButton md-fab class="close-chat transparent-button" (click)="toggleChat()"><md-icon>arrow_back</md-icon></button>
+					<form>
+						<md-input-container color="primary" floatPlaceholder="never">
+							<input mdInput #messageInput placeholder="Send a message">
+						</md-input-container>
+						<button #sendMessageButton md-fab type="submit" class="send-message transparent-button" [class.enabled]="messageInput.value.length > 0"><md-icon>send</md-icon></button>
+					</form>
+				</div>
+			</md-sidenav>
+		
+			<!-- MAIN VIDEO -->
+			<div class="main-video">
+				<div class="message" *ngIf="streams.length == 1">You are alone in this room :(</div>
+				<stream class="main-stream" *ngIf="mainStream != null && mainStream.getWrStream() != null" [stream]="mainStream"></stream>
+				<div class="name-placeholder" *ngIf="mainStream == null || mainStream.getWrStream() == null">
+					<div *ngIf="mainStream != null">{{mainStream.getParticipant().id.charAt(0)}}</div>
+					<div *ngIf="mainStream == null && participantId != null">{{participantId.charAt(0)}}</div>
+				</div>
 			</div>
-		</div>
 
-		<!-- BUTTONS & OTHERS VIDEOS -->
-		<div class="bottom-bar">
-			<div class="buttons">
-				<button #toggleMicView md-fab class="toggle-mic" (click)="toggleMic()"><md-icon>mic</md-icon><md-icon class="disabled-icon">mic_off</md-icon></button>
+			<!-- BUTTONS & OTHERS VIDEOS -->
+			<div class="bottom-bar">
+				<div class="buttons">
+					<button #toggleMicButton md-fab class="toggle-mic" (click)="toggleMic()">
+						<md-icon>mic</md-icon>
+						<md-icon class="disabled-icon">mic_off</md-icon>
+					</button>
+					<button md-fab class="close-session" (click)="leaveSession()">
+						<md-icon>call_end</md-icon>
+					</button>
+					<button #toggleCameraButton md-fab class="toggle-camera" (click)="toggleCamera()">
+						<md-icon>videocam</md-icon>
+						<md-icon class="disabled-icon">videocam_off</md-icon>
+					</button>
+				</div>
+				<div class="streams" *ngIf="streams.length > 1">
+					<stream class="stream side-stream" [stream]="myCamera" [ngClass]="{'hide-video': (myCamera === mainStream)}">
 
-				<button md-fab class="close-session" (click)="leaveSession()"><md-icon>call_end</md-icon></button>
+					</stream>
+					<ng-container *ngFor="let s of streams">						
+						<stream class="stream side-stream square" *ngIf="(s !== myCamera)" [stream]="s" [ngClass]="{'hide-video': (s === mainStream)}">
 
-				<button #toggleCameraView md-fab class="toggle-camera" (click)="toggleCamera()"><md-icon>videocam</md-icon><md-icon class="disabled-icon">videocam_off</md-icon></button>
-
+						</stream>
+					</ng-container>
+				</div>
 			</div>
-			<div class="streams" *ngIf="streams.length > 1">
-				<stream class="stream side-stream" *ngFor="let s of streams" [stream]="s" [ngClass]="{'hide-video': (s == mainStream)}">
 
-				</stream>
-			</div>
-		</div>
-
+			<button md-fab class="toggle-chat" (click)="toggleChat()" [@chatButtonAnimation]="chatButtonState">
+				<md-icon>chat</md-icon>
+			</button>
+		</md-sidenav-container>
+			
 	</div>
 <div>

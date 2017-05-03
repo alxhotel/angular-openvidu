@@ -8,7 +8,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 	template: `
 		<div class="participant">
 			<span #name></span>
-			<video #videoStream class="" autoplay="true" [src]="videoSrc" [muted]="muted"></video>
+			<video #videoStream autoplay="true" [src]="videoSrc" [muted]="muted"></video>
         </div>`,
 	encapsulation: ViewEncapsulation.None
 })
@@ -26,6 +26,8 @@ export class StreamComponent implements OnInit {
 
 	@Input('stream')
 	set stream(val: Stream) {
+		if (val == null) return;
+		
 		this._stream = val;
 
 		// Loop until you get a WrStream

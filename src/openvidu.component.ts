@@ -1,5 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MdButton } from '@angular/material';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer, ViewChild } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { MdButton, MdInputDirective, MdSidenav } from '@angular/material';
 import { OpenVidu, Participant, Session, Stream } from 'openvidu-browser';
 
 import { BigScreenService } from 'angular-bigscreen';
@@ -9,20 +10,37 @@ import { BigScreenService } from 'angular-bigscreen';
 	templateUrl: './openvidu.component.html',
 	styleUrls: ['./openvidu.component.less'],
 	providers: [ BigScreenService ],
-	encapsulation: ViewEncapsulation.None
+	animations: [
+		trigger('chatButtonAnimation', [
+			state('hide', style({
+				left: '-60px'
+			})),
+			state('show', style({
+				left: '0px'
+			})),
+			transition('* => hide', [
+				animate('0.225s ease-in-out')
+			]),
+			transition('* => show', [
+				animate('0.225s ease-in-out')
+			])
+		])
+	]
 })
-export class OpenViduComponent implements OnInit {
+export class OpenViduComponent implements OnInit, OnDestroy {
 
 	// Inputs
 	@Input() wsUrl: string;
 	@Input() sessionId: string;
 	@Input() participantId: string;
+	// TODO: [Next verion] make it an input
+	@Input() toolbarColor: string = 'primary';
 
 	// Outputs
 	@Output() onRoomConnected: EventEmitter<any> = new EventEmitter();
 	@Output() onRoomClosed: EventEmitter<any> = new EventEmitter();
 	@Output() onLostConnection: EventEmitter<any> = new EventEmitter();
-	//@Output() onErrorRoom: EventEmitter<any> = new EventEmitter();
+	@Output() onErrorRoom: EventEmitter<any> = new EventEmitter();
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
 	//@Output() onStreamRemoved: EventEmitter<any> = new EventEmitter();
 	@Output() onParticipantJoined: EventEmitter<any> = new EventEmitter();
@@ -30,17 +48,36 @@ export class OpenViduComponent implements OnInit {
 	@Output() onParticipantLeft: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticipantEvicted: EventEmitter<any> = new EventEmitter();
 	//@Output() onUpodateMainSpeaker: EventEmitter<any> = new EventEmitter();
-	//@Output() onNewMessage: EventEmitter<any> = new EventEmitter();
+	@Output() onNewMessage: EventEmitter<any> = new EventEmitter();
 	@Output() onErrorMedia: EventEmitter<any> = new EventEmitter();
-	//@Output() onCustomMessageReceived: EventEmitter<any> = new EventEmitter();
+	@Output() onCloseSession: EventEmitter<any> = new EventEmitter();
 
 	// HTML elements
 	@ViewChild('main') mainElement: ElementRef;
-	@ViewChild('toggleMicView') toggleMicElement: MdButton;
-	@ViewChild('toggleCameraView') toggleCameraElement: MdButton;
+	@ViewChild('sidenav') sidenav: MdSidenav;
+	@ViewChild('toggleMicButton') toggleMicButton: MdButton;
+	@ViewChild('toggleCameraButton') toggleCameraButton: MdButton;
+	@ViewChild('toggleChatButton') toggleChatButton: MdButton;
+	@ViewChild('messageInput') messageInput: MdInputDirective;
+	@ViewChild('sendMessageButton') sendMessageButton: MdButton;
 
-	// Next verion: make it an input
-	private toolbarColor: string = 'primary';
+	// Flags for HTML elements
+	userMessage: string = '';
+	micDisabled: boolean = false;
+	cameraDisabled: boolean = false;
+	isFullscreen: boolean = false;
+
+	// Main screen
+	mainStream: Stream;
+
+	// Rest of peers
+	streams: Stream[] = [];
+
+	// Chat
+	chatMessages: any[] = [];
+
+	// Animations
+	chatButtonState: string = "show";
 
 	// Openvidu object
 	private openVidu: OpenVidu;
@@ -49,39 +86,21 @@ export class OpenViduComponent implements OnInit {
 	private session: Session;
 
 	// Participants
-	private participants: Participant[] = [];
+	private participants: { [id: string]: Participant } = {};
 
 	// My camera
 	private myCamera: Stream;
 
-	// Big screen
-	private mainStream: Stream;
-
-	// Rest of peers
-	private streams: Stream[] = [];
-
 	private joinedRoom: boolean = false;
 	private connected: boolean = false;
 
-	// Flags for HTML elements
-	private userMessage: string = 'Loading OpenViudu...';
-	private micDisabled: boolean = false;
-	private cameraDisabled: boolean = false;
-	private isFullscreen: boolean = false;
-
 	constructor(private renderer: Renderer, private bigScreenService: BigScreenService) {
+		this.setUserMessage('Loading OpenViudu...');
 	}
 
 	ngOnInit() {
-		// Set listeners
-		window.onbeforeunload = (() => {
-			if (this.openVidu) {
-				this.openVidu.close(true);
-			}
-		});
-
 		// Display message
-		this.userMessage = 'Connecting...';
+		this.setUserMessage('Connecting...');
 
 		// Setup connection to server
 		this.openVidu = new OpenVidu(this.wsUrl);
@@ -92,29 +111,113 @@ export class OpenViduComponent implements OnInit {
 			this.connected = true;
 
 			// Display message
-			this.userMessage = 'Joining room...';
+			this.setUserMessage('Joining room...');
 
 			this.joinSession(this.sessionId, this.participantId, (error: any) => {
-				if (error) console.log(error);
+				if (error) {
+					console.log(error);
+					this.setUserMessage(error.message);
+				}
 
 				// All correct :)
 
 			});
 		});
 
-		// Set listener
+		// Set fullscreen listener
 		this.bigScreenService.onChange(() => {
-			// TODO: check if mainElement is the one with fullscreen
+			// No need to check if mainElement is the one with fullscreen
 			this.isFullscreen = this.bigScreenService.isFullscreen();
 		});
+	}
+
+	ngOnDestroy() {
+		this.bigScreenService.exit();
+		this.leaveSession();
+	}
+
+	toggleMic() {
+		var toggleMicButton = this.toggleMicButton._getHostElement();
+		if (this.micDisabled) {
+			this.renderer.setElementClass(toggleMicButton, 'disabled', false);
+			this.myCamera.getWebRtcPeer().audioEnabled = true;
+		} else {
+			this.renderer.setElementClass(toggleMicButton, 'disabled', true);
+			this.myCamera.getWebRtcPeer().audioEnabled = false;
+		}
+		this.micDisabled = !this.micDisabled;
+	}
+
+	toggleCamera() {
+		var toggleCameraButton = this.toggleCameraButton._getHostElement();
+		if (this.cameraDisabled) {
+			this.renderer.setElementClass(toggleCameraButton, 'disabled', false);
+			this.myCamera.getWebRtcPeer().videoEnabled = true;
+		} else {
+			this.renderer.setElementClass(toggleCameraButton, 'disabled', true);
+			this.myCamera.getWebRtcPeer().videoEnabled = false;
+		}
+		this.cameraDisabled = !this.cameraDisabled;
+	}
+
+	toggleFullscreen() {
+		if (this.bigScreenService.isFullscreen()) {
+			this.bigScreenService.exit();
+		} else {
+			this.bigScreenService.request(this.mainElement.nativeElement);
+		}
+	}
+
+	toggleChat() {
+		this.sidenav.toggle();
+	}
+	
+	onSidenavOpenStart() {
+		this.chatButtonState = 'hide';
+	}
+	
+	onSidenavCloseStart() {
+		this.chatButtonState = 'show';
+	}
+
+	sendMessage(text: string) {
+		// Clean input
+		this.renderer.setElementAttribute(this.messageInput, 'value', null);
+		// Send to OpenVidu server
+		this.openVidu.sendMessage(this.sessionId, this.participantId, text);
+	}
+
+	leaveSession() {
+		this.mainStream = null;
+		this.session = null;
+		this.streams = [];
+		this.participants = {};
+		this.setUserMessage('You left the room');
+		this.joinedRoom = false;
+		if (this.openVidu) {
+			this.openVidu.close(false);
+		}
+		// Emit event
+		this.onCloseSession.emit();
+	}
+
+	/*private onLostConnection() {
+		if (!this.joinedRoom) {
+			console.warn('Not connected to room, ignoring lost connection notification');
+			return false;
+		}
+	}*/
+
+	private setUserMessage(msg: string) {
+		this.userMessage = msg;
 	}
 
 	private setListeners() {
 		// Set listeners
 		this.session.addEventListener('update-main-speaker', (participantEvent: any) => {
-			console.warn('Update main speaker');
+			console.warn('update-main-speaker');
 
-			// TODO.: make a fix in Openvidu ?
+			// TODO: make a fix in Openvidu ? PR #2
 			// "participantId" is not a participant ID, is a stream ID
 			if (this.streams === null) this.streams = [];
 
@@ -122,82 +225,94 @@ export class OpenViduComponent implements OnInit {
 				console.log(stream.getId());
 				if (stream.getId() === participantEvent.participantId) {
 					var realParticipantId = stream.getParticipant().getId();
-					//this.participants.indexOf(oldParticipant)
-					var streams = this.participants[realParticipantId].getStreams();
-					// Use any stream
-					this.mainStream = streams[Object.keys(streams)[0]];
+					
+					// Check if it exists
+					if (this.participants[realParticipantId] === undefined) {
+						this.participants[realParticipantId] = stream.getParticipant();
+					}
+					
+					// Use first stream of participant
+					this.mainStream = stream;
 					break;
 				}
 			}
 		});
-		this.session.addEventListener('error-room', () => {
+		this.session.addEventListener('error-room', (errorEvent: any) => {
 			console.warn('error-room');
 
 			// Emit event
-			//this.onErrorRoom.emit();
+			this.onErrorRoom.emit(errorEvent);
 		});
 		this.session.addEventListener('room-connected', () => {
-			console.warn('Room connected');
+			console.warn('room-connected');
 			this.joinedRoom = true;
 
 			// Emit event
 			this.onRoomConnected.emit();
 		});
 		this.session.addEventListener('stream-added', (streamEvent: any) => {
-			console.warn('Stream added');
+			console.warn('stream-added');
 
-			var newStream = streamEvent.stream;
+			var newStream: Stream = streamEvent.stream;
 			this.streams.push(newStream);
 			// Also add to participant
-			this.participants[newStream.getParticipant().getId()].addStream(newStream);
+			if (this.participants[newStream.getParticipant().getId()] !== undefined) {
+				this.participants[newStream.getParticipant().getId()].addStream(newStream);
+			}
 		});
 		this.session.addEventListener('participant-published', () => {
-			console.warn('Participant published');
+			console.warn('participant-published');
 
 		});
 		this.session.addEventListener('participant-joined', (participantEvent: any) => {
 			console.warn('participant-joined');
 
-			var newParticipant = participantEvent.participant;
-			this.participants[newParticipant.id] = newParticipant;
+			var newParticipant: Participant = participantEvent.participant;
+			this.participants[newParticipant.getId()] = newParticipant;
 
 			// Emit event
 			this.onParticipantJoined.emit({
-				participantId: newParticipant.id
+				participantId: newParticipant.getId()
 			});
 		});
 		this.session.addEventListener('participant-left', (participantEvent: any) => {
-			console.warn('Participant Left');
+			console.warn('Participant Left ' + participantEvent.participant);
 
 			// TODO: manually update main speaker
-			var oldParticipant = participantEvent.participant;
-			this.participants.splice(this.participants.indexOf(oldParticipant), 1);
+			var oldParticipant: Participant = participantEvent.participant;
+			delete this.participants[oldParticipant.getId()];
 
 			// Emit event
 			this.onParticipantLeft.emit({
-				participantId: oldParticipant.id
+				participantId: oldParticipant.getId()
 			});
 		});
 		this.session.addEventListener('stream-removed', (streamEvent: any) => {
 			console.warn('stream-removed');
 
 			// TODO: manually update main speaker
-			var oldStream = streamEvent.stream;
+			var oldStream: Stream = streamEvent.stream;
 			this.streams.splice(this.streams.indexOf(oldStream), 1);
 		});
 		this.session.addEventListener('participant-evicted', (participantEvent: any) => {
 			console.warn('participant-evicted');
 
-			var localParticipant = participantEvent.localParticipant;
+			var localParticipant: Participant = participantEvent.localParticipant;
 
-			// Emit event
-			//this.onParticipantEvicted.emit({
-			//	participantId: localParticipant.id
-			//});
 		});
-		this.session.addEventListener('newMessage', () => {
+		this.session.addEventListener('newMessage', (messageEvent: any) => {
 			console.warn('newMessage');
 
+			// TODO: handle message
+			if (messageEvent.message !== null) {
+				this.chatMessages.push({
+					username: messageEvent.user,
+					message: messageEvent.message,
+					date: new Date()
+				});
+			}
+
+			this.onNewMessage.emit(messageEvent);
 		});
 		this.session.addEventListener('room-closed', () => {
 			console.warn('room-closed');
@@ -270,56 +385,4 @@ export class OpenViduComponent implements OnInit {
 			});
 		});
 	}
-
-	private toggleMic() {
-		var toggleMicButton = this.toggleMicElement._getHostElement();
-		if (this.micDisabled) {
-			this.renderer.setElementClass(toggleMicButton, 'disabled', false);
-			this.myCamera.getWebRtcPeer().audioEnabled = true;
-		} else {
-			this.renderer.setElementClass(toggleMicButton, 'disabled', true);
-			this.myCamera.getWebRtcPeer().audioEnabled = false;
-		}
-		this.micDisabled = !this.micDisabled;
-	}
-
-	private toggleCamera() {
-		var toggleCameraButton = this.toggleCameraElement._getHostElement();
-		if (this.cameraDisabled) {
-			this.renderer.setElementClass(toggleCameraButton, 'disabled', false);
-			this.myCamera.getWebRtcPeer().videoEnabled = true;
-		} else {
-			this.renderer.setElementClass(toggleCameraButton, 'disabled', true);
-			this.myCamera.getWebRtcPeer().videoEnabled = false;
-		}
-		this.cameraDisabled = !this.cameraDisabled;
-	}
-
-	private toggleFullscreen() {
-		if (this.bigScreenService.isFullscreen()) {
-			this.bigScreenService.exit();
-		} else {
-			this.bigScreenService.request(this.mainElement.nativeElement);
-		}
-	}
-
-	/*private onLostConnection() {
-		if (!this.joinedRoom) {
-			console.warn('Not connected to room, ignoring lost connection notification');
-			return false;
-		}
-	}*/
-
-	private leaveSession() {
-		this.mainStream = null;
-		this.session = null;
-		this.streams = [];
-		this.participants = [];
-		this.userMessage = 'You left the room';
-		this.joinedRoom = false;
-		if (this.openVidu) {
-			this.openVidu.close(true);
-		}
-	}
-
 }

@@ -21,15 +21,16 @@
     "lint": "tslint -c tslint.json src/**/*.ts",
     "css": "gulp css",
     "build": "npm run clean && npm run css && tsc -p tsconfig.json && ts-node tools/inline-files.ts && tsc -p tsconfig.json && rollup -c rollup.config.js dist/index.js > dist/index.bundle.js && ngc -p tsconfig.json && mv src/openvidu.component.ts.bak src/openvidu.component.ts && mv src/stream.component.ts.bak src/stream.component.ts && cp package.json dist && cp README.md dist",
-    "test": "mocha --require ts-node/register src/**/*.spec.ts --recursive"
+    "test": "npm run lint && mocha --require ts-node/register src/**/*.spec.ts --recursive"
   },
   "dependencies": {
+	"@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
-    "@angular/material": "^2.0.0-beta.2",
+    "@angular/material": "^2.0.0-beta.3",
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
