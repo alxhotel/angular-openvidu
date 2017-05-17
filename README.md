@@ -111,11 +111,11 @@ In each component folder, it contains all the html, css, js for that component.
 
 ```
 └── src
-    ├── openvidu-template			-- root		directive with all the OpenVidu logic
-    ├── openvidu-hangouts			-- root		component with a predefined layout for Hangouts
-    │   └── stream-hangouts			-- stream	component for the Hangouts layout
-    └── openvidu-appearin           -- root     component with a predefined layout for AppearIn
-        └── stream-appearin			-- stream	component for the AppearIn layout
+    ├── openvidu-template		-- root		directive with all the OpenVidu logic
+    ├── openvidu-hangouts		-- root		component with a predefined layout for Hangouts
+    │   └── stream-hangouts		-- stream	component for the Hangouts layout
+    └── openvidu-appearin		-- root     component with a predefined layout for AppearIn
+        └── stream-appearin		-- stream	component for the AppearIn layout
 ```
 
 ### API
