@@ -47,8 +47,7 @@ To use them just do:
 | `onCustomNotification`     | `(customObject)` | triggers when a custom notification from a participant is received |
 | `onServerConnected`        | `No params` | triggers when a the client has established a connection with the server |
 | `onErrorServer`            | `({error: any})` | triggers when the client couldn't establish a connection with the server |
-| `onCameraAccessChange`     | `({access: boolean, camera?: Stream, error?: any)` | triggers when the access to the camera of the client has change.
-`access` is true if we have permissions to access the user's camera. If yes then `camera` will be sent. If not, `error` will be set with an object Error and `camera` will be `null`. |
+| `onCameraAccessChange`     | `({access: boolean, camera?: Stream, error?: any)` | triggers when the access to the camera of the client has change. `access` is true if we have permissions to access the user's camera. If yes then `camera` will be sent. If not, `error` will be set with an object Error and `camera` will be `null`. |
 
 ### Creating your template
 
