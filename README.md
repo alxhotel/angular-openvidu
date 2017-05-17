@@ -21,8 +21,8 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 - [Structure](#structure)
 - [API](#api)
 	- [OpenViduDirective](#openvidudirective)
-	- [OpenViduHangoutsComponent](#openviduhangouts)
-	- [OpenViduAppearinComponent](#openviduappearin)
+	- [OpenViduHangoutsComponent](#openviduhangoutscomponent)
+	- [OpenViduAppearinComponent](#openviduappearincomponent)
 - [Development](#development)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
@@ -94,6 +94,13 @@ You are ready. Use it in your template:
 </openvidu>
 ```
 
+| Name | Type | Optional | Description |
+|---|---|---|---|
+| `wsUrl`			| `String` | required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
+| `sessionId`		| `String` | required | An id for the session you want to join to |
+| `participantId`	| `String` | required | An id for the current participant joining the session |
+
+
 *Note: This is the simplest example. For more documentation and customization keep reading.*
 
 ### Structure
@@ -111,11 +118,11 @@ In each component folder, it contains all the html, css, js for that component.
 
 ```
 └── src
-    ├── openvidu-template		-- root		directive with all the OpenVidu logic
-    ├── openvidu-hangouts		-- root		component with a predefined layout for Hangouts
-    │   └── stream-hangouts		-- stream	component for the Hangouts layout
-    └── openvidu-appearin		-- root     component with a predefined layout for AppearIn
-        └── stream-appearin		-- stream	component for the AppearIn layout
+    ├── openvidu-template	-- root		directive with all the OpenVidu logic
+    ├── openvidu-hangouts	-- root		component with a predefined layout for Hangouts
+    │   └── stream-hangouts	-- stream	component for the Hangouts layout
+    └── openvidu-appearin	-- root		component with a predefined layout for AppearIn
+        └── stream-appearin	-- stream	component for the AppearIn layout
 ```
 
 ### API
@@ -128,7 +135,7 @@ The OpenViduDirective is used to build components for controlling your video cha
 The directive selector is `openvidu-template`, either as an element or an attribute.
 It exports an API named "openviduApi", which can then be used to build the video chat component.
 
-[Click here to see the documentation][src]
+[Click here to see the documentation](src)
 
 #### OpenViduHangoutsComponent
 
@@ -136,14 +143,18 @@ This a default component for creating a video chat.
 It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [Google Hangouts](https://hangouts.google.com).
 If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
 
-[Click here to see the documentation][src/openvidu-hangouts]
+[Click here to see the documentation](src/openvidu-hangouts)
+
+<img width="250" src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_hangouts.png?raw=true"/>
 
 #### OpenViduAppearinComponent
 
 It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [AppearIn](https://appear.in).
 If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
 
-[Click here to see the documentation][src/openvidu-appearin]
+[Click here to see the documentation](src/openvidu-appearin)
+
+<img width="250" src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_appearin.png?raw=true"/>
 
 ### Development
 
