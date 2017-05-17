@@ -1,5 +1,9 @@
 # openvidu-appearin
 
+<p align="center">
+	<img src="https://github.com/alxhotel/angular-openvidu-demo/blob/master/screenshots/openvidu_appearin.png?raw=true"/>
+</p>
+
 #### Selector
 
 - `openvidu-appearin`
