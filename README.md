@@ -19,11 +19,16 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 - [Installation](#installation)
 - [Usage](#usage)
 - [Structure](#structure)
+	- [Component Tree](#component-tree)
+	- [File Structure](#file-structure)
 - [API](#api)
 	- [OpenViduDirective](#openvidudirective)
 	- [OpenViduHangoutsComponent](#openviduhangoutscomponent)
 	- [OpenViduAppearinComponent](#openviduappearincomponent)
 - [Development](#development)
+	- [Dependencies](#1-depedencies)
+	- [CSS](#2-css)
+	- [Tests](#3-tests)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -101,7 +106,7 @@ You are ready. Use it in your template:
 | `participantId`	| `String` | required | An id for the current participant joining the session |
 
 
-*Note: This is the simplest example. For more documentation and customization keep reading.*
+*Note: `openvidu` is a selector for the [OpenViduHangoutsComponent](#openviduhangoutscomponent).*
 
 ### Structure
 
@@ -139,7 +144,8 @@ It exports an API named "openviduApi", which can then be used to build the video
 
 #### OpenViduHangoutsComponent
 
-This a default component for creating a video chat.
+*This a default component for creating a video chat.*
+
 It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [Google Hangouts](https://hangouts.google.com).
 If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
 
@@ -204,6 +210,14 @@ If you want to build the LESS files automatically every time there is a change, 
 
 ```sh
 $ gulp watch
+```
+
+#### 3. Tests
+
+To test the component run:
+
+```sh
+$ npm run test
 ```
 
 ### Troubleshooting
