@@ -1,7 +1,7 @@
 # openvidu-hangouts
 
 <p align="center">
-	<img src="https://github.com/alxhotel/angular-openvidu-demo/blob/master/docs/screenshots/openvidu_hangouts.png?raw=true"/>
+	<img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_hangouts.png?raw=true"/>
 </p>
 
 #### Selector
