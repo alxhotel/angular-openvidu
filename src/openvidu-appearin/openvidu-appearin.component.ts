@@ -1,11 +1,16 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MdButton, MdSidenav } from '@angular/material';
+import {
+	Component, ElementRef, EventEmitter, HostListener, Input, OnInit, OnDestroy,
+	Output, QueryList, Renderer2, ViewChild, ViewChildren
+} from '@angular/core';
+import { MdSidenav } from '@angular/material';
 import { Participant, Session, Stream } from 'openvidu-browser';
 
 import { BigScreenService } from 'angular-bigscreen';
 
-import { OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent, ParticipantEvent, RoomConnectedEvent, StreamEvent } from '../openvidu.directive';
+import {
+	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
+	ParticipantEvent, RoomConnectedEvent, StreamEvent
+} from '../openvidu.directive';
 
 import { StreamAppearinComponent } from './stream-appearin/stream-appearin.component';
 
@@ -24,7 +29,7 @@ export enum ConnectionState {
 	styleUrls: [ './openvidu-appearin.component.css' ],
 	providers: [ BigScreenService ]
 })
-export class OpenViduAppearinComponent {
+export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 
 	// Inputs
 	@Input() wsUrl: string;
@@ -41,17 +46,17 @@ export class OpenViduAppearinComponent {
 	@Output() onNewMessage: EventEmitter<any> = new EventEmitter();
 	@Output() onErrorMedia: EventEmitter<any> = new EventEmitter();
 	@Output() onLeaveRoom: EventEmitter<void> = new EventEmitter<void>();
-	
+
 	/** @deprecated */
 	@Output() onCloseSession: EventEmitter<void> = this.onLeaveRoom;
 	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
-	
+
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
 	//@Output() onStreamRemoved: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticpantPublished: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticipantEvicted: EventEmitter<any> = new EventEmitter();
 	//@Output() onUpodateMainSpeaker: EventEmitter<any> = new EventEmitter();
-	
+
 	// OpenVidu api
 	@ViewChild('openviduApi') openviduApi: OpenViduDirective;
 
@@ -71,7 +76,7 @@ export class OpenViduAppearinComponent {
 	isFullscreen: boolean = false;
 	welcome: boolean = true;
 	showChat: boolean = false;
-	
+
 	// Main screen
 	mainStream: Stream;
 
@@ -84,6 +89,10 @@ export class OpenViduAppearinComponent {
 	// Animations
 	chatButtonState: string = 'show';
 
+	// Connection stats
+	ConnectionState = ConnectionState;
+	connectionUiState: ConnectionState = ConnectionState.NOT_CONNECTED;
+
 	// Session
 	private session: Session;
 
@@ -92,10 +101,6 @@ export class OpenViduAppearinComponent {
 
 	// My camera
 	private myCamera: Stream;
-
-	// Connection stats
-	ConnectionState = ConnectionState;
-	connectionUiState: ConnectionState = ConnectionState.NOT_CONNECTED;
 
 	// Last chats
 	/*lastChats: any[] = [
@@ -124,17 +129,17 @@ export class OpenViduAppearinComponent {
 		this.bigScreenService.exit();
 		this.leaveRoom();
 	}
-	
+
 	@HostListener('window:resize', ['$event'])
 	onResize(event: any) {
 		this.resizeStreamsManually();
 	}
-	
+
 	resizeStreamsManually() {
 		if (!this.panelVideo) return;
-		
+
 		var clientRect = this.panelVideo.nativeElement.getBoundingClientRect();
-		
+
 		var maxW = 0;
 		var maxH = 0;
 		this.streamAppearin.forEach(function (streamAppearinEl) {
@@ -146,11 +151,11 @@ export class OpenViduAppearinComponent {
 				}
 			}
 		});
-		
+
 		var defaultWidth = 640;
 		var numCols = Math.ceil(clientRect.width / Math.min(maxW, defaultWidth));
 		var numRows = Math.ceil(clientRect.height / Math.min(maxH, ((defaultWidth * maxH) / maxW)));
-		
+
 		this.streamMaxWidth = (Math.round((100 / Math.ceil(this.streams.length / numRows)) * 100) / 100).toString() + '%';
 		this.streamMaxHeight = (Math.round((100 / Math.ceil(this.streams.length / numCols)) * 100) / 100).toString() + '%';
 	}
@@ -178,7 +183,7 @@ export class OpenViduAppearinComponent {
 
 	onSidenavOpenStart() {
 		// TODO: Retrive chats
-		
+
 		this.chatButtonState = 'hide';
 	}
 
@@ -198,7 +203,7 @@ export class OpenViduAppearinComponent {
 		this.chatButtonState = 'show';
 		this.session = null;
 		this.participants = {};
-		
+
 		// Display message
 		this.setUserMessage('You left the room');
 		this.openviduApi.leaveRoom();
@@ -226,7 +231,7 @@ export class OpenViduAppearinComponent {
 
 	handleOnErrorServer(errorEvent: ErrorEvent) {
 		if (errorEvent.error) {
-			this.setUserMessage(errorEvent.error.message)
+			this.setUserMessage(errorEvent.error.message);
 		}
 	}
 
@@ -234,10 +239,10 @@ export class OpenViduAppearinComponent {
 		if (roomConnectedEvent && roomConnectedEvent.session) {
 			this.session = roomConnectedEvent.session;
 		}
-		
+
 		// Emit event
 		this.onRoomConnected.emit();
-		
+
 		this.connectionUiState = ConnectionState.CONNECTED_TO_ROOM;
 	}
 
@@ -245,7 +250,7 @@ export class OpenViduAppearinComponent {
 		// Emit event
 		this.onErrorRoom.emit();
 	}
-	
+
 	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent) {
 		if (cameraEvent.access) {
 			// All good :)
@@ -253,21 +258,21 @@ export class OpenViduAppearinComponent {
 			if (this.streams.indexOf(this.myCamera) < 0) {
 				this.streams.push(this.myCamera);
 			}
-			
+
 			this.welcome = false;
-			
+
 			this.connectionUiState = ConnectionState.CAMERA_ACCESS_GRANTED;
-			
+
 		} else if (!cameraEvent.access) {
 			// No camera :(
-		
+
 			this.connectionUiState = ConnectionState.CAMERA_ACCESS_DENIED;
 		}
 	}
 
 	handleOnRoomClosed() {
 		this.session = null;
-		
+
 		// Emit event
 		this.onRoomClosed.emit();
 	}
@@ -292,7 +297,7 @@ export class OpenViduAppearinComponent {
 		this.onParticipantJoined.emit({
 			participantId: newParticipant.getId()
 		});
-		
+
 		// Resize manually
 		this.resizeStreamsManually();
 	}
@@ -305,7 +310,7 @@ export class OpenViduAppearinComponent {
 		this.onParticipantLeft.emit({
 			participantId: oldParticipant.getId()
 		});
-		
+
 		// Resize manually
 		this.resizeStreamsManually();
 	}
@@ -322,15 +327,13 @@ export class OpenViduAppearinComponent {
 		if (this.streams.indexOf(newStream) < 0) {
 			this.streams.push(newStream);
 		}
-		
-		console.log(this.streams);
 	}
 
 	handleOnStreamRemoved(streamEvent: StreamEvent) {
 		var oldStream = streamEvent.stream;
 		this.streams.splice(this.streams.indexOf(oldStream), 1);
 	}
-	
+
 	handleOnCustomNotification(object: any) {
 		this.onCustomNotification.emit(object);
 	}

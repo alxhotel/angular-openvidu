@@ -29,6 +29,7 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 	- [Dependencies](#1-depedencies)
 	- [CSS](#2-css)
 	- [Tests](#3-tests)
+- [Changelog](#changelog)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -144,7 +145,7 @@ It exports an API named "openviduApi", which can then be used to build the video
 
 #### OpenViduHangoutsComponent
 
-*This a default component for creating a video chat.*
+*This is the default component for creating a video chat.*
 
 It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [Google Hangouts](https://hangouts.google.com).
 If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
@@ -219,6 +220,10 @@ To test the component run:
 ```sh
 $ npm run test
 ```
+
+### Changelog
+
+You can find it [here](CHANGELOG.md).
 
 ### Troubleshooting
 

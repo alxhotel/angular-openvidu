@@ -1,11 +1,17 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import {
+	Component, ElementRef, EventEmitter, Input, OnDestroy,
+	OnInit, Output, Renderer2, ViewChild
+} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MdButton, MdSidenav } from '@angular/material';
 import { Participant, Session, Stream } from 'openvidu-browser';
 
 import { BigScreenService } from 'angular-bigscreen';
 
-import { OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent, ParticipantEvent, RoomConnectedEvent, StreamEvent } from '../openvidu.directive';
+import {
+	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
+	ParticipantEvent, RoomConnectedEvent, StreamEvent
+} from '../openvidu.directive';
 
 @Component({
 	selector: 'openvidu, openvidu-hangouts',
@@ -29,7 +35,7 @@ import { OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent, Partici
 		])
 	]
 })
-export class OpenViduHangoutsComponent {
+export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 
 	// Inputs
 	@Input() wsUrl: string;
@@ -46,17 +52,17 @@ export class OpenViduHangoutsComponent {
 	@Output() onNewMessage: EventEmitter<any> = new EventEmitter();
 	@Output() onErrorMedia: EventEmitter<any> = new EventEmitter();
 	@Output() onLeaveRoom: EventEmitter<void> = new EventEmitter<void>();
-	
+
 	/** @deprecated */
 	@Output() onCloseSession: EventEmitter<void> = this.onLeaveRoom;
 	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
-	
+
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
 	//@Output() onStreamRemoved: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticpantPublished: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticipantEvicted: EventEmitter<any> = new EventEmitter();
 	//@Output() onUpodateMainSpeaker: EventEmitter<any> = new EventEmitter();
-	
+
 	// OpenVidu api
 	@ViewChild('openviduApi') openviduApi: OpenViduDirective;
 
@@ -154,7 +160,7 @@ export class OpenViduHangoutsComponent {
 		this.chatButtonState = 'show';
 		this.session = null;
 		this.participants = {};
-		
+
 		// Display message
 		this.setUserMessage('You left the room');
 		this.openviduApi.leaveRoom();
@@ -176,12 +182,12 @@ export class OpenViduHangoutsComponent {
 	}
 
 	handleOnServerConnected() {
-		this.setUserMessage('Connecting to room...')
+		this.setUserMessage('Connecting to room...');
 	}
 
 	handleOnErrorServer(errorEvent: ErrorEvent) {
 		if (errorEvent.error) {
-			this.setUserMessage(errorEvent.error.message)
+			this.setUserMessage(errorEvent.error.message);
 		}
 	}
 
@@ -189,7 +195,7 @@ export class OpenViduHangoutsComponent {
 		if (roomConnectedEvent && roomConnectedEvent.session) {
 			this.session = roomConnectedEvent.session;
 		}
-		
+
 		// Emit event
 		this.onRoomConnected.emit();
 	}
@@ -198,7 +204,7 @@ export class OpenViduHangoutsComponent {
 		// Emit event
 		this.onErrorRoom.emit();
 	}
-	
+
 	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent) {
 		if (cameraEvent.access) {
 			// All good :)
@@ -213,7 +219,7 @@ export class OpenViduHangoutsComponent {
 
 	handleOnRoomClosed() {
 		this.session = null;
-		
+
 		// Emit event
 		this.onRoomClosed.emit();
 	}
@@ -262,15 +268,13 @@ export class OpenViduHangoutsComponent {
 		if (this.streams.indexOf(newStream) < 0) {
 			this.streams.push(newStream);
 		}
-		
-		console.log(this.streams);
 	}
 
 	handleOnStreamRemoved(streamEvent: StreamEvent) {
 		var oldStream = streamEvent.stream;
 		this.streams.splice(this.streams.indexOf(oldStream), 1);
 	}
-	
+
 	handleOnCustomNotification(object: any) {
 		this.onCustomNotification.emit(object);
 	}
