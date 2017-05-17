@@ -8,7 +8,7 @@
 
 - `openvidu-appearin`
 
-### Propeties
+### Properties
 
 | Name | Type | Optional | Description |
 |---|---|---|---|

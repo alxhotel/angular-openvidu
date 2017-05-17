@@ -4,7 +4,7 @@
 
 - `openvidu-template`
 
-### Propeties
+### Properties
 
 | Name | Type | Optional | Description |
 |---|---|---|---|

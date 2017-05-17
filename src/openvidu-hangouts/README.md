@@ -9,7 +9,7 @@
 - `openvidu`
 - `openvidu-hangouts`
 
-### Propeties
+### Properties
 
 | Name | Type | Optional | Description |
 |---|---|---|---|
