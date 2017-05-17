@@ -5,19 +5,23 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### TODO
-- Loading screen when accessing camera
-- Finish chat
-- Settings
-- Share screen
+- Settings for camera
+- Share screen (without extension)
 - Chat input color
-- Check whether camera is off
-- Divide component for new layouts
+- Add options to change toolbar menu (hangouts)
+- Add inputs for i18n
+- Use custom notification to notify participants of audio/video enabled/disabled
+- Add GIF to README docs
 
 ### Added
-- Add new events: `onCloseSession` and `onCustomMessageReceived`
+- Add new events: `onCloseSession` and `onCustomNotification`
 - Add chat
 - Add transition to the button chat
 - Change layout of the participants video
+- Divide component for new layouts
+- Add option to change layouts: google hangouts, appear.in, gotomeeting
+- Loading screen when accessing camera
+- Add gulp tasks for building component
 
 ### Fixed
 - Update main speaker when a participant leave
@@ -36,4 +40,4 @@ All notable changes to this project will be documented in this file.
 - README documentation
 - `CHANGELOG` file
 
-[Unreleased]: https://github.com/alxhotel/angular-openvdiu/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/alxhotel/angular-openvidu/compare/v0.5.0...HEAD

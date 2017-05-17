@@ -1,0 +1,413 @@
+openvidu-template {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+openvidu-template #welcome {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+  color: #000;
+  margin: 5em auto auto;
+  max-width: 412px;
+  padding: 1em;
+}
+openvidu-template #welcome header {
+  margin-bottom: 18px;
+}
+openvidu-template #welcome header h1 {
+  margin: 0;
+  font-weight: 400;
+  line-height: 28px;
+  font-size: 20px;
+}
+openvidu-template #welcome section {
+  padding: 0 0 2em 0;
+}
+openvidu-template #welcome section .ai-spinner {
+  height: 120px;
+  width: 120px;
+  margin: 0 auto;
+  padding: 15px;
+  -webkit-transform-origin: 50% 50%;
+      -ms-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  -webkit-animation: spin .7s linear infinite;
+          animation: spin .7s linear infinite;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+openvidu-template #welcome section .text-state {
+  font-size: 24px;
+}
+openvidu-template #welcome section .text-body-main {
+  font-size: 18px;
+}
+openvidu-template #welcome section .ui-button {
+  background: #ff2e63;
+}
+openvidu-template #welcome section .ui-button,
+openvidu-template #welcome section .ui-button-invis,
+openvidu-template #welcome section .ui-button-outline {
+  display: inline-block;
+  border-radius: 3px;
+  border: solid 0;
+  -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 10px 12px 10px 12px;
+  line-height: 20px;
+  text-decoration: none;
+  position: relative;
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  outline: 0;
+  font-weight: 400;
+  word-wrap: break-word;
+  border: solid #ff2e63 0;
+  color: #fff;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+openvidu-template #welcome section .video-preview-wrapper {
+  height: 256px;
+  background: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+openvidu-template #welcome section .camera-off-icon md-icon {
+  height: 84px;
+  width: 500px;
+}
+openvidu-template #welcome section .camera-off-icon md-icon .fill {
+  fill: #333;
+}
+openvidu-template .feedback-wrapper {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  border-radius: 3px;
+}
+openvidu-template .feedback-wrapper .thank-you-message {
+  font-size: 34px;
+  margin-top: .5em;
+  margin-bottom: 1.5em;
+  color: #fff;
+}
+openvidu-template .feedback-wrapper p button {
+  background: #41cc8d;
+}
+openvidu-template .wrapper {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background: -webkit-gradient(linear, left top, left bottom, from(#360033), to(#0b8793));
+  background: -webkit-linear-gradient(#360033, #0b8793);
+  background: linear-gradient(#360033, #0b8793);
+}
+openvidu-template .wrapper .toolbar .mat-toolbar {
+  background: transparent;
+  color: #fff;
+}
+openvidu-template .wrapper md-sidenav-container {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background: transparent;
+}
+openvidu-template .wrapper md-sidenav-container .chat-button {
+  position: absolute;
+  right: 12px;
+  bottom: 2.1em;
+  border: 2px solid #fff;
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  outline: 0;
+  margin: 0;
+  color: #fff;
+  z-index: 99;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 200px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .stream-flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 3px 3px 0 0;
+  margin: 0px 10px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat .close {
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  outline: none;
+  border: none;
+  padding: 4px;
+  border-radius: 50%;
+  width: 36px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat .close:hover {
+  background-color: #000;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat ul {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 0px 10px 10px 10px;
+  overflow: auto;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat ul li {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 6px 14px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat ul li.me {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: row-reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat ul li.me p {
+  background-color: #ffcad7;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat ul li p {
+  margin: 0;
+  margin-right: 32px;
+  padding: 7px 8px 6px;
+  font-size: 12px;
+  line-height: 1.3333;
+  background-color: #f5fcf9;
+  border-radius: 3px;
+  word-wrap: break-word;
+  max-width: -webkit-calc(32%);
+  max-width: calc(32%);
+  color: rgba(0, 0, 0, 0.87);
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .panel-videos .chat .message-input-container {
+  background: #fff;
+  padding: 0px 10px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 4px 0px 4px 0px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 auto;
+  overflow: hidden;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button {
+  background-color: transparent;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  font-size: 12px;
+  height: 54px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0 8px;
+  text-align: center;
+  width: 92px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button.close-session {
+  background-color: #ff2e63;
+  height: 46px;
+  width: 46px;
+  margin: 0 16px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button.disabled {
+  background-color: #ff2e63;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button.disabled md-icon {
+  display: none;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button.disabled md-icon.disabled-icon {
+  display: inline-block;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button.disabled div {
+  display: none;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button.disabled div.disabled-text {
+  display: block;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button md-icon {
+  display: inline-block;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button md-icon.disabled-icon {
+  display: none;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button div {
+  margin-bottom: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  width: 100%;
+  line-height: 10px;
+}
+openvidu-template .wrapper md-sidenav-container .md-sidenav-content .bottom-bar .buttons button div.disabled-text {
+  display: none;
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { MdButton, MdInputDirective, MdSidenav } from '@angular/material';
 import { OpenVidu, Participant, Session, Stream } from 'openvidu-browser';
@@ -6,26 +6,7 @@ import { OpenVidu, Participant, Session, Stream } from 'openvidu-browser';
 import { BigScreenService } from 'angular-bigscreen';
 
 @Component({
-	selector: 'openvidu',
-	templateUrl: './openvidu.component.html',
-	styleUrls: ['./openvidu.component.less'],
 	providers: [ BigScreenService ],
-	animations: [
-		trigger('chatButtonAnimation', [
-			state('hide', style({
-				left: '-60px'
-			})),
-			state('show', style({
-				left: '0px'
-			})),
-			transition('* => hide', [
-				animate('0.225s ease-in-out')
-			]),
-			transition('* => show', [
-				animate('0.225s ease-in-out')
-			])
-		])
-	]
 })
 export class OpenViduComponent implements OnInit, OnDestroy {
 
@@ -57,8 +38,7 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 	@ViewChild('sidenav') sidenav: MdSidenav;
 	@ViewChild('toggleMicButton') toggleMicButton: MdButton;
 	@ViewChild('toggleCameraButton') toggleCameraButton: MdButton;
-	@ViewChild('toggleChatButton') toggleChatButton: MdButton;
-	@ViewChild('messageInput') messageInput: MdInputDirective;
+	@ViewChild('messageInput') messageInput: ElementRef;
 	@ViewChild('sendMessageButton') sendMessageButton: MdButton;
 
 	// Flags for HTML elements
@@ -94,7 +74,7 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 	private joinedRoom: boolean = false;
 	private connected: boolean = false;
 
-	constructor(private renderer: Renderer, private bigScreenService: BigScreenService) {
+	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService) {
 		this.setUserMessage('Loading OpenViudu...');
 	}
 
@@ -139,10 +119,10 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 	toggleMic() {
 		var toggleMicButton = this.toggleMicButton._getHostElement();
 		if (this.micDisabled) {
-			this.renderer.setElementClass(toggleMicButton, 'disabled', false);
+			this.renderer.removeClass(toggleMicButton, 'disabled');
 			this.myCamera.getWebRtcPeer().audioEnabled = true;
 		} else {
-			this.renderer.setElementClass(toggleMicButton, 'disabled', true);
+			this.renderer.addClass(toggleMicButton, 'disabled');
 			this.myCamera.getWebRtcPeer().audioEnabled = false;
 		}
 		this.micDisabled = !this.micDisabled;
@@ -151,10 +131,10 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 	toggleCamera() {
 		var toggleCameraButton = this.toggleCameraButton._getHostElement();
 		if (this.cameraDisabled) {
-			this.renderer.setElementClass(toggleCameraButton, 'disabled', false);
+			this.renderer.removeClass(toggleCameraButton, 'disabled');
 			this.myCamera.getWebRtcPeer().videoEnabled = true;
 		} else {
-			this.renderer.setElementClass(toggleCameraButton, 'disabled', true);
+			this.renderer.addClass(toggleCameraButton, 'disabled');
 			this.myCamera.getWebRtcPeer().videoEnabled = false;
 		}
 		this.cameraDisabled = !this.cameraDisabled;
@@ -182,7 +162,8 @@ export class OpenViduComponent implements OnInit, OnDestroy {
 
 	sendMessage(text: string) {
 		// Clean input
-		this.renderer.setElementAttribute(this.messageInput, 'value', null);
+		this.messageInput.nativeElement.value = null;
+		//this.renderer.setValue(this.messageInput.nativeElement, null);
 		// Send to OpenVidu server
 		this.openVidu.sendMessage(this.sessionId, this.participantId, text);
 	}

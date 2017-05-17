@@ -1,0 +1,135 @@
+<openvidu-template
+	#openviduApi="openviduApi"
+	[wsUrl]="wsUrl"
+	[sessionId]="sessionId"
+	[participantId]="participantId"
+	
+	(onUpdateMainSpeaker)="handleOnUpdateMainSpeaker($event)"
+	
+	(onServerConnected)="handleOnServerConnected($event)"
+	(onErrorServer)="handleOnErrorServer($event)"
+	(onRoomConnected)="handleOnRoomConnected($event)"
+	(onErrorRoom)="handleOnErrorRoom($event)"
+	(onCameraAccessChange)="handleOnCameraAccessChange($event)"
+	
+	(onParticipantJoined)="handleOnParticipantJoined($event)"
+	(onParticipantLeft)="handleOnParticipantLeft($event)"
+	
+	(onStreamAdded)="handleOnStreamAdded($event)"
+	(onStreamRemoved)="handleOnStreamRemoved($event)"
+	
+	(onErrorMedia)="handleOnErrorMedia()"
+	(onLeaveRoom)="handleOnLeaveRoom()"
+	(onNewMessage)="handleOnNewMessage($event)"
+	(onCustomNotification)="handleOnCustomNotification($event)">
+	
+	<div #main class="openvidu-hangouts">
+
+		<!-- Messages to user -->
+		<div class="message-screen" *ngIf="userMessage && !session">
+			{{userMessage}}
+		</div>
+
+		<!-- VIDEO CHAT -->
+		<div class="wrapper" *ngIf="session">
+
+			<!-- TOOLBAR -->
+			<div class="toolbar">
+				<md-toolbar [color]="primary">
+					<span>{{sessionId}}</span>
+					<span class="example-spacer"></span>
+
+					<!--<button md-icon-button (click)="openSettings()" *ngIf="!isFullscreen" mdTooltip="Settings" mdTooltipPosition="below">
+						<md-icon>settings</md-icon>
+					</button>-->
+					<!-- For fullscreen -->
+					<button md-icon-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="Fullscreen" mdTooltipPosition="below">
+						<md-icon>fullscreen</md-icon>
+					</button>
+					<button md-icon-button (click)="toggleFullscreen()" *ngIf="isFullscreen" mdTooltip="Exit fullscreen" mdTooltipPosition="below">
+						<md-icon>clear</md-icon>
+					</button>
+
+					<!-- RIGHT -->
+					<!--<button md-icon-button [mdMenuTriggerFor]="menu">
+						<md-icon>more_vert</md-icon>
+					</button>
+					<md-menu #menu="mdMenu">
+						<button md-menu-item (click)="toggleFullscreen()">
+							<md-icon>fullscreen</md-icon>
+							<span>Fullscreen</span>
+						</button>
+					</md-menu>-->
+				</md-toolbar>
+			</div>
+
+			<!-- CHAT -->
+			<md-sidenav-container>
+				<md-sidenav #sidenav mode="side" (open-start)="onSidenavOpenStart()" (close-start)="onSidenavCloseStart()">
+					<div class="messages">
+						<ul>
+							<li *ngFor="let message of chatMessages">
+								<div>
+									<span>{{(message.username == participantId) ? 'You' : message.username}}</span>
+									{{message.message}}
+								</div>
+								<span class="date">{{message.date | date: 'H:m'}}</span>
+							</li>
+						</ul>
+					</div>
+					<div class="bottom" (submit)="sendMessage(messageInput.value);" accept-charset="UTF-8">
+						<button md-fab class="close-chat transparent-button" (click)="toggleChat()"><md-icon>arrow_back</md-icon></button>
+						<form>
+							<md-input-container color="primary" floatPlaceholder="never">
+								<input mdInput #messageInput placeholder="Send a message">
+							</md-input-container>
+							<button #sendMessageButton md-fab type="submit" class="send-message transparent-button" [class.enabled]="messageInput.value.length > 0"><md-icon>send</md-icon></button>
+						</form>
+					</div>
+				</md-sidenav>
+
+				<!-- MAIN VIDEO -->
+				<div class="main-video">
+					<div class="message" *ngIf="streams.length == 1">You are alone in this room :(</div>
+					<stream-hangouts class="main-stream" *ngIf="mainStream != null && mainStream.getWrStream() != null" [stream]="mainStream"></stream-hangouts>
+					<div class="name-placeholder" *ngIf="mainStream == null || mainStream.getWrStream() == null">
+						<div *ngIf="mainStream != null">{{mainStream.getParticipant().id.charAt(0)}}</div>
+						<div *ngIf="mainStream == null && participantId != null">{{participantId.charAt(0)}}</div>
+					</div>
+				</div>
+
+				<!-- BUTTONS & OTHERS VIDEOS -->
+				<div class="bottom-bar">
+					<div class="buttons">
+						<button md-fab class="toggle-mic" [ngClass]="{'disabled': !openviduApi.micEnabled}" (click)="toggleMic()">
+							<md-icon>mic</md-icon>
+							<md-icon class="disabled-icon">mic_off</md-icon>
+						</button>
+						<button md-fab class="close-session" (click)="leaveRoom()">
+							<md-icon>call_end</md-icon>
+						</button>
+						<button md-fab class="toggle-camera" [ngClass]="{'disabled': !openviduApi.camEnabled}" (click)="toggleCamera()">
+							<md-icon>videocam</md-icon>
+							<md-icon class="disabled-icon">videocam_off</md-icon>
+						</button>
+					</div>
+					<div class="streams" *ngIf="streams.length > 1">
+						<stream-hangouts class="stream side-stream" [stream]="myCamera" [ngClass]="{'hide-video': (myCamera === mainStream)}">
+
+						</stream-hangouts>
+						<ng-container *ngFor="let s of streams">
+							<stream-hangouts class="stream side-stream square" *ngIf="(s !== myCamera)" [stream]="s" [ngClass]="{'hide-video': (s === mainStream)}">
+
+							</stream-hangouts>
+						</ng-container>
+					</div>
+				</div>
+
+				<button md-fab class="toggle-chat" (click)="toggleChat()" [@chatButtonAnimation]="chatButtonState">
+					<md-icon>chat</md-icon>
+				</button>
+			</md-sidenav-container>
+
+		</div>
+	</div>
+</openvidu-template>

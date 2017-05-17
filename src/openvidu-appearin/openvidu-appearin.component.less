@@ -1,0 +1,313 @@
+openvidu-template {
+	display: flex;
+	flex-direction: column;
+	
+	#welcome {
+		flex: 1;
+		text-align: center;
+		color: #000;
+		margin: 5em auto auto;
+		max-width: 412px;
+		padding: 1em;
+
+		header {
+			margin-bottom: 18px;
+
+			h1 {
+				margin: 0;
+				font-weight: 400;
+				line-height: 28px;
+				font-size: 20px;
+			}
+		}
+		section {
+			padding: 0 0 2em 0;
+
+			.ai-spinner {
+				height: 120px;
+				width: 120px;
+				margin: 0 auto;
+				padding: 15px;
+				transform-origin: 50% 50%;
+				animation: spin .7s linear infinite;
+				box-sizing: border-box;
+			}
+			.text-state {
+				font-size: 24px;
+			}
+			.text-body-main {
+				font-size: 18px;
+			}
+			.ui-button {
+				background: #ff2e63;
+			}
+			.ui-button, .ui-button-invis, .ui-button-outline {
+				display: inline-block;
+				border-radius: 3px;
+				border: solid 0;
+				box-shadow: 0 1px 0 0 rgba(0,0,0,.15);
+				cursor: pointer;
+				font-size: 14px;
+				padding: 10px 12px 10px 12px;
+				line-height: 20px;
+				text-decoration: none;
+				position: relative;
+				text-align: center;
+				margin-top: 4px;
+				margin-bottom: 4px;
+				outline: 0;
+				font-weight: 400;
+				word-wrap: break-word;
+				border: solid #ff2e63 0;
+				color: #fff;
+				-webkit-font-smoothing: subpixel-antialiased;
+				-moz-osx-font-smoothing: auto;
+			}
+			.video-preview-wrapper {
+				height: 256px;
+				background: rgba(0,0,0,.1);
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+			}
+			.camera-off-icon {
+				md-icon {
+					height: 84px;
+					width: 500px;
+
+					.fill {
+						fill: #333;
+					}
+				}
+			}
+		}
+
+	}
+
+	.feedback-wrapper {
+		flex: 1;
+		text-align: center;
+		background-color: rgba(0,0,0,.5);
+		padding: 50px;
+		border-radius: 3px;
+
+		.thank-you-message {
+			font-size: 34px;
+			margin-top: .5em;
+			margin-bottom: 1.5em;
+			color: #fff;
+		}
+		p {
+			button {
+				background: #41cc8d;
+			}
+		}
+	}
+
+	.wrapper {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		background: linear-gradient(#360033, #0b8793);
+
+		.toolbar {			
+			.mat-toolbar {
+				background: transparent;
+				color: #fff;
+			}
+		}
+		md-sidenav-container {
+			flex: 1;
+			background: transparent;
+
+			.chat-button {
+				position: absolute;
+				right: 12px;
+				bottom: 2.1em;
+				border: 2px solid #fff;
+				transition: opacity .2s;
+				border-radius: 50%;
+				background-color: rgba(0,0,0,.4);
+				cursor: pointer;
+				outline: 0;
+				margin: 0;
+				color: #fff;
+				z-index: 99;
+			}
+			.md-sidenav-content {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				
+				.panel-videos {
+					flex: 1;
+					display: flex;
+					min-height: 200px;
+
+					.stream-flex {
+						flex: 1;
+						display: flex;
+						flex-direction: row;
+						align-content: center;
+						flex-wrap: wrap;
+						justify-content: center;
+					}
+					.chat {
+						display: flex;
+						flex-direction: column;
+						justify-content: flex-end;
+						position: relative;
+						background-color: rgba(0,0,0,.5);
+						border-radius: 3px 3px 0 0;
+						margin: 0px 10px;
+						width: 30%;
+						max-width: 400px;
+						
+						.close {
+							background: rgba(0,0,0,0.4);
+							color: #fff;
+							outline: none;
+							border: none;
+							padding: 4px;
+							border-radius: 50%;
+							width: 36px;
+							position: absolute;
+							top: 0px;
+							right: 0px;
+							cursor: pointer;
+							
+							&:hover {
+								background-color: #000;
+							}
+						}
+						ul {
+							flex: 1;
+							padding: 0px 10px 10px 10px;
+							overflow: auto;
+							
+							li {
+								display: flex;
+								flex-direction: row;
+								justify-content: flex-start;
+								padding: 6px 14px;
+								
+								&.me {
+									flex-direction: row-reverse;
+									
+									p {
+										background-color: #ffcad7;
+									}
+								}
+								p {
+									background-color: #f5fcf9;
+									margin: 0;
+									margin-right: 20px;
+									padding: 7px 8px 6px;
+									font-size: 12px;
+									line-height: 1.3333;
+									background-color: #f5fcf9;
+									border-radius: 3px;
+									word-wrap: break-word;
+									max-width: calc(100% - 68px);
+									color: rgba(0,0,0,.87);
+								}
+							}
+						}
+						.message-input-container {
+							background: #fff;
+							padding: 0px 10px;
+							
+							md-input-container {
+								width: 100%;
+							}
+						}
+					}
+				}
+
+				.bottom-bar {
+					display: flex;
+					margin: 4px 0px 4px 0px;
+
+					.buttons {
+						background-color: rgba(0,0,0,.5);
+						border-radius: 3px;
+						display: flex;
+						justify-content: space-between;
+						margin: 0 auto;
+						overflow: hidden;
+						align-items: center;
+
+						button {
+							background-color: transparent;
+							align-items: center;
+							box-sizing: border-box;
+							color: #fff;
+							display: flex;
+							flex-flow: column nowrap;
+							font-size: 12px;
+							height: 54px;
+							justify-content: center;
+							padding: 0 8px;
+							text-align: center;
+							width: 92px;
+
+							&.close-session {
+								background-color: #ff2e63;
+								height: 46px;
+								width: 46px;
+								margin: 0 16px;
+							}
+							&.disabled {
+								background-color: #ff2e63;
+
+								md-icon {
+									display: none;
+
+									&.disabled-icon {
+										display: inline-block;
+									}
+								}
+								div {
+									display: none;
+
+									&.disabled-text {
+										display: block;
+									}
+								}
+							}
+							md-icon {
+								display: inline-block;
+
+								&.disabled-icon {
+									display: none;
+								}
+							}
+							div {
+								margin-bottom: 4px;
+								text-shadow: 0 1px 1px rgba(0,0,0,.4);
+								white-space: nowrap;
+								width: 100%;
+								line-height: 10px;
+
+								&.disabled-text {
+									display: none;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

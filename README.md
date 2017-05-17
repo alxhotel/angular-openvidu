@@ -18,7 +18,13 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Structure](#structure)
+- [API](#api)
+	- [OpenViduDirective](#openvidudirective)
+	- [OpenViduHangoutsComponent](#openviduhangouts)
+	- [OpenViduAppearinComponent](#openviduappearin)
 - [Development](#development)
+- [Troubleshooting](#troubleshooting)
 - [License](#license)
 
 ### App Demo
@@ -88,39 +94,56 @@ You are ready. Use it in your template:
 </openvidu>
 ```
 
-#### Propeties
+*Note: This is the simplest example. For more documentation and customization keep reading.*
 
-| Name | Type | Optional | Description |
-|---|---|---|---|
-| `wsUrl`			| `String` | required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
-| `sessionId`		| `String` | required | An id for a session |
-| `participantId`	| `String` | required | An id for the current participant joining the session |
+### Structure
 
-#### Events
+#### Component Tree
 
-This events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
+Below outlines a tree of how the components are arranged in the Angular component tree.
 
-These are the events AngularOpenVidu exposes for the user of the module.
+<p align="center"><img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/component_tree.png?raw=true"/></p>
 
-To use them just do:
+#### File Structure
 
-```html
-<openvidu (eventName)="myEventHandler($event)">
-	Loading openvidu...
-</openvidu>
+The folder structure is aimed to encapsulate components into their own modules.
+In each component folder, it contains all the html, css, js for that component. 
+
+```
+└── src
+    ├── openvidu-template			-- root		directive with all the OpenVidu logic
+    ├── openvidu-hangouts			-- root		component with a predefined layout for Hangouts
+    │   └── stream-hangouts			-- stream	component for the Hangouts layout
+    └── openvidu-appearin           -- root     component with a predefined layout for AppearIn
+        └── stream-appearin			-- stream	component for the AppearIn layout
 ```
 
-| Name | Params | Description |
-|---|---|---|
-| `onRoomConnected`          | `No params` | triggers when the client has established a session with the server |
-| `onRoomClosed`             | `No params` | triggers when the room is closed                                   |
-| `onLostConnection`         | `No params` | triggers when you can't establish a connection to the server       |
-| `onErrorRoom`              | `({error: error})` | triggers when there's an error, like a "time out" with the server       |
-| `onParticipantJoined`      | `({participantId: participantId})` | triggers when a participant has joined your room   |
-| `onParticipantLeft`        | `({participantId: participantId})` | triggers when a participant has left your room     |
-| `onErrorMedia`             | `({error: error})` | triggers when an error occurs while trying to retrieve some media  |
-| `onCloseSession`           | `No params` | triggers when the users clicks on the "end call" button |
-| `onNewMessage`             | `({room: room, user: user, message: message})` | triggers when a message from a participant is received |
+### API
+
+AngularOpenVidu has multiple predefined layouts that you can use out-of-the-box.
+
+#### OpenViduDirective
+
+The OpenViduDirective is used to build components for controlling your video chat instance.
+The directive selector is `openvidu-template`, either as an element or an attribute.
+It exports an API named "openviduApi", which can then be used to build the video chat component.
+
+[Click here to see the documentation][src]
+
+#### OpenViduHangoutsComponent
+
+This a default component for creating a video chat.
+It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [Google Hangouts](https://hangouts.google.com).
+If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
+
+[Click here to see the documentation][src/openvidu-hangouts]
+
+#### OpenViduAppearinComponent
+
+It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [AppearIn](https://appear.in).
+If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
+
+[Click here to see the documentation][src/openvidu-appearin]
 
 ### Development
 
@@ -189,7 +212,7 @@ https://[IP]:[PORT]/room
 
 And make sure to accept its certificate. Then go back to the app and refresh the page.
 
-#### Why does it keep saying "Joining room..."?
+#### Why does it keep saying "Joining room..." or "Loading camera..."?
 
 If you are accessing the app through a host different from `localhost` then you need to enable `HTTPS`.
 

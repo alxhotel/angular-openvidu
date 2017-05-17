@@ -1,10 +1,10 @@
 import { Component, ViewEncapsulation, OnInit, Input, ViewChild, ElementRef, Renderer } from '@angular/core';
-import { Stream, Session } from 'openvidu-browser';
+import { Stream } from 'openvidu-browser';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
-	selector: 'stream',
-	styleUrls: ['./stream.component.less'],
+	selector: 'stream-appearin',
+	styleUrls: [ './stream-appearin.component.css' ],
 	template: `
 		<div class="participant">
 			<span #name></span>
@@ -12,19 +12,23 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
         </div>`,
 	encapsulation: ViewEncapsulation.None
 })
-export class StreamComponent implements OnInit {
+export class StreamAppearinComponent implements OnInit {
 
 	// HTML elements
 	@ViewChild('name') name: ElementRef;
 	@ViewChild('videoStream') videoStream: ElementRef;
 
-	private videoSrc: SafeUrl;
-	private muted: boolean;
+	// Video attributes
+	videoSrc: SafeUrl;
+	muted: boolean;
+
+	// Private variables
 	private _stream: Stream;
 
 	constructor(private domSanitizer: DomSanitizer, private renderer: Renderer) {}
 
 	@Input('stream')
+	get stream(): Stream { return this._stream; }
 	set stream(val: Stream) {
 		if (val === null || val === undefined) return;
 
@@ -50,10 +54,6 @@ export class StreamComponent implements OnInit {
 
 		// If local, show nice name
 		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? 'You' : this.stream.getParticipant().getId();
-	}
-
-	get stream(): Stream {
-		return this._stream;
 	}
 
 	ngOnInit() {
