@@ -39,14 +39,12 @@ To use them just do:
 | `onParticipantJoined`      | `({participant: Participant})` | triggers when a participant has joined your room   |
 | `onParticipantLeft`        | `({participant: Participant})` | triggers when a participant has left your room     |
 | `onRoomClosed`             | `No params` | triggers when the admin closes the room                            |
-
 | `onParticipantEvicted`     | `({participant: Participant})` | triggers when a participant is evicted |
 | `onParticipantPublished`   | `({participant: Participant})` | triggers when a participant has published |
 | `onStreamAdded`            | `({stream: Stream})` | triggers when a new stream has been added to the room |
 | `onStreamRemoved`          | `({stream: Stream})` | triggers when a stream has been removed from the room |
 | `onUpdateMainSpeaker`      | `({stream: Stream})` | triggers when a participant is set to be the main speaker, based on the audio |
 | `onCustomNotification`     | `(customObject)` | triggers when a custom notification from a participant is received |
-
 | `onServerConnected`        | `No params` | triggers when a the client has established a connection with the server |
 | `onErrorServer`            | `({error: any})` | triggers when the client couldn't establish a connection with the server |
 | `onCameraAccessChange`     | `({access: boolean, camera?: Stream, error?: any)` | triggers when the access to the camera of the client has change.
@@ -61,5 +59,5 @@ To do this you will need the WebRTC URL pointing to the video.
 You can get it by doing:
 
 ```js
-	let videoURL = URL.createObjectURL(this.streamObject.getWrStream())
+let videoURL = URL.createObjectURL(this.streamObject.getWrStream())
 ```
