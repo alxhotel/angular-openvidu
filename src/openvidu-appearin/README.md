@@ -18,7 +18,7 @@
 
 ### Events
 
-This events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
+These events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
 
 These are the events AngularOpenVidu exposes for the user of the module.
 
@@ -42,5 +42,45 @@ To use them just do:
 | `onLeaveRoom`              | `No params` | triggers when the current user leaves the room |
 | `onNewMessage`             | `({room: string, user: string, message: string})` | triggers when a message from a participant is received |
 | `onCustomNotification`     | `(customObject)` | triggers when a custom notification from a participant is received |
+
+### i18n - Localizing labels and messages
+
+The various text strings used by the component are provided through `OpenViduHangoutsIntl`.
+Localization of these messages can be done by providing a subclass with translated values in your application root module.
+
+*By default the message are in English*
+
+Here is an example for an Spanish locale:
+
+```js
+import { Injectable } from '@angular/core';
+import { OpenViduHangoutsIntl } from 'angular-openvidu';
+
+@Injectable()
+export class MySpanishOpenViduHangoutsIntl extends OpenViduHangoutsIntl {
+	loadingLabel = 'Cargando...';
+	connectingLabel = 'Connectando...';
+	connectingToRoomLabel = 'Entrando en la sala...';
+	youLeftTheRoomLabel = 'Has salido de la sala';	
+}
+```
+
+And then you should add it to your `NgModule`, like this:
+
+```js
+import { OpenViduModule, OpenViduHangoutsIntl } from 'angular-openvidu';
+
+@NgModule({
+	imports: [ OpenViduModule ],
+	providers: [
+		{provide: OpenViduHangoutsIntl, useClass: MySpanishOpenViduHangoutsIntl},
+	]
+})
+export class MyModule {
+
+}
+```
+
+And you are good to go.
 
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server

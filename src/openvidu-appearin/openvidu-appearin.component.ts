@@ -2,10 +2,14 @@ import {
 	Component, ElementRef, EventEmitter, HostListener, Input, OnInit, OnDestroy,
 	Output, QueryList, Renderer2, ViewChild, ViewChildren
 } from '@angular/core';
+
+// Angular Material
 import { MdSidenav } from '@angular/material';
+
+// OpenVidu Browser
 import { Participant, Session, Stream } from 'openvidu-browser';
 
-import { BigScreenService } from 'angular-bigscreen';
+//import { BigScreenService } from 'angular-bigscreen';
 
 import {
 	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
@@ -13,6 +17,8 @@ import {
 } from '../openvidu.directive';
 
 import { StreamAppearinComponent } from './stream-appearin/stream-appearin.component';
+
+import { OpenViduAppearinIntl } from './openvidu-appearin-intl';
 
 export enum ConnectionState {
 	NOT_CONNECTED = 0,
@@ -27,7 +33,7 @@ export enum ConnectionState {
 	selector: 'openvidu-appearin',
 	templateUrl: './openvidu-appearin.component.html',
 	styleUrls: [ './openvidu-appearin.component.css' ],
-	providers: [ BigScreenService ]
+	//providers: [ BigScreenService ]
 })
 export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 
@@ -46,9 +52,6 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	@Output() onNewMessage: EventEmitter<any> = new EventEmitter();
 	@Output() onErrorMedia: EventEmitter<any> = new EventEmitter();
 	@Output() onLeaveRoom: EventEmitter<void> = new EventEmitter<void>();
-
-	/** @deprecated */
-	@Output() onCloseSession: EventEmitter<void> = this.onLeaveRoom;
 	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
 
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
@@ -102,31 +105,25 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	// My camera
 	private myCamera: Stream;
 
-	// Last chats
-	/*lastChats: any[] = [
-		{name: "SessionA", num_people: 4},
-		{name: "SessionB", num_people: 2},
-		{name: "Sessionc", num_people: 1},
-	];*/
-
-	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService) {
-		this.setUserMessage('Loading...');
+	constructor(private renderer: Renderer2,// private bigScreenService: BigScreenService,
+		public _intl: OpenViduAppearinIntl) {
+		this.setUserMessage(this._intl.loadingLabel);
 		this.welcome = true;
 	}
 
 	ngOnInit() {
 		// Display message
-		this.setUserMessage('Connecting...');
+		this.setUserMessage(this._intl.connectingLabel);
 
 		// Set fullscreen listener
-		this.bigScreenService.onChange(() => {
+		//this.bigScreenService.onChange(() => {
 			// No need to check if mainElement is the one with fullscreen
-			this.isFullscreen = this.bigScreenService.isFullscreen();
-		});
+		//	this.isFullscreen = this.bigScreenService.isFullscreen();
+		//});
 	}
 
 	ngOnDestroy() {
-		this.bigScreenService.exit();
+		//this.bigScreenService.exit();
 		this.leaveRoom();
 	}
 
@@ -169,11 +166,11 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	}
 
 	toggleFullscreen() {
-		if (this.bigScreenService.isFullscreen()) {
-			this.bigScreenService.exit();
-		} else {
-			this.bigScreenService.request(this.mainElement.nativeElement);
-		}
+		//if (this.bigScreenService.isFullscreen()) {
+		//	this.bigScreenService.exit();
+		//} else {
+		//	this.bigScreenService.request(this.mainElement.nativeElement);
+		//}
 	}
 
 	toggleChat() {
@@ -195,6 +192,10 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		this.openviduApi.sendMessage(text);
 	}
 
+	sendCustomNotification(obj: any, callback: any) {
+		this.openviduApi.sendCustomNotification(obj, callback);
+	}
+
 	leaveRoom() {
 		// Reset
 		this.mainStream = null;
@@ -205,7 +206,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		this.participants = {};
 
 		// Display message
-		this.setUserMessage('You left the room');
+		this.setUserMessage(this._intl.youLeftTheRoomLabel);
 		this.openviduApi.leaveRoom();
 	}
 
@@ -225,7 +226,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	}
 
 	handleOnServerConnected() {
-		this.setUserMessage('Connecting to room...');
+		this.setUserMessage(this._intl.connectingToRoomLabel);
 		this.connectionUiState = ConnectionState.CONNECTED_TO_SERVER;
 	}
 

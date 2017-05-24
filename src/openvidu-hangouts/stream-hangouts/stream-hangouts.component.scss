@@ -1,0 +1,120 @@
+.flip-screen {
+	transform: scaleX(-1);	
+}
+
+stream-hangouts {
+	&.main-stream {
+		.participant {
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			float: none;
+			display: flex;
+
+			.name {
+				display: none;
+			}
+			video {
+				width: 100%;
+			}
+		}
+	}
+	&.square {
+		.participant {
+			display: flex;
+			justify-content: center;
+			width: 100px;
+			overflow: hidden;
+			
+			.name {
+				text-align: center;
+				top: 45px;
+				white-space: normal;
+				word-break: break-all;
+			}
+			video {
+				width: auto;
+			}
+		}
+	}
+	&.hide-video {
+		.participant {
+			.name {
+				text-align: center;
+				top: 45px;
+				white-space: normal;
+				word-break: break-all;
+			}
+			video {
+				display: none;
+			}
+		}
+	}
+	.participant {
+		position: relative;
+		width: 177px;
+		height: 100px;
+		box-shadow: 0 2px 5px 0 rgba(0,0,0,0.4);
+		background-color: rgba(0, 0, 0, 0.4);
+		
+		.name {
+			position: absolute;
+			bottom: 10px;
+			text-overflow: ellipsis;
+			padding: 0px 10px;
+			color: #fff;
+			box-sizing: border-box;
+			text-shadow: #000 1px 1px 3px;
+			width: 100%;
+			overflow: hidden;
+			direction: ltr;
+			z-index: 1;
+		}
+		.mic-off {
+			position: absolute;
+			bottom: 10px;
+			text-overflow: ellipsis;
+			padding: 0px 10px;
+			color: #fff;
+			box-sizing: border-box;
+			text-shadow: #000 1px 1px 3px;
+			width: 100%;
+			overflow: hidden;
+			direction: ltr;
+			z-index: 1;
+			
+			text-align: center;
+			background: rgba(0,0,0,0.5);
+			border-radius: 50%;
+			width: 26px;
+			height: 26px;
+			padding: 4px;
+			right: 5px;
+		}
+		.cam-off {
+			position: absolute;
+			text-overflow: ellipsis;
+			padding: 0px 10px;
+			color: #fff;
+			box-sizing: border-box;
+			text-shadow: #000 1px 1px 3px;
+			width: 100%;
+			overflow: hidden;
+			direction: ltr;
+			z-index: 1;
+			
+			text-align: center;
+			background: rgba(0,0,0,0.5);
+			border-radius: 50%;
+			width: 26px;
+			height: 26px;
+			padding: 4px;
+			top: 10px;
+			right: 5px;
+		}
+		video {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}

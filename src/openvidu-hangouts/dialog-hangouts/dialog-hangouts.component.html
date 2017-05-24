@@ -1,0 +1,19 @@
+<md-tab-group>
+	<md-tab label="General">
+		<form>
+			<div>
+				<label>{{_intl.selectVideoInputLabel}}</label>
+			</div>
+			<div>
+				<md-select placeholder="Video input" [(ngModel)]="selectedVideoInput" name="videoInput">
+					<md-option *ngFor="let video of videoInputs" [value]="video.deviceId">
+						{{video.label}}
+					</md-option>
+				</md-select>
+			</div>
+			<div>
+				<button md-raised-button (click)="onSubmit()">{{_intl.readyLabel}}</button>
+			</div>
+		</form>
+	</md-tab>
+</md-tab-group>

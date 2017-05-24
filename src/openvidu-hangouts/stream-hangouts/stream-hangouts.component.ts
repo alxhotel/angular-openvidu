@@ -7,12 +7,20 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 	styleUrls: [ './stream-hangouts.component.css' ],
 	template: `
 		<div class="participant">
-			<span #name></span>
+			<span #name class="name"></span>
+			
+			<!--<span class="mic-off" [hidden]="micEnabled"><md-icon>mic_off</md-icon></span>
+			<span class="cam-off" [hidden]="camEnabled"><md-icon>videocam_off</md-icon></span>-->
+			
 			<video #videoStream autoplay="true" [src]="videoSrc" [muted]="muted"></video>
         </div>`,
 	encapsulation: ViewEncapsulation.None
 })
 export class StreamHangoutsComponent implements OnInit {
+
+	// Input
+	@Input() micEnabled: boolean = false;
+	@Input() camEnabled: boolean = false;
 
 	// HTML elements
 	@ViewChild('name') name: ElementRef;

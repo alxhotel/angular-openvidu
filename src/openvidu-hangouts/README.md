@@ -13,13 +13,22 @@
 
 | Name | Type | Optional | Description |
 |---|---|---|---|
-| `wsUrl`			| `String` | required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
-| `sessionId`		| `String` | required | An id for a session |
-| `participantId`	| `String` | required | An id for the current participant joining the session |
+| `wsUrl`			| `String`		| required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
+| `sessionId`		| `String`		| required | An id for a session |
+| `participantId`	| `String`		| required | An id for the current participant joining the session |
+| `toolbarOptions`	| `Object[]`	| optional | An array of objects, being the attributes for any additional toolbar buttons you would like to have. `Object` must have an `icon` attribute referencing to the name of an Angular Material icon (such as `pets`). It can also have a label, set with the attribute `label`. And a callback when the button is clicked, it can be set with `onClick`. For example: `{label: 'My label', icon: 'pets', onClick: () => {alert('Hello')} }` |
+
+### Methods
+
+| Name | Params | Description |
+|---|---|---|
+| `sendMessage`				| `(text: string)` | Broadcast a text message to all participants (including the sender) |
+| `sendCustomNotification`	| `(obj: any, callback: any)` | Broadcast a custom notification to all participants (including the sender) |
+| `leaveRoom`				| `()` | Disconnect from the room |
 
 ### Events
 
-This events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
+These events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
 
 These are the events AngularOpenVidu exposes for the user of the module.
 
@@ -43,5 +52,45 @@ To use them just do:
 | `onLeaveRoom`              | `No params` | triggers when the current user leaves the room |
 | `onNewMessage`             | `({room: string, user: string, message: string})` | triggers when a message from a participant is received |
 | `onCustomNotification`     | `(customObject)` | triggers when a custom notification from a participant is received |
+
+### i18n - Localizing labels and messages
+
+The various text strings used by the component are provided through `OpenViduHangoutsIntl`.
+Localization of these messages can be done by providing a subclass with translated values in your application root module.
+
+*By default the message are in English*
+
+Here is an example for an Spanish locale:
+
+```js
+import { Injectable } from '@angular/core';
+import { OpenViduHangoutsIntl } from 'angular-openvidu';
+
+@Injectable()
+export class MySpanishOpenViduHangoutsIntl extends OpenViduHangoutsIntl {
+	loadingLabel = 'Cargando...';
+	connectingLabel = 'Connectando...';
+	connectingToRoomLabel = 'Entrando en la sala...';
+	youLeftTheRoomLabel = 'Has salido de la sala';	
+}
+```
+
+And then you should add it to your `NgModule`, like this:
+
+```js
+import { OpenViduModule, OpenViduHangoutsIntl } from 'angular-openvidu';
+
+@NgModule({
+	imports: [ OpenViduModule ],
+	providers: [
+		{provide: OpenViduHangoutsIntl, useClass: MySpanishOpenViduHangoutsIntl},
+	]
+})
+export class MyModule {
+
+}
+```
+
+And you are good to go.
 
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server

@@ -2,22 +2,44 @@ import {
 	Component, ElementRef, EventEmitter, Input, OnDestroy,
 	OnInit, Output, Renderer2, ViewChild
 } from '@angular/core';
+
+// Angular Material
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MdButton, MdSidenav } from '@angular/material';
+import { MdDialog, MdSidenav } from '@angular/material';
+
+// OpenVidu Browser
 import { Participant, Session, Stream } from 'openvidu-browser';
 
+// Fullscreen Service
 import { BigScreenService } from 'angular-bigscreen';
 
+// OpenVidu Directive
 import {
 	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
 	ParticipantEvent, RoomConnectedEvent, StreamEvent
 } from '../openvidu.directive';
 
+// OpenVidu Hanguts i18n
+import { OpenViduHangoutsIntl } from './openvidu-hangouts-intl';
+
+// OpenVidu Hangouts Dialog
+import { DialogHangoutsComponent } from './dialog-hangouts/dialog-hangouts.component';
+
+export interface ToolbarOption {
+	label?: string;
+	icon: string;
+	onClick?: Function;
+}
+
+export enum OpenViduNotificationType {
+	MIC_CHANGED = 1,
+	CAM_CHANGED = 2
+};
+
 @Component({
 	selector: 'openvidu, openvidu-hangouts',
 	templateUrl: './openvidu-hangouts.component.html',
 	styleUrls: [ './openvidu-hangouts.component.css' ],
-	providers: [ BigScreenService ],
 	animations: [
 		trigger('chatButtonAnimation', [
 			state('hide', style({
@@ -42,6 +64,9 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	@Input() sessionId: string;
 	@Input() participantId: string;
 
+	// Input to set new options in menu
+	@Input() toolbarOptions: ToolbarOption[] = [];
+
 	// Outputs
 	@Output() onRoomConnected: EventEmitter<void> = new EventEmitter<void>();
 	@Output() onErrorRoom: EventEmitter<any> = new EventEmitter();
@@ -52,9 +77,6 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	@Output() onNewMessage: EventEmitter<any> = new EventEmitter();
 	@Output() onErrorMedia: EventEmitter<any> = new EventEmitter();
 	@Output() onLeaveRoom: EventEmitter<void> = new EventEmitter<void>();
-
-	/** @deprecated */
-	@Output() onCloseSession: EventEmitter<void> = this.onLeaveRoom;
 	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
 
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
@@ -74,6 +96,12 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	// Flags for HTML elements
 	userMessage: string = '';
 	isFullscreen: boolean = false;
+
+	// Participnats who have enabled/disabled their mic
+	micOffParticipants: Participant[] = [];
+
+	// Participnats who have enabled/disabled their cam
+	camOffParticipants: Participant[] = [];
 
 	// Main screen
 	mainStream: Stream;
@@ -96,13 +124,15 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	// My camera
 	private myCamera: Stream;
 
-	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService) {
-		this.setUserMessage('Loading...');
+	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
+		public _intl: OpenViduHangoutsIntl, public dialog: MdDialog) {
+
+		this.setUserMessage(this._intl.loadingLabel);
 	}
 
 	ngOnInit() {
 		// Display message
-		this.setUserMessage('Connecting...');
+		this.setUserMessage(this._intl.connectingLabel);
 
 		// Set fullscreen listener
 		this.bigScreenService.onChange(() => {
@@ -118,10 +148,28 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 
 	toggleMic() {
 		this.openviduApi.micEnabled = !this.openviduApi.micEnabled;
+
+		// Broadcast changed in micEnabled
+		/*this.sendCustomNotification({
+			openviduType: OpenViduNotificationType.MIC_CHANGED,
+			micEnabled: this.openviduApi.micEnabled,
+			participantId: this.participantId
+			}, () => {
+			console.log('Custom notification mic sent');
+		});*/
 	}
 
 	toggleCamera() {
 		this.openviduApi.camEnabled = !this.openviduApi.camEnabled;
+
+		// Broadcast changed in camEnabled
+		/*this.sendCustomNotification({
+			openviduType: OpenViduNotificationType.CAM_CHANGED,
+			camEnabled: this.openviduApi.camEnabled,
+			participantId: this.participantId
+			}, () => {
+			console.log('Custom notification camera sent');
+		});*/
 	}
 
 	toggleFullscreen() {
@@ -134,6 +182,14 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 
 	toggleChat() {
 		this.sidenav.toggle();
+	}
+
+	openSettings() {
+		let dialogRef = this.dialog.open(DialogHangoutsComponent);
+		// On change video input
+		dialogRef.afterClosed().subscribe((result) => {
+			this.openviduApi.changeCamera(result);
+		});
 	}
 
 	onSidenavOpenStart() {
@@ -152,6 +208,10 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		this.openviduApi.sendMessage(text);
 	}
 
+	sendCustomNotification(obj: any, callback: any) {
+		this.openviduApi.sendCustomNotification(obj, callback);
+	}
+
 	leaveRoom() {
 		// Reset
 		this.mainStream = null;
@@ -162,7 +222,7 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		this.participants = {};
 
 		// Display message
-		this.setUserMessage('You left the room');
+		this.setUserMessage(this._intl.youLeftTheRoomLabel);
 		this.openviduApi.leaveRoom();
 	}
 
@@ -182,7 +242,7 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	}
 
 	handleOnServerConnected() {
-		this.setUserMessage('Connecting to room...');
+		this.setUserMessage(this._intl.connectingToRoomLabel);
 	}
 
 	handleOnErrorServer(errorEvent: ErrorEvent) {
@@ -275,10 +335,6 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		this.streams.splice(this.streams.indexOf(oldStream), 1);
 	}
 
-	handleOnCustomNotification(object: any) {
-		this.onCustomNotification.emit(object);
-	}
-
 	handleOnLeaveRoom() {
 		// Emit event
 		this.onLeaveRoom.emit();
@@ -293,6 +349,30 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		});
 
 		this.onNewMessage.emit(messageEvent);
+	}
+
+	handleOnCustomNotification(obj: any) {
+		if (obj.openviduType) {
+			// TODO: Internal custom notification
+			switch (obj.openviduType) {
+				case OpenViduNotificationType.MIC_CHANGED:
+					if (obj.micEnabled) {
+						// Remove participant from micOffParticipant
+					} else {
+						// Add participant to micOffParticipant
+					}
+					break;
+				case OpenViduNotificationType.CAM_CHANGED:
+					if (obj.micEnabled) {
+						// Remove participant from camOffParticipant
+					} else {
+						// Add participant to camOffParticipant
+					}
+					break;
+			}
+		} else {
+			this.onCustomNotification.emit(obj);
+		}
 	}
 
 	private setUserMessage(msg: string) {

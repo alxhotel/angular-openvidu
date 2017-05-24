@@ -35,18 +35,26 @@
 
 			<!-- TOOLBAR -->
 			<div class="toolbar">
-				<md-toolbar [color]="primary">
+				<md-toolbar color="primary">
 					<span>{{sessionId}}</span>
 					<span class="example-spacer"></span>
 
-					<!--<button md-icon-button (click)="openSettings()" *ngIf="!isFullscreen" mdTooltip="Settings" mdTooltipPosition="below">
+					<ng-container *ngFor="let option of toolbarOptions">
+						<button md-icon-button *ngIf="option.icon !== null" (click)="option.onClick !== null && option.onClick()" mdTooltip="{{(option.label) ? option.label : ''}}" mdTooltipPosition="below">
+							<md-icon>{{option.icon}}</md-icon>
+						</button>
+					</ng-container>
+					
+					<!-- Settings -->
+					<button md-icon-button (click)="openSettings()" *ngIf="!isFullscreen" mdTooltip="{{_intl.settingsLabel}}" mdTooltipPosition="below">
 						<md-icon>settings</md-icon>
-					</button>-->
+					</button>
+					
 					<!-- For fullscreen -->
-					<button md-icon-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="Fullscreen" mdTooltipPosition="below">
+					<button md-icon-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="{{_intl.fullscreenLabel}}" mdTooltipPosition="below">
 						<md-icon>fullscreen</md-icon>
 					</button>
-					<button md-icon-button (click)="toggleFullscreen()" *ngIf="isFullscreen" mdTooltip="Exit fullscreen" mdTooltipPosition="below">
+					<button md-icon-button (click)="toggleFullscreen()" *ngIf="isFullscreen" mdTooltip="{{_intl.exitFullscreenLabel}}" mdTooltipPosition="below">
 						<md-icon>clear</md-icon>
 					</button>
 
@@ -118,7 +126,7 @@
 
 						</stream-hangouts>
 						<ng-container *ngFor="let s of streams">
-							<stream-hangouts class="stream side-stream square" *ngIf="(s !== myCamera)" [stream]="s" [ngClass]="{'hide-video': (s === mainStream)}">
+							<stream-hangouts class="stream side-stream square" *ngIf="(s !== myCamera)" [stream]="s" [ngClass]="{'hide-video': (s === mainStream), 'mic-off': micOffParticipants.indexOf(s.getParticipant()) >= 0, 'cam-off': camOffParticipants.indexOf(s.getParticipant()) >= 0}">
 
 							</stream-hangouts>
 						</ng-container>

@@ -5,13 +5,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### TODO
-- Settings for camera
+- [Waiting PR] Use custom notification to notify participants of audio/video enabled/disabled
 - Share screen (without extension)
-- Add option for Angular Material theming
-- Add options to change toolbar menu (for hangouts layout)
-- Add inputs for i18n
-- Use custom notification to notify participants of audio/video enabled/disabled
-- Add GIF to README docs
+- Settings for camera
 
 ### Added
 - Add new events: `onCloseSession` and `onCustomNotification`
@@ -22,6 +18,9 @@ All notable changes to this project will be documented in this file.
 - Add option to change layouts: google hangouts, appear.in, gotomeeting
 - Loading screen when accessing camera
 - Add gulp tasks for building component
+- Add options to change toolbar menu (only for the Hangouts component)
+- Add inputs for i18n
+- Add GIF to README docs
 
 ### Fixed
 - Update main speaker when a participant leave

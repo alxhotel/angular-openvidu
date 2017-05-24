@@ -11,10 +11,22 @@
 | `wsUrl`			| `String` | required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
 | `sessionId`		| `String` | required | An id for a session |
 | `participantId`	| `String` | required | An id for the current participant joining the session |
+| `micEnabled`		| `Boolean` | optional | An boolean to .enable/disable the current participant's microphone |
+| `camEnabled`		| `Boolean` | optional | An boolean to .enable/disable the current participant's camera |
+
+### Methods
+
+| Name | Params | Description |
+|---|---|---|
+| `sendMessage`				| `(text: string)` | Broadcast a text message to all participants (including the sender) |
+| `sendCustomNotification`	| `(obj: any, callback: any)` | Broadcast a custom notification to all participants (including the sender) |
+| `leaveRoom`				| `()` | Disconnect from the room |
+
+### Met
 
 ### Events
 
-This events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
+These events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
 
 These are the events AngularOpenVidu exposes for the user of the module.
 
