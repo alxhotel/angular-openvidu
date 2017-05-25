@@ -34,8 +34,9 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 - [License](#license)
 
 ### App Demo
-
-![screencast](docs/gifs/screencast.gif)
+<p align="center">
+	<img src="docs/gifs/screencast.gif" alt="screencast">
+</p>
 
 In this demo you will see a use case of `angular-openvidu`, where you can test ALL the features included in this component.
 
