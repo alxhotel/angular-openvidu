@@ -102,7 +102,7 @@ And you are good to go.
 
 ### Example
 
-Follow the installation steps at [this README](README.md#installation). 
+Follow the installation steps at [this README](/README.md#installation). 
 
 ```html
 <openvidu-hangouts

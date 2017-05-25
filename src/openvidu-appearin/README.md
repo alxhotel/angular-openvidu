@@ -11,7 +11,7 @@
 - [Properties](#properties)
 - [Methods](#methods)
 - [Events](#events)
-- [i18n - Localizing labels and messages](#i18n---localizing-labels-and-messages
+- [i18n - Localizing labels and messages](#i18n---localizing-labels-and-messages)
 - [Example](#example)
 
 ### About
@@ -100,7 +100,7 @@ And you are good to go.
 
 ### Example
 
-Follow the installation steps at [this README](README.md#installation). 
+Follow the installation steps at [this README](/README.md#installation). 
 
 ```html
 <openvidu-appearin

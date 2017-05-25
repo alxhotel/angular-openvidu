@@ -60,4 +60,4 @@ nbproject
 typings
 
 # Generated CSS #
-/src/*.css
+/src/**/*.css

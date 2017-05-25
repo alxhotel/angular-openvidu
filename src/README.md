@@ -8,7 +8,7 @@
 - [Methods](#methods)
 - [Events](#events)
 - [Create your own layout](#create-your-own-layout)
-- [Example](example)
+- [Example](#example)
 
 ### About
 
@@ -67,7 +67,7 @@ These are the events AngularOpenVidu exposes for the user of the module.
 
 ### Create your own layout
 
-First, follow the installation steps at [this README](README.md#installation). Then continue with these steps:
+First, follow the installation steps at [this README](/README.md#installation). Then continue with these steps:
 
 1. Add `openvidu-template` with the required properties to your current app template:
 
@@ -80,7 +80,7 @@ First, follow the installation steps at [this README](README.md#installation). T
 
 2. You can now build your template between the `openvidu-template` tags.
 
-	```
+	```html
 	<openvidu-template
 		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
 		(onRoomConnected)="myRoomConnectedHandler($event)">
@@ -106,7 +106,7 @@ First, follow the installation steps at [this README](README.md#installation). T
 	
 	To display it, just insert that `videoURL` as `src` attribute in an HTML `video` tag.
 
-	You take a look at how [OpenViduHangoutsComponent](src/openvidu-hangouts/stream-hangouts/stream-hangouts.component.ts) does it.
+	You take a look at how [OpenViduHangoutsComponent](penvidu-hangouts/stream-hangouts/stream-hangouts.component.ts) does it.
 
 3. Use the `openviduApi` in your template or in your code to implement your logic. For example:
 
@@ -141,7 +141,7 @@ First, follow the installation steps at [this README](README.md#installation). T
 	}
 	```
 
-For a real-world implementation of a custom component, take a look at the source for the [OpenViduHangoutsComponent](src/openvidu-hangouts/openvidu-hangouts.component.ts).
+For a real-world implementation of a custom component, take a look at the source for the [OpenViduHangoutsComponent](openvidu-hangouts/openvidu-hangouts.component.ts).
 
 ### Example
 
@@ -152,8 +152,6 @@ This is an example of a template:
 	#openviduApi="openviduApi"
 	[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
 	(eventName)="myEventHandler($event)">
-
-	<!-- My custom template goes here -->
 
 	<md-toolbar>My app</md-toolbar>
 
