@@ -58,3 +58,6 @@ nbproject
 
 # Generated #
 typings
+
+# Generated CSS #
+/src/*.css

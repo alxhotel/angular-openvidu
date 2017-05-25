@@ -7,11 +7,11 @@ import {
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MdDialog, MdSidenav } from '@angular/material';
 
-// OpenVidu Browser
-import { Participant, Session, Stream } from 'openvidu-browser';
-
 // Fullscreen Service
 import { BigScreenService } from 'angular-bigscreen';
+
+// OpenVidu Browser
+import { Participant, Session, Stream } from 'openvidu-browser';
 
 // OpenVidu Directive
 import {

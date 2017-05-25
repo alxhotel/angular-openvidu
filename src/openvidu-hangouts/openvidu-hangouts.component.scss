@@ -1,6 +1,5 @@
-//@import '../../node_modules/@angular/material/theming';
-
-@import '../../node_modules/@angular/material/prebuilt-themes/indigo-pink';
+// Import OpenVidu Hangouts Theme
+@import './openvidu-hangouts-theme';
 
 .openvidu-hangouts {
 	width: 100%;

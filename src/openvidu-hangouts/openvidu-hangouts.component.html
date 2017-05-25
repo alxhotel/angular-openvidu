@@ -91,7 +91,7 @@
 							<md-input-container color="primary" floatPlaceholder="never">
 								<input mdInput #messageInput placeholder="Send a message">
 							</md-input-container>
-							<button #sendMessageButton md-fab type="submit" class="send-message transparent-button" [class.enabled]="messageInput.value.length > 0"><md-icon>send</md-icon></button>
+							<button #sendMessageButton md-fab type="submit" class="send-message transparent-button" [disabled]="messageInput.value.length == 0" [class.enabled]="messageInput.value.length > 0"><md-icon>send</md-icon></button>
 						</form>
 					</div>
 				</md-sidenav>

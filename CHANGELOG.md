@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - [Waiting PR] Use custom notification to notify participants of audio/video enabled/disabled
 - Share screen (without extension)
 - Settings for camera
+- Use GoToMeeting layout as a webinar example
 
 ### Added
 - Add new events: `onCloseSession` and `onCustomNotification`

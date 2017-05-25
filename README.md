@@ -52,6 +52,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 - Mute microphone
 - Toggle fullscreen video
 - Send messages to the participants of the call
+- [Create your own layout](#openvidudirective)
 
 ### Installation
 
@@ -61,7 +62,13 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 	$ npm install angular-openvidu --save
 	```
 
-2. Import `OpenViduModule` to your AppModule
+2. Also install [HammerJS](http://hammerjs.github.io/) node module (is a dependency of AngularMaterial):
+
+	```bash
+	$ npm install hammerjs --save
+	```
+
+3. Import `OpenViduModule` and `hammerjs` to your AppModule
 
 	```js
 	import { NgModule } from '@angular/core';
@@ -70,6 +77,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 	import { AppComponent } from './app.component';
 
 	import { OpenViduModule } from 'angular-openvidu';
+	import 'hammerjs';
 
 	@NgModule({
 	  imports: [ BrowserModule, FormsModule, OpenViduModule ],
@@ -81,15 +89,9 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 
 	You may also find it useful to view the [demo source](https://github.com/alxhotel/angular-openvidu-app/blob/master/src/app/app.component.ts).
 
-3. Add `hammer.js` in your html:
-
-	```html
-	<script src="../node_modules/hammerjs/hammer.js"></script>
-	```
-
 4. Deploy OpenVidu Server
 
-	You will need a [OpenVidu Server][openvidu-server].
+	You will need an [OpenVidu Server][openvidu-server].
 
 	Follow the instructions in [this page](https://github.com/OpenVidu/openvidu-sample-basic-plainjs#start-openvidu-development-server) to deploy it with docker.
 
@@ -110,6 +112,8 @@ You are ready. Use it in your template:
 | `participantId`	| `String` | required | An id for the current participant joining the session |
 
 *Note: `openvidu` is a selector for the [OpenViduHangoutsComponent](#openviduhangoutscomponent).*
+
+For more info checkout the [OpenViduHangoutsComponent documentation](src/openvidu-hangouts)
 
 ### Structure
 
@@ -136,12 +140,13 @@ In each component folder, it contains all the html, css, js for that component.
 ### API
 
 AngularOpenVidu has multiple predefined layouts that you can use out-of-the-box.
+But it also has a directive to let you build your own layout.
 
 #### OpenViduDirective
 
 The OpenViduDirective is used to build components for controlling your video chat instance.
 The directive selector is `openvidu-template`, either as an element or an attribute.
-It exports an API named "openviduApi", which can then be used to build the video chat component.
+It exports an API named `openviduApi`, which can then be used to build the video chat component.
 
 [Click here to see the documentation](src)
 
@@ -203,13 +208,13 @@ These are the main modules that make up AngularOpenVidu:
 
 The CSS stylesheet is compiled from the [SASS](http://sass-lang.com/) files with a custom [gulp file](http://gulpjs.com/)
 
-To build the LESS files just run:
+To build the SASS files just run:
 
 ```sh
 $ gulp css
 ```
 
-If you want to build the LESS files automatically every time there is a change, then run:
+If you want to build the SASS files automatically every time there is a change, then run:
 
 ```sh
 $ gulp watch

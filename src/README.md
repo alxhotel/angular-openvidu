@@ -1,5 +1,20 @@
 # openvidu-template
 
+### Table of contents
+
+- [About](#about)
+- [Selector](#selector)
+- [Properties](#properties)
+- [Methods](#methods)
+- [Events](#events)
+- [Create your own layout](#create-your-own-layout)
+- [Example](example)
+
+### About
+
+`openvidu-template` is a directive which provides most of the logic behind AngularOpenVidu.
+It exports properties, methods and events to let you implement your own videochat layout.
+
 ### Selector
 
 - `openvidu-template`
@@ -11,34 +26,23 @@
 | `wsUrl`			| `String` | required | Websocket URL pointing to your [OpenVidu Server][openvidu-server] |
 | `sessionId`		| `String` | required | An id for a session |
 | `participantId`	| `String` | required | An id for the current participant joining the session |
-| `micEnabled`		| `Boolean` | optional | An boolean to .enable/disable the current participant's microphone |
-| `camEnabled`		| `Boolean` | optional | An boolean to .enable/disable the current participant's camera |
+| `micEnabled`		| `Boolean` | optional | A boolean to enable/disable the current participant's microphone |
+| `camEnabled`		| `Boolean` | optional | A boolean to enable/disable the current participant's camera |
 
 ### Methods
+
+To call these methods, use the exported API named `openviduApi`.
 
 | Name | Params | Description |
 |---|---|---|
 | `sendMessage`				| `(text: string)` | Broadcast a text message to all participants (including the sender) |
-| `sendCustomNotification`	| `(obj: any, callback: any)` | Broadcast a custom notification to all participants (including the sender) |
 | `leaveRoom`				| `()` | Disconnect from the room |
-
-### Met
 
 ### Events
 
 These events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
 
 These are the events AngularOpenVidu exposes for the user of the module.
-
-To use them just do:
-
-```html
-<openvidu-template [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId">
-
-	<!-- My custom template goes here -->
-
-</openvidu-template>
-```
 
 | Name | Params | Description |
 |---|---|---|
@@ -61,14 +65,104 @@ To use them just do:
 | `onErrorServer`            | `({error: any})` | triggers when the client couldn't establish a connection with the server |
 | `onCameraAccessChange`     | `({access: boolean, camera?: Stream, error?: any)` | triggers when the access to the camera of the client has change. `access` is true if we have permissions to access the user's camera. If yes then `camera` will be sent. If not, `error` will be set with an object Error and `camera` will be `null`. |
 
-### Creating your template
+### Create your own layout
 
-When starting to create your own template, keep in mind that you will need to create a new component to display the streams of the participant.
+First, follow the installation steps at [this README](README.md#installation). Then continue with these steps:
 
-To do this you will need the WebRTC URL pointing to the video.
+1. Add `openvidu-template` with the required properties to your current app template:
 
-You can get it by doing:
+	```html
+	<openvidu-template
+		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId">
+		...
+	</openvidu-template>
+	```
 
-```js
-let videoURL = URL.createObjectURL(this.streamObject.getWrStream())
+2. You can now build your template between the `openvidu-template` tags.
+
+	```
+	<openvidu-template
+		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
+		(onRoomConnected)="myRoomConnectedHandler($event)">
+
+		<md-toolbar>My app</md-toolbar>
+
+		<my-custom-stream *ngFor="let s of streams" [stream]="s"></my-custom-stream>
+
+	</openvidu-template>
+	```
+
+	**NOTE:**
+
+	When starting to create your own layout, keep in mind that you will need to show streams (videos) of the participants.
+
+	To do this, the clean way is to create a **new component** to display each stream (with a separate stylesheet).
+
+	You can get a WebRTC URL pointing to the participant's stream like this:
+
+	```js
+	let videoURL = URL.createObjectURL(this.streamObject.getWrStream())
+	```
+	
+	To display it, just insert that `videoURL` as `src` attribute in an HTML `video` tag.
+
+	You take a look at how [OpenViduHangoutsComponent](src/openvidu-hangouts/stream-hangouts/stream-hangouts.component.ts) does it.
+
+3. Use the `openviduApi` in your template or in your code to implement your logic. For example:
+
+	```html
+	<openvidu-template
+		#openviduApi="openviduApi"
+		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
+		(onRoomConnected)="myRoomConnectedHandler($event)">
+		...
+		<button (click)="openvdiuApi.micEnabled = !openviduApu.micEnabled">
+			<span [hidden]="!openviduApi.micEnabled">Mute mic</span>
+			<span [hidden]="openviduApi.micEnabled">Unmute mic</span>
+		</button>
+		...
+	</openvidu-template>
+	```
+
+	or
+
+	```js
+	import { OpenViduDirective } from 'angular-openvidu';
+
+	export class MyComponent {
+		...
+		// OpenVidu api
+		@ViewChild('openviduApi') openviduApi: OpenViduDirective;
+
+		toggleMic() {
+			this.openvdiuApi.micEnabled = !this.openviduApu.micEnabled;
+		}
+		...
+	}
+	```
+
+For a real-world implementation of a custom component, take a look at the source for the [OpenViduHangoutsComponent](src/openvidu-hangouts/openvidu-hangouts.component.ts).
+
+### Example
+
+This is an example of a template:
+
+```html
+<openvidu-template
+	#openviduApi="openviduApi"
+	[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
+	(eventName)="myEventHandler($event)">
+
+	<!-- My custom template goes here -->
+
+	<md-toolbar>My app</md-toolbar>
+
+	<my-custom-stream *ngFor="let s of streams" [stream]="s"></my-custom-stream>
+
+	<button (click)="openvdiuApi.micEnabled = !openviduApu.micEnabled">
+		<span [hidden]="!openviduApi.micEnabled">Mute mic</span>
+		<span [hidden]="openviduApi.micEnabled">Unmute mic</span>
+	</button>
+
+</openvidu-template>
 ```

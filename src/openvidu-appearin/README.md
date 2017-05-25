@@ -4,6 +4,21 @@
 	<img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_appearin.png?raw=true"/>
 </p>
 
+### Table of contents
+
+- [About](#about)
+- [Selector](#selector)
+- [Properties](#properties)
+- [Methods](#methods)
+- [Events](#events)
+- [i18n - Localizing labels and messages](#i18n---localizing-labels-and-messages
+- [Example](#example)
+
+### About
+
+`openvidu-appearin` is an Appearin-styled component with a predefined layout, which you can use out-of-the-box.
+In addition, you have multiple methods and events you can use to personalized the user experience.
+
 ### Selector
 
 - `openvidu-appearin`
@@ -16,19 +31,18 @@
 | `sessionId`		| `String` | required | An id for a session |
 | `participantId`	| `String` | required | An id for the current participant joining the session |
 
+### Methods
+
+| Name | Params | Description |
+|---|---|---|
+| `sendMessage`				| `(text: string)` | Broadcast a text message to all participants (including the sender) |
+| `leaveRoom`				| `()` | Disconnect from the room |
+
 ### Events
 
 These events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
 
 These are the events AngularOpenVidu exposes for the user of the module.
-
-To use them just do:
-
-```html
-<openvidu-appearin [wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId" (eventName)="myEventHandler($event)">
-	Loading openvidu...
-</openvidu-appearin>
-```
 
 | Name | Params | Description |
 |---|---|---|
@@ -45,10 +59,10 @@ To use them just do:
 
 ### i18n - Localizing labels and messages
 
+*By default the labels and messages are in English*
+
 The various text strings used by the component are provided through `OpenViduHangoutsIntl`.
 Localization of these messages can be done by providing a subclass with translated values in your application root module.
-
-*By default the message are in English*
 
 Here is an example for an Spanish locale:
 
@@ -61,11 +75,12 @@ export class MySpanishOpenViduHangoutsIntl extends OpenViduHangoutsIntl {
 	loadingLabel = 'Cargando...';
 	connectingLabel = 'Connectando...';
 	connectingToRoomLabel = 'Entrando en la sala...';
-	youLeftTheRoomLabel = 'Has salido de la sala';	
+	youLeftTheRoomLabel = 'Has salido de la sala';
+	...
 }
 ```
 
-And then you should add it to your `NgModule`, like this:
+And then add it to your `NgModule`, like this:
 
 ```js
 import { OpenViduModule, OpenViduHangoutsIntl } from 'angular-openvidu';
@@ -76,11 +91,27 @@ import { OpenViduModule, OpenViduHangoutsIntl } from 'angular-openvidu';
 		{provide: OpenViduHangoutsIntl, useClass: MySpanishOpenViduHangoutsIntl},
 	]
 })
-export class MyModule {
+export class AppModule {
 
 }
 ```
 
 And you are good to go.
+
+### Example
+
+Follow the installation steps at [this README](README.md#installation). 
+
+```html
+<openvidu-appearin
+	[wsUrl]="wsUrl"
+	[sessionId]="sessionId"
+	[participantId]="participantId"
+	(eventName)="myEventHandler($event)">
+
+	Loading openvidu...
+
+</openvidu-appearin>
+```
 
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
