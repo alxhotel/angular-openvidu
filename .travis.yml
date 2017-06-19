@@ -2,6 +2,8 @@ sudo: required
 language: node_js
 node_js: stable
 
+dist: trusty
+
 addons:
 apt:
 sources:
@@ -25,9 +27,6 @@ install:
 # Update docker-compose via pip
 - sudo pip install docker-compose
 - docker-compose version
-
-os:
-- linux
 
 before_script:
 # Setup docker
