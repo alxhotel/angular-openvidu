@@ -25,6 +25,7 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 	- [OpenViduDirective](#openvidudirective)
 	- [OpenViduHangoutsComponent](#openviduhangoutscomponent)
 	- [OpenViduAppearinComponent](#openviduappearincomponent)
+	- [OpenViduGoToMeetingComponent](#openvidugotomeetingcomponent)
 - [Development](#development)
 	- [Dependencies](#1-depedencies)
 	- [CSS](#2-css)
@@ -170,6 +171,17 @@ If you require a more customised video chat, you will need to use the `OpenViduD
 [Click here to see the documentation](src/openvidu-appearin)
 
 <img width="250" src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_appearin.png?raw=true"/>
+
+#### OpenViduGoToMeetingComponent
+
+*This is the default component for creating a video chat.*
+
+It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [GoToMeeting](https://gotomeeting.com).
+If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
+
+[Click here to see the documentation](src/openvidu-gotomeeting)
+
+<img width="250" src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_gotomeeting.png?raw=true"/>
 
 ### Development
 
