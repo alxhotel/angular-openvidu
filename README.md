@@ -14,7 +14,7 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 
 ### Table of contents
 
-- [App Demo](#demo)
+- [App Demo](#app-demo)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -53,6 +53,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 - Toggle fullscreen video
 - Send messages to the participants of the call
 - [Create your own layout](#openvidudirective)
+- i18n - Localize labels and messages
 
 ### Installation
 
@@ -178,7 +179,7 @@ To compile, just run:
 $ npm run build
 ```
 
-Then, you will see the module compiled in the `dist` folder.
+Then, you will see the module compiled in the `/dist` folder.
 
 Things you need to know before contributing to this project:
 
@@ -191,6 +192,7 @@ These are the main modules that make up AngularOpenVidu:
 | [OpenVidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]		| used to communicate with the OpenVidu Server				|
 | [Angular Material](@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]		| used to display the toolbar, buttons and animations		|
 | [Angular BigScreen](bigscren)				| [![][bigscreen-ni]][bigscreen-nu]						| used to toggle the fullscreen mode of the streaming		|
+| [Split View](ng2-split-pane)				| [![][ng2-split-pane-ni][ng2-split-pane-nu]]			| used to divide the screen in some predefined components
 
 [openvidu-browser]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-browser
 [openvidu-browser-ni]: https://img.shields.io/npm/v/openvidu-browser.svg
@@ -204,19 +206,23 @@ These are the main modules that make up AngularOpenVidu:
 [bigscreen-ni]: https://img.shields.io/npm/v/angular-bigscreen.svg
 [bigscreen-nu]: https://www.npmjs.com/package/angular-bigscreen
 
+[ng2-split-pane]: https://github.com/wannabegeek/ng2-split-pane
+[ng2-split-pane-ni]: https://img.shields.io/npm/v/ng2-split-pane.svg
+[ng2-split-pane-nu]: https://www.npmjs.com/package/ng2-split-pane
+
 #### 2. CSS
 
 The CSS stylesheet is compiled from the [SASS](http://sass-lang.com/) files with a custom [gulp file](http://gulpjs.com/)
 
 To build the SASS files just run:
 
-```sh
+```bash
 $ gulp css
 ```
 
 If you want to build the SASS files automatically every time there is a change, then run:
 
-```sh
+```bash
 $ gulp watch
 ```
 
@@ -224,7 +230,7 @@ $ gulp watch
 
 To test the component run:
 
-```sh
+```bash
 $ npm run test
 ```
 

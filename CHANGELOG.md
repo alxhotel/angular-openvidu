@@ -5,10 +5,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### TODO
-- [Waiting PR] Use custom notification to notify participants of audio/video enabled/disabled
-- Share screen (without extension)
+- Add secure version of openvidu-browser
+- Basic testing
 - Settings for camera
-- Use GoToMeeting layout as a webinar example
 
 ### Added
 - Add new events: `onCloseSession` and `onCustomNotification`
@@ -22,6 +21,10 @@ All notable changes to this project will be documented in this file.
 - Add options to change toolbar menu (only for the Hangouts component)
 - Add inputs for i18n
 - Add GIF to README docs
+- Uses Angular Material in the SASS files
+- Use GoToMeeting layout as a webinar example
+- i18n for new components
+- Add new input `showSecondaryContent` to the GoToMeeting component
 
 ### Fixed
 - Update main speaker when a participant leave

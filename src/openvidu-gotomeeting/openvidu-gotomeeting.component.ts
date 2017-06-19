@@ -1,11 +1,10 @@
 import {
-	Component, ElementRef, EventEmitter, Input, OnDestroy,
-	OnInit, Output, Renderer2, ViewChild
+	Component, ElementRef, EventEmitter, HostListener, Input, OnInit, OnDestroy,
+	Output, QueryList, Renderer2, ViewChild, ViewChildren
 } from '@angular/core';
 
 // Angular Material
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MdDialog, MdSidenav } from '@angular/material';
+import { MdSidenav } from '@angular/material';
 
 // Fullscreen Service
 import { BigScreenService } from 'angular-bigscreen';
@@ -13,60 +12,38 @@ import { BigScreenService } from 'angular-bigscreen';
 // OpenVidu Browser
 import { Connection, Session, Stream } from 'openvidu-browser';
 
-// OpenVidu Directive
 import {
 	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
 	ParticipantData, ParticipantEvent, RoomConnectedEvent, StreamEvent
 } from '../openvidu.directive';
 
-// OpenVidu Hanguts i18n
-import { OpenViduHangoutsIntl } from './openvidu-hangouts-intl';
+import { StreamGoToMeetingComponent } from './stream-gotomeeting/stream-gotomeeting.component';
 
-// OpenVidu Hangouts Dialog
-import { DialogHangoutsComponent } from './dialog-hangouts/dialog-hangouts.component';
+import { OpenViduGoToMeetingIntl } from './openvidu-gotomeeting-intl';
 
-export interface ToolbarOption {
-	label?: string;
-	icon: string;
-	onClick?: Function;
-}
-
-export enum OpenViduNotificationType {
-	MIC_CHANGED = 1,
-	CAM_CHANGED = 2
+export enum ConnectionState {
+	NOT_CONNECTED = 0,
+	CONNECTED_TO_SERVER = 1,
+	CONNECTED_TO_ROOM = 2,
+	REQUESTING_CAMERA_ACCESS = 3,
+	CAMERA_ACCESS_GRANTED = 4,
+	CAMERA_ACCESS_DENIED = 5
 };
 
 @Component({
-	selector: 'openvidu, openvidu-hangouts',
-	templateUrl: './openvidu-hangouts.component.html',
-	styleUrls: [ './openvidu-hangouts.component.css' ],
-	animations: [
-		trigger('chatButtonAnimation', [
-			state('hide', style({
-				left: '-60px'
-			})),
-			state('show', style({
-				left: '0px'
-			})),
-			transition('* => hide', [
-				animate('0.225s ease-in-out')
-			]),
-			transition('* => show', [
-				animate('0.225s ease-in-out')
-			])
-		])
-	]
+	selector: 'openvidu-gotomeeting',
+	templateUrl: './openvidu-gotomeeting.component.html',
+	styleUrls: [ './openvidu-gotomeeting.component.css' ]
 })
-export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
+export class OpenViduGoToMeetingComponent implements OnInit, OnDestroy {
 
 	// Inputs
 	@Input() wsUrl: string;
 	@Input() sessionId: string;
 	@Input() participantId: string;
-	@Input() apiKey: string;
 
-	// Input to set new options in menu
-	@Input() toolbarOptions: ToolbarOption[] = [];
+	// New Inputs
+	@Input() showSecondaryContent: boolean = false;
 
 	// Outputs
 	@Output() onRoomConnected: EventEmitter<void> = new EventEmitter<void>();
@@ -93,16 +70,19 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	@ViewChild('main') mainElement: ElementRef;
 	@ViewChild('sidenav') sidenav: MdSidenav;
 	@ViewChild('messageInput') messageInput: ElementRef;
+	@ViewChild('panelVideo') panelVideo: ElementRef;
+	@ViewChildren('streamGoToMeeting') streamGoToMeeting: QueryList<StreamGoToMeetingComponent>;
+
+	// Responsive streams
+	streamMaxWidth: string = '100%';
+	streamMaxHeight: string = '100%';
 
 	// Flags for HTML elements
 	userMessage: string = '';
 	isFullscreen: boolean = false;
-
-	// Participnats who have enabled/disabled their mic
-	micOffParticipants: Connection[] = [];
-
-	// Participnats who have enabled/disabled their cam
-	camOffParticipants: Connection[] = [];
+	welcome: boolean = true;
+	showChat: boolean = false;
+	showPeople: boolean = false;
 
 	// Main screen
 	mainStream: Stream;
@@ -113,8 +93,9 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	// Chat
 	chatMessages: any[] = [];
 
-	// Animations
-	chatButtonState: string = 'show';
+	// Connection stats
+	ConnectionState = ConnectionState;
+	connectionUiState: ConnectionState = ConnectionState.NOT_CONNECTED;
 
 	// Session
 	private session: Session;
@@ -126,9 +107,9 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	private myCamera: Stream;
 
 	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
-		public _intl: OpenViduHangoutsIntl, public dialog: MdDialog) {
-
+		public _intl: OpenViduGoToMeetingIntl) {
 		this.setUserMessage(this._intl.loadingLabel);
+		this.welcome = true;
 	}
 
 	ngOnInit() {
@@ -151,30 +132,37 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	/* GUI RELATED METHODS */
 	/*---------------------*/
 
+	@HostListener('window:resize', ['$event'])
+	onResize() {
+		this.resizeStreamsManually();
+	}
+
 	toggleMic() {
 		this.openviduApi.micEnabled = !this.openviduApi.micEnabled;
-
-		// Broadcast changed in micEnabled
-		/*this.sendCustomNotification({
-			openviduType: OpenViduNotificationType.MIC_CHANGED,
-			micEnabled: this.openviduApi.micEnabled,
-			participantId: this.participantId
-			}, () => {
-			console.log('Custom notification mic sent');
-		});*/
 	}
 
 	toggleCamera() {
 		this.openviduApi.camEnabled = !this.openviduApi.camEnabled;
+	}
 
-		// Broadcast changed in camEnabled
-		/*this.sendCustomNotification({
-			openviduType: OpenViduNotificationType.CAM_CHANGED,
-			camEnabled: this.openviduApi.camEnabled,
-			participantId: this.participantId
-			}, () => {
-			console.log('Custom notification camera sent');
-		});*/
+	togglePeople() {
+		if (!this.showPeople) {
+			this.showChat = false;
+			this.showPeople = true;
+			this.sidenav.open();
+		} else {
+			this.sidenav.close();
+		}
+	}
+
+	toggleChat() {
+		if (!this.showChat) {
+			this.showPeople = false;
+			this.showChat = true;
+			this.sidenav.open();
+		} else {
+			this.sidenav.close();
+		}
 	}
 
 	toggleFullscreen() {
@@ -185,28 +173,14 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	toggleChat() {
-		this.sidenav.toggle();
-	}
-
-	openSettings() {
-		let dialogRef = this.dialog.open(DialogHangoutsComponent);
-		// On change video input
-		dialogRef.afterClosed().subscribe((result) => {
-			if (result) {
-				this.openviduApi.setCamera(result);
-			} else {
-				console.log('No camera selected');
-			}
-		});
-	}
-
-	onSidenavOpenStart() {
-		this.chatButtonState = 'hide';
-	}
-
 	onSidenavCloseStart() {
-		this.chatButtonState = 'show';
+		this.showPeople = false;
+		this.showChat = false;
+	}
+
+	onChangeSplitPane() {
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
 	}
 
 	sendMessage(text: string) {
@@ -226,7 +200,6 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		this.mainStream = null;
 		this.streams = [];
 		this.chatMessages = [];
-		this.chatButtonState = 'show';
 		this.session = null;
 		this.participants = {};
 
@@ -256,6 +229,7 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 
 	handleOnServerConnected() {
 		this.setUserMessage(this._intl.connectingToRoomLabel);
+		this.connectionUiState = ConnectionState.CONNECTED_TO_SERVER;
 	}
 
 	handleOnErrorServer(errorEvent: ErrorEvent) {
@@ -271,6 +245,8 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 
 		// Emit event
 		this.onRoomConnected.emit();
+
+		this.connectionUiState = ConnectionState.CONNECTED_TO_ROOM;
 	}
 
 	handleOnErrorRoom() {
@@ -286,8 +262,15 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 			if (this.streams.indexOf(this.myCamera) < 0) {
 				this.streams.push(this.myCamera);
 			}
+
+			this.welcome = false;
+
+			this.connectionUiState = ConnectionState.CAMERA_ACCESS_GRANTED;
+
 		} else if (!cameraEvent.access) {
 			// No camera :(
+
+			this.connectionUiState = ConnectionState.CAMERA_ACCESS_DENIED;
 		}
 	}
 
@@ -318,6 +301,9 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		this.onParticipantJoined.emit({
 			participantId: newParticipant.getId()
 		});
+
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
 	}
 
 	handleOnParticipantLeft(participantEvent: ParticipantEvent) {
@@ -328,6 +314,9 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		this.onParticipantLeft.emit({
 			participantId: oldParticipant.getId()
 		});
+
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
 	}
 
 	handleOnErrorMedia(errorEvent: ErrorEvent) {
@@ -342,11 +331,22 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		if (this.streams.indexOf(newStream) < 0) {
 			this.streams.push(newStream);
 		}
+
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
 	}
 
 	handleOnStreamRemoved(streamEvent: StreamEvent) {
 		var oldStream = streamEvent.stream;
 		this.streams.splice(this.streams.indexOf(oldStream), 1);
+
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
+	}
+
+	handleOnCustomNotification(object: any) {
+		// Emit event
+		this.onCustomNotification.emit(object);
 	}
 
 	handleOnLeaveRoom() {
@@ -360,7 +360,7 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 
 		// Handle message
 		this.chatMessages.push({
-			username: dataObj.username,
+			username:dataObj.username,
 			message: messageEvent.message,
 			date: new Date() // Use current date
 		});
@@ -368,36 +368,99 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 		this.onNewMessage.emit(messageEvent);
 	}
 
-	handleOnCustomNotification(obj: any) {
-		if (obj.openviduType) {
-			// TODO: Internal custom notification
-			switch (obj.openviduType) {
-				case OpenViduNotificationType.MIC_CHANGED:
-					if (obj.micEnabled) {
-						// Remove participant from micOffParticipant
-					} else {
-						// Add participant to micOffParticipant
-					}
-					break;
-				case OpenViduNotificationType.CAM_CHANGED:
-					if (obj.micEnabled) {
-						// Remove participant from camOffParticipant
-					} else {
-						// Add participant to camOffParticipant
-					}
-					break;
-			}
-		} else {
-			this.onCustomNotification.emit(obj);
-		}
+	handleOnSourceAdded() {
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
 	}
-
-	/*-----------------*/
-	/* PRIVATE METHODS */
-	/*-----------------*/
 
 	private setUserMessage(msg: string) {
 		this.userMessage = msg;
+	}
+
+	private resizeStreamsManually() {
+		var obj = this.auxResizeStreamsManually();
+
+		//console.log(obj);
+
+		if (!obj.error) {
+			this.streamMaxWidth = obj.width + 'px';
+			this.streamMaxHeight = obj.height + 'px';
+		}
+	}
+
+	private auxResizeStreamsManually(): {width?: number, height?: number, error?: boolean} {
+		if (!this.panelVideo) return {error: true};
+
+		var clientRect = this.panelVideo.nativeElement.getBoundingClientRect();
+
+		var maxDimensions = {
+			maxW: 0,
+			maxH: 0
+		};
+		this.streamGoToMeeting.forEach(function (streamGoToMeetingEl) {
+			var videoEl = streamGoToMeetingEl.videoStream.nativeElement;
+			if (videoEl.videoWidth > maxDimensions.maxW) {
+				if (videoEl.videoHeight > maxDimensions.maxH) {
+					maxDimensions.maxW = videoEl.videoWidth;
+					maxDimensions.maxH = videoEl.videoHeight;
+				}
+			}
+		});
+
+		//console.log(maxDimensions);
+
+		var numElements = this.streamGoToMeeting.length;
+		var width = clientRect.width;
+		var height = clientRect.height;
+		var area = height * width;
+		var elementArea = parseInt((area / numElements) + '');
+
+		// Calculate proportions
+		var maxProportions = {
+			maxW: 0,
+			maxH: 0,
+		};
+		if (width > height) {
+			// It'a horizontal rectangle
+			maxProportions.maxW = maxDimensions.maxW / maxDimensions.maxH;
+			maxProportions.maxH = ((maxDimensions.maxW / maxDimensions.maxH) * maxDimensions.maxH) / maxDimensions.maxW;
+		} else if (height > width) {
+			// It'a vertcal rectangle
+			maxProportions.maxW = ((maxDimensions.maxH / maxDimensions.maxW) * maxDimensions.maxW) / maxDimensions.maxH;
+			maxProportions.maxH = maxDimensions.maxH / maxDimensions.maxW;
+		} else {
+			// It's a square
+			maxProportions.maxW = maxDimensions.maxW / maxDimensions.maxH;
+			maxProportions.maxH = ((maxDimensions.maxW / maxDimensions.maxH) * maxDimensions.maxH) / maxDimensions.maxW;
+		}
+
+		//console.log(maxProportions);
+
+		var elementWidth = parseInt(Math.sqrt(elementArea * (maxProportions.maxW / maxProportions.maxH)) + '');
+		var elementHeight = parseInt(Math.sqrt(elementArea * (maxProportions.maxH / maxProportions.maxW)) + '');
+
+		//console.log(elementWidth);
+
+		// We now need to fit the squares. Let's reduce the square size
+		// so an integer number fits the width.
+		var numX = Math.ceil(width / elementWidth);
+		elementWidth = width / numX;
+		elementHeight = elementWidth * (maxProportions.maxH / maxProportions.maxW);
+		while (numX <= numElements) {
+			// With a bit of luck, we are done.
+			if (Math.floor(height / elementHeight) * numX >= numElements) {
+				// They all fit! We are done!
+				return {width: elementWidth, height: elementHeight};
+			}
+			// They don't fit. Make room for one more square i each row.
+			numX++;
+			elementWidth = width / numX;
+			elementHeight = elementWidth * (maxProportions.maxH / maxProportions.maxW);
+		}
+		// Still doesn't fit? The window must be very wide
+		// and low.
+		elementHeight = height;
+		return {width: elementWidth, height: elementHeight};
 	}
 
 }

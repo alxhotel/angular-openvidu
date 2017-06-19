@@ -1,5 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 import { OpenViduHangoutsComponent } from './openvidu-hangouts.component';
 
 describe('AngularOpenVidu', () => {

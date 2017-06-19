@@ -57,17 +57,6 @@
 					<button md-icon-button (click)="toggleFullscreen()" *ngIf="isFullscreen" mdTooltip="{{_intl.exitFullscreenLabel}}" mdTooltipPosition="below">
 						<md-icon>clear</md-icon>
 					</button>
-
-					<!-- RIGHT -->
-					<!--<button md-icon-button [mdMenuTriggerFor]="menu">
-						<md-icon>more_vert</md-icon>
-					</button>
-					<md-menu #menu="mdMenu">
-						<button md-menu-item (click)="toggleFullscreen()">
-							<md-icon>fullscreen</md-icon>
-							<span>Fullscreen</span>
-						</button>
-					</md-menu>-->
 				</md-toolbar>
 			</div>
 
@@ -101,7 +90,7 @@
 					<div class="message" *ngIf="streams.length == 1">You are alone in this room :(</div>
 					<stream-hangouts class="main-stream" *ngIf="mainStream != null && mainStream.getWrStream() != null" [stream]="mainStream"></stream-hangouts>
 					<div class="name-placeholder" *ngIf="mainStream == null || mainStream.getWrStream() == null">
-						<div *ngIf="mainStream != null">{{mainStream.getParticipant().id.charAt(0)}}</div>
+						<div *ngIf="mainStream != null">{{JSON.parse(mainStream.getParticipant().data).username.charAt(0)}}</div>
 						<div *ngIf="mainStream == null && participantId != null">{{participantId.charAt(0)}}</div>
 					</div>
 				</div>
@@ -126,7 +115,10 @@
 
 						</stream-hangouts>
 						<ng-container *ngFor="let s of streams">
-							<stream-hangouts class="stream side-stream square" *ngIf="(s !== myCamera)" [stream]="s" [ngClass]="{'hide-video': (s === mainStream), 'mic-off': micOffParticipants.indexOf(s.getParticipant()) >= 0, 'cam-off': camOffParticipants.indexOf(s.getParticipant()) >= 0}">
+							<stream-hangouts class="stream side-stream square"
+								*ngIf="(s !== myCamera)"
+								[stream]="s"
+								[ngClass]="{'hide-video': (s === mainStream), 'mic-off': micOffParticipants.indexOf(s.getParticipant()) >= 0, 'cam-off': camOffParticipants.indexOf(s.getParticipant()) >= 0}">
 
 							</stream-hangouts>
 						</ng-container>

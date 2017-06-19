@@ -1,0 +1,8 @@
+angular-openvidu-server-kms:
+  container_name: docker-compose-angular-openvidu-server-kms
+  image: openvidu/openvidu-server-kms
+  ports:
+    - 8443:8443
+  environment:
+    - KMS_STUN_IP=193.147.51.12
+    - KMS_STUN_PORT=3478

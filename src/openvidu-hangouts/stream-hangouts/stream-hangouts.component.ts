@@ -1,6 +1,8 @@
-import { Component, ViewEncapsulation, OnInit, Input, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, EventEmitter, ViewEncapsulation, OnInit, Input, ViewChild, ElementRef, Renderer, Output } from '@angular/core';
 import { Stream } from 'openvidu-browser';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ParticipantData } from '../../openvidu.directive';
+import { OpenViduHangoutsIntl } from '../openvidu-hangouts-intl';
 
 @Component({
 	selector: 'stream-hangouts',
@@ -18,6 +20,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class StreamHangoutsComponent implements OnInit {
 
+	@Output() onSourceAdded: EventEmitter<void> = new EventEmitter<void>();
+
 	// Input
 	@Input() micEnabled: boolean = false;
 	@Input() camEnabled: boolean = false;
@@ -33,7 +37,8 @@ export class StreamHangoutsComponent implements OnInit {
 	// Private variables
 	private _stream: Stream;
 
-	constructor(private domSanitizer: DomSanitizer, private renderer: Renderer) {}
+	constructor(private domSanitizer: DomSanitizer, private renderer: Renderer,
+		private _intl: OpenViduHangoutsIntl) {}
 
 	@Input('stream')
 	get stream(): Stream { return this._stream; }
@@ -51,6 +56,9 @@ export class StreamHangoutsComponent implements OnInit {
 				console.log('Video tag src = ' + this.videoSrc);
 
 				clearInterval(int);
+
+				// Emit event
+				this.onSourceAdded.emit();
 			}
 		}, 1000);
 
@@ -61,13 +69,18 @@ export class StreamHangoutsComponent implements OnInit {
 		this.renderer.setElementClass(this.videoStream.nativeElement, 'flip-screen', this.stream.isLocalMirrored());
 
 		// If local, show nice name
-		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? 'You' : this.stream.getParticipant().getId();
+		let dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
+		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this._intl.you : dataObj.username;
 	}
 
 	ngOnInit() {
-		//this.stream.addEventListener('src-added', () => {
-		//    this.video.src = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.stream.getWrStream())).toString();
-		//});
+		// Listen for changes in the src
+		// For example, if the participants wants to change camera
+		this.stream.addEventListener('src-added', () => {
+			this.videoSrc = this.domSanitizer.bypassSecurityTrustUrl(
+				URL.createObjectURL(this.stream.getWrStream())
+			);
+		});
 	}
 
 }

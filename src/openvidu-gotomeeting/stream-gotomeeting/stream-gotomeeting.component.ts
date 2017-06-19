@@ -2,11 +2,11 @@ import { Component, EventEmitter, ViewEncapsulation, OnInit, Input, ViewChild, E
 import { Stream } from 'openvidu-browser';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ParticipantData } from '../../openvidu.directive';
-import { OpenViduAppearinIntl } from '../openvidu-appearin-intl';
+import { OpenViduGoToMeetingIntl } from '../openvidu-gotomeeting-intl';
 
 @Component({
-	selector: 'stream-appearin',
-	styleUrls: [ './stream-appearin.component.css' ],
+	selector: 'stream-gotomeeting',
+	styleUrls: [ './stream-gotomeeting.component.css' ],
 	template: `
 		<div class="participant">
 			<span #name></span>
@@ -14,7 +14,7 @@ import { OpenViduAppearinIntl } from '../openvidu-appearin-intl';
         </div>`,
 	encapsulation: ViewEncapsulation.None
 })
-export class StreamAppearinComponent implements OnInit {
+export class StreamGoToMeetingComponent implements OnInit {
 
 	@Output() onSourceAdded: EventEmitter<void> = new EventEmitter<void>();
 
@@ -30,7 +30,7 @@ export class StreamAppearinComponent implements OnInit {
 	private _stream: Stream;
 
 	constructor(private domSanitizer: DomSanitizer, private renderer: Renderer,
-		private _intl: OpenViduAppearinIntl) {}
+		private _intl: OpenViduGoToMeetingIntl) {}
 
 	@Input('stream')
 	get stream(): Stream { return this._stream; }

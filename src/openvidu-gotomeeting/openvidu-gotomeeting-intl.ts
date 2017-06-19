@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 /** OpenVidu data that requires internationalization. */
 @Injectable()
-export class OpenViduAppearinIntl {
+export class OpenViduGoToMeetingIntl {
 
 	youAreEnteringRoomLabel: string = 'You\'re about to enter a video conversation room';
 
@@ -25,7 +25,7 @@ export class OpenViduAppearinIntl {
 	browserBlockingLabel: string = 'The browser is blocking your camera and microphone';
 
 	browserBlockingExplainOneLabel: string = 'To enter the the video conversation, click'
-			+ ' the camera icon next to the star in the right of the address bar.';
+		+ ' the camera icon next to the star in the right of the address bar.';
 
 	browserBlockingExplainTwoLabel: string = 'From there, check "Always allow to access camera and microphone."';
 
@@ -49,7 +49,6 @@ export class OpenViduAppearinIntl {
 
 	sendAMessageLabel: string = 'Send a message';
 
-	/* A label for when an "room error" occurs */
 	errorRoom: string = 'Error connecting to the server';
 
 	/* A label fro the streams */

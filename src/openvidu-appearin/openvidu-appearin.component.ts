@@ -7,13 +7,13 @@ import {
 import { MdSidenav } from '@angular/material';
 
 // OpenVidu Browser
-import { Participant, Session, Stream } from 'openvidu-browser';
+import { Connection, Session, Stream } from 'openvidu-browser';
 
 //import { BigScreenService } from 'angular-bigscreen';
 
 import {
 	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
-	ParticipantEvent, RoomConnectedEvent, StreamEvent
+	ParticipantData, ParticipantEvent, RoomConnectedEvent, StreamEvent
 } from '../openvidu.directive';
 
 import { StreamAppearinComponent } from './stream-appearin/stream-appearin.component';
@@ -32,8 +32,7 @@ export enum ConnectionState {
 @Component({
 	selector: 'openvidu-appearin',
 	templateUrl: './openvidu-appearin.component.html',
-	styleUrls: [ './openvidu-appearin.component.css' ],
-	//providers: [ BigScreenService ]
+	styleUrls: [ './openvidu-appearin.component.css' ]
 })
 export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 
@@ -100,7 +99,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	private session: Session;
 
 	// Participants
-	private participants: { [id: string]: Participant } = {};
+	private participants: { [id: string]: Connection } = {};
 
 	// My camera
 	private myCamera: Stream;
@@ -127,34 +126,13 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		this.leaveRoom();
 	}
 
+	/*---------------------*/
+	/* GUI RELATED METHODS */
+	/*---------------------*/
+
 	@HostListener('window:resize', ['$event'])
 	onResize(event: any) {
 		this.resizeStreamsManually();
-	}
-
-	resizeStreamsManually() {
-		if (!this.panelVideo) return;
-
-		var clientRect = this.panelVideo.nativeElement.getBoundingClientRect();
-
-		var maxW = 0;
-		var maxH = 0;
-		this.streamAppearin.forEach(function (streamAppearinEl) {
-			var videoEl = streamAppearinEl.videoStream.nativeElement;
-			if (videoEl.videoWidth > maxW) {
-				if (videoEl.videoHeight > maxH) {
-					maxW = videoEl.videoWidth;
-					maxH = videoEl.videoHeight;
-				}
-			}
-		});
-
-		var defaultWidth = 640;
-		var numCols = Math.ceil(clientRect.width / Math.min(maxW, defaultWidth));
-		var numRows = Math.ceil(clientRect.height / Math.min(maxH, ((defaultWidth * maxH) / maxW)));
-
-		this.streamMaxWidth = (Math.round((100 / Math.ceil(this.streams.length / numRows)) * 100) / 100).toString() + '%';
-		this.streamMaxHeight = (Math.round((100 / Math.ceil(this.streams.length / numCols)) * 100) / 100).toString() + '%';
 	}
 
 	toggleMic() {
@@ -210,6 +188,10 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		this.openviduApi.leaveRoom();
 	}
 
+	/*------------------------*/
+	/* HANDLE OPENVIDU EVENTS */
+	/*------------------------*/
+
 	handleOnUpdateMainSpeaker(streamEvent: StreamEvent) {
 		// Check if stream exists
 		if (this.streams.indexOf(streamEvent.stream) < 0) {
@@ -248,6 +230,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	}
 
 	handleOnErrorRoom() {
+		this.setUserMessage(this._intl.errorRoom);
 		// Emit event
 		this.onErrorRoom.emit();
 	}
@@ -299,7 +282,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 			participantId: newParticipant.getId()
 		});
 
-		// Resize manually
+		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
 
@@ -312,7 +295,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 			participantId: oldParticipant.getId()
 		});
 
-		// Resize manually
+		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
 
@@ -328,11 +311,17 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		if (this.streams.indexOf(newStream) < 0) {
 			this.streams.push(newStream);
 		}
+
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
 	}
 
 	handleOnStreamRemoved(streamEvent: StreamEvent) {
 		var oldStream = streamEvent.stream;
 		this.streams.splice(this.streams.indexOf(oldStream), 1);
+
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
 	}
 
 	handleOnCustomNotification(object: any) {
@@ -345,9 +334,12 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	}
 
 	handleOnNewMessage(messageEvent: MessageEvent) {
+		// Fix: to get usernam
+		var dataObj: ParticipantData = JSON.parse(messageEvent.participant.data);
+
 		// Handle message
 		this.chatMessages.push({
-			username: messageEvent.participant.getId(),
+			username: dataObj.username,
 			message: messageEvent.message,
 			date: new Date() // Use current date
 		});
@@ -355,8 +347,99 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		this.onNewMessage.emit(messageEvent);
 	}
 
+	handleOnSourceAdded() {
+		// Fix: manually resize panel
+		this.resizeStreamsManually();
+	}
+
 	private setUserMessage(msg: string) {
 		this.userMessage = msg;
+	}
+
+	private resizeStreamsManually() {
+		var obj = this.auxResizeStreamsManually();
+
+		//console.log(obj);
+
+		if (!obj.error) {
+			this.streamMaxWidth = obj.width + 'px';
+			this.streamMaxHeight = obj.height + 'px';
+		}
+	}
+
+	private auxResizeStreamsManually(): {width?: number, height?: number, error?: boolean} {
+		if (!this.panelVideo) return;
+
+		var clientRect = this.panelVideo.nativeElement.getBoundingClientRect();
+
+		var maxDimensions = {
+			maxW: 0,
+			maxH: 0
+		};
+		this.streamAppearin.forEach(function (streamGoToMeetingEl) {
+			var videoEl = streamGoToMeetingEl.videoStream.nativeElement;
+			if (videoEl.videoWidth > maxDimensions.maxW) {
+				if (videoEl.videoHeight > maxDimensions.maxH) {
+					maxDimensions.maxW = videoEl.videoWidth;
+					maxDimensions.maxH = videoEl.videoHeight;
+				}
+			}
+		});
+
+		//console.log(maxDimensions);
+
+		var numElements = this.streamAppearin.length;
+		var width = clientRect.width;
+		var height = clientRect.height;
+		var area = height * width;
+		var elementArea = parseInt((area / numElements) + '');
+
+		// Calculate proportions
+		var maxProportions = {
+			maxW: 0,
+			maxH: 0,
+		};
+		if (width > height) {
+			// It'a horizontal rectangle
+			maxProportions.maxW = maxDimensions.maxW / maxDimensions.maxH;
+			maxProportions.maxH = ((maxDimensions.maxW / maxDimensions.maxH) * maxDimensions.maxH) / maxDimensions.maxW;
+		} else if (height > width) {
+			// It'a vertcal rectangle
+			maxProportions.maxW = ((maxDimensions.maxH / maxDimensions.maxW) * maxDimensions.maxW) / maxDimensions.maxH;
+			maxProportions.maxH = maxDimensions.maxH / maxDimensions.maxW;
+		} else {
+			// It's a square
+			maxProportions.maxW = maxDimensions.maxW / maxDimensions.maxH;
+			maxProportions.maxH = ((maxDimensions.maxW / maxDimensions.maxH) * maxDimensions.maxH) / maxDimensions.maxW;
+		}
+
+		//console.log(maxProportions);
+
+		var elementWidth = parseInt(Math.sqrt(elementArea * (maxProportions.maxW / maxProportions.maxH)) + '');
+		var elementHeight = parseInt(Math.sqrt(elementArea * (maxProportions.maxH / maxProportions.maxW)) + '');
+
+		//console.log(elementWidth);
+
+		// We now need to fit the squares. Let's reduce the square size
+		// so an integer number fits the width.
+		var numX = Math.ceil(width / elementWidth);
+		elementWidth = width / numX;
+		elementHeight = elementWidth * (maxProportions.maxH / maxProportions.maxW);
+		while (numX <= numElements) {
+			// With a bit of luck, we are done.
+			if (Math.floor(height / elementHeight) * numX >= numElements) {
+				// They all fit! We are done!
+				return {width: elementWidth, height: elementHeight};
+			}
+			// They don't fit. Make room for one more square i each row.
+			numX++;
+			elementWidth = width / numX;
+			elementHeight = elementWidth * (maxProportions.maxH / maxProportions.maxW);
+		}
+		// Still doesn't fit? The window must be very wide
+		// and low.
+		elementHeight = height;
+		return {width: elementWidth, height: elementHeight};
 	}
 
 }
