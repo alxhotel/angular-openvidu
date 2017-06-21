@@ -59,7 +59,7 @@ class TestComponent {
 
 describe('AngularOpenVidu Directive', () => {
 	let fixture: ComponentFixture<TestComponent>;
-	let component: TestComponent;
+	let testComponent: TestComponent;
 
 	const defaultWsUrl = 'wss://127.0.0.1:8443/';
 
@@ -79,53 +79,53 @@ describe('AngularOpenVidu Directive', () => {
 		.compileComponents().then( () => {
 			fixture = TestBed.createComponent(TestComponent);
 			fixture.detectChanges();
-			component = fixture.componentInstance;
+			testComponent = fixture.componentInstance;
 		});
 	}));
 
 	afterEach(() => {
 		// Reset the testing module
-		getTestBed().resetTestingModule();
+		//getTestBed().resetTestingModule();
 	});
 
 	it('should create the component', () => {
 		// Check that the componente has been instanciated
-		expect(component).toBeTruthy();
+		expect(testComponent).toBeTruthy();
 	});
 
 	it('should trigger ngOnChanges', () => {
 		// Setup spy
-		const spyChanges = spyOn(component.openviduApi, 'ngOnChanges').and.callThrough();
+		spyOn(testComponent.openviduApi, 'ngOnChanges').and.callThrough();
 
 		// No calls
-		expect(spyChanges).not.toHaveBeenCalled();
+		expect(testComponent.openviduApi.ngOnChanges).not.toHaveBeenCalled();
 
 		// One call
 		const sessionId = 'SessionA';
-		component.sessionId = sessionId;
+		testComponent.sessionId = sessionId;
 		fixture.detectChanges();
-		expect(spyChanges).toHaveBeenCalled();
-		expect(component.openviduApi.sessionId).toEqual(sessionId);
+		expect(testComponent.openviduApi.ngOnChanges).toHaveBeenCalled();
+		expect(testComponent.openviduApi.sessionId).toEqual(sessionId);
 
 		// Check values
 		const participantId = 'Participant' + Math.floor(Math.random() * 100);
-		component.participantId = participantId;
+		testComponent.participantId = participantId;
 		const wsUrl = 'wss://127.0.0.1:8443/';
-		component.wsUrl = wsUrl;
+		testComponent.wsUrl = wsUrl;
 		fixture.detectChanges();
-		expect(component.openviduApi.participantId).toEqual(participantId);
-		expect(component.openviduApi.wsUrl).toEqual(wsUrl);
+		expect(testComponent.openviduApi.participantId).toEqual(participantId);
+		expect(testComponent.openviduApi.wsUrl).toEqual(wsUrl);
 	});
 
 	it('should trigger onServerConnected', (done) => {
-		console.log(component.openviduApi.wsUrl);
+		console.log(testComponent.openviduApi.wsUrl);
 		// Setup spy
-		const spyChanges = spyOn(component, 'onServerConnected').and.callThrough();
+		const spyChanges = spyOn(testComponent, 'onServerConnected').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
-		component.sessionId = randomCredentials['sessionId'];
-		component.participantId = randomCredentials['participantId'];
-		component.wsUrl = defaultWsUrl;
+		testComponent.sessionId = randomCredentials['sessionId'];
+		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.wsUrl = defaultWsUrl;
 
 		// Check trigger
 		//setTimeout(() => {
@@ -138,12 +138,12 @@ describe('AngularOpenVidu Directive', () => {
 
 	it('should trigger onRoomConnected', () => {
 		// Setup spy
-		const spyChanges = spyOn(component, 'onRoomConnected').and.callThrough();
+		const spyChanges = spyOn(testComponent, 'onRoomConnected').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
-		component.sessionId = randomCredentials['sessionId'];
-		component.participantId = randomCredentials['participantId'];
-		component.wsUrl = defaultWsUrl;
+		testComponent.sessionId = randomCredentials['sessionId'];
+		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.wsUrl = defaultWsUrl;
 
 		// Check trigger
 		//expect(spyChanges).toHaveBeenCalled();
