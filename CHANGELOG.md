@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Basic testing
 - Settings for camera
 
+## 0.6.0
 ### Added
 - Add new events: `onCloseSession` and `onCustomNotification`
 - Add chat
