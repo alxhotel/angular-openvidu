@@ -98,21 +98,22 @@ describe('AngularOpenVidu Directive', () => {
 		spyOn(testComponent.openviduApi, 'ngOnChanges').and.callThrough();
 
 		// No calls
-		//expect(testComponent.openviduApi.ngOnChanges).not.toHaveBeenCalled();
+		expect(testComponent.openviduApi.ngOnChanges).not.toHaveBeenCalled();
 
 		// One call
-		const sessionId = 'SessionA';
-		testComponent.sessionId = sessionId;
+		testComponent.sessionId = 'dummy';
 		fixture.detectChanges();
-		//expect(testComponent.openviduApi.ngOnChanges).toHaveBeenCalled();
-		expect(testComponent.openviduApi.sessionId).toEqual(sessionId);
+		expect(testComponent.openviduApi.ngOnChanges).toHaveBeenCalled()
 
 		// Check values
-		const participantId = 'Participant' + Math.floor(Math.random() * 100);
+		const sessionId = 'SessionA';
+		testComponent.sessionId = sessionId;
+		const participantId = 'ParticipantA';
 		testComponent.participantId = participantId;
 		const wsUrl = 'wss://127.0.0.1:8443/';
 		testComponent.wsUrl = wsUrl;
 		fixture.detectChanges();
+		expect(testComponent.openviduApi.sessionId).toEqual(sessionId);
 		expect(testComponent.openviduApi.participantId).toEqual(participantId);
 		expect(testComponent.openviduApi.wsUrl).toEqual(wsUrl);
 	});

@@ -1,5 +1,5 @@
 let isCI = !!process.env.CI;
-let browsers = isCI ? ['PhantomJS'] : ['Chrome'];
+let browsers = ['Chrome'];
 let autoWatch =  !isCI;
 let singleRun = isCI;
 
