@@ -36,6 +36,8 @@ before_script:
 - docker ps
 # Install deps
 - npm install
+# Build
+- npm run build
 
 script:
 # Execute tests
