@@ -103,7 +103,7 @@ describe('AngularOpenVidu Directive', () => {
 		// One call
 		testComponent.sessionId = 'dummy';
 		fixture.detectChanges();
-		expect(testComponent.openviduApi.ngOnChanges).toHaveBeenCalled()
+		expect(testComponent.openviduApi.ngOnChanges).toHaveBeenCalled();
 
 		// Check values
 		const sessionId = 'SessionA';
