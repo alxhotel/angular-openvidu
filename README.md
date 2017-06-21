@@ -203,8 +203,8 @@ These are the main modules that make up AngularOpenVidu:
 
 | Module | Version | Description |
 |---|---|---|
-| [OpenVidu Browser][openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]		| used to communicate with the OpenVidu Server				|
-| [Angular Material][@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]		| used to display the toolbar, buttons and animations		|
+| [OpenVidu Browser][openvidu-browser]		| [![][openvidu-browser-ni]][openvidu-browser-nu]		| used to communicate with the OpenVidu Server				|
+| [Angular Material][@angular/material]		| [![][@angular/material-ni]][@angular/material-nu]		| used to display the toolbar, buttons and animations		|
 | [Angular BigScreen][angular-bigscreen]	| [![][angular-bigscreen-ni]][angular-bigscreen-nu]		| used to toggle the fullscreen mode of the streaming		|
 | [Split View][ng2-split-pane]				| [![][ng2-split-pane-ni]][ng2-split-pane-nu]			| used to divide the screen in some predefined components
 
