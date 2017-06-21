@@ -2,6 +2,7 @@ sudo: required
 language: node_js
 node_js: stable
 
+# Ubuntu Trusty
 dist: trusty
 
 addons:

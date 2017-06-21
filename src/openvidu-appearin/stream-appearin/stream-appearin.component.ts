@@ -48,6 +48,9 @@ export class StreamAppearinComponent implements OnInit {
 				console.log('Video tag src = ' + this.videoSrc);
 
 				clearInterval(int);
+
+				// Fix: manually call OnInit
+				this.ngOnInit();
 			}
 		}, 1000);
 
@@ -67,6 +70,8 @@ export class StreamAppearinComponent implements OnInit {
 			// Emit event
 			this.onSourceAdded.emit();
 		}, false);
+
+		if (!this.stream) return;
 
 		// Listen for changes in the src
 		// For example, if the participants wants to change camera

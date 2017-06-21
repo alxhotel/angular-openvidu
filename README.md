@@ -132,11 +132,13 @@ In each component folder, it contains all the html, css, js for that component.
 
 ```
 └── src
-    ├── openvidu-template	-- root		directive with all the OpenVidu logic
-    ├── openvidu-hangouts	-- root		component with a predefined layout for Hangouts
-    │   └── stream-hangouts	-- stream	component for the Hangouts layout
-    └── openvidu-appearin	-- root		component with a predefined layout for AppearIn
-        └── stream-appearin	-- stream	component for the AppearIn layout
+    ├── openvidu-template		-- root		directive with all the OpenVidu logic
+    ├── openvidu-hangouts		-- root		component with a predefined layout for Hangouts
+    │   └── stream-hangouts		-- stream	component for the Hangouts layout
+    ├── openvidu-appearin		-- root		component with a predefined layout for AppearIn
+    │   └── stream-appearin		-- stream	component for the AppearIn layout
+    └── openvidu-gotomeeting	-- root		component with a predefined layout for GoToMeeting
+        └── stream-gotomeeting	-- stream	component for the GoToMeeting layout
 ```
 
 ### API
@@ -201,10 +203,10 @@ These are the main modules that make up AngularOpenVidu:
 
 | Module | Version | Description |
 |---|---|---|
-| [OpenVidu Browser](openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]		| used to communicate with the OpenVidu Server				|
-| [Angular Material](@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]		| used to display the toolbar, buttons and animations		|
-| [Angular BigScreen](bigscren)				| [![][bigscreen-ni]][bigscreen-nu]						| used to toggle the fullscreen mode of the streaming		|
-| [Split View](ng2-split-pane)				| [![][ng2-split-pane-ni][ng2-split-pane-nu]]			| used to divide the screen in some predefined components
+| [OpenVidu Browser][openvidu-browser)		| [![][openvidu-browser-ni]][openvidu-browser-nu]		| used to communicate with the OpenVidu Server				|
+| [Angular Material][@angular/material)		| [![][@angular/material-ni]][@angular/material-nu]		| used to display the toolbar, buttons and animations		|
+| [Angular BigScreen][angular-bigscreen]	| [![][angular-bigscreen-ni]][angular-bigscreen-nu]		| used to toggle the fullscreen mode of the streaming		|
+| [Split View][ng2-split-pane]				| [![][ng2-split-pane-ni]][ng2-split-pane-nu]			| used to divide the screen in some predefined components
 
 [openvidu-browser]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-browser
 [openvidu-browser-ni]: https://img.shields.io/npm/v/openvidu-browser.svg
@@ -214,9 +216,9 @@ These are the main modules that make up AngularOpenVidu:
 [@angular/material-ni]: https://img.shields.io/npm/v/@angular/material.svg
 [@angular/material-nu]: https://www.npmjs.com/package/@angular/material
 
-[bigscreen]: https://github.com/alxhotel/angular-bigscreen
-[bigscreen-ni]: https://img.shields.io/npm/v/angular-bigscreen.svg
-[bigscreen-nu]: https://www.npmjs.com/package/angular-bigscreen
+[angular-bigscreen]: https://github.com/alxhotel/angular-bigscreen
+[angular-bigscreen-ni]: https://img.shields.io/npm/v/angular-bigscreen.svg
+[angular-bigscreen-nu]: https://www.npmjs.com/package/angular-bigscreen
 
 [ng2-split-pane]: https://github.com/wannabegeek/ng2-split-pane
 [ng2-split-pane-ni]: https://img.shields.io/npm/v/ng2-split-pane.svg

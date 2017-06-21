@@ -6,3 +6,4 @@ angular-openvidu-server-kms:
   environment:
     - KMS_STUN_IP=193.147.51.12
     - KMS_STUN_PORT=3478
+    - openvidu.security=false

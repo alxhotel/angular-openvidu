@@ -47,7 +47,13 @@ export class StreamGoToMeetingComponent implements OnInit {
 				);
 				console.log('Video tag src = ' + this.videoSrc);
 
+				// Fix: manually call OnInit
+				this.ngOnInit();
+
 				clearInterval(int);
+
+				// Fix: manually call OnInit
+				this.ngOnInit();
 			}
 		}, 1000);
 

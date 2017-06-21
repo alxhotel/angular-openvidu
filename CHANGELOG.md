@@ -5,7 +5,6 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### TODO
-- Add secure version of openvidu-browser
 - Basic testing
 - Settings for camera
 
@@ -30,7 +29,7 @@ All notable changes to this project will be documented in this file.
 - Update main speaker when a participant leave
 - Mocha tests
 
-## 0.5.0 - 2017-04-15
+## 0.5.0
 ### Added
 - Join a group call
 - Close group call

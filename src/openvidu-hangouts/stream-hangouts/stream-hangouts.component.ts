@@ -57,8 +57,8 @@ export class StreamHangoutsComponent implements OnInit {
 
 				clearInterval(int);
 
-				// Emit event
-				this.onSourceAdded.emit();
+				// Fix: manually call OnInit
+				this.ngOnInit();
 			}
 		}, 1000);
 
@@ -74,6 +74,13 @@ export class StreamHangoutsComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.videoStream.nativeElement.addEventListener('loadeddata', () => {
+			// Emit event
+			this.onSourceAdded.emit();
+		}, false);
+
+		if (!this.stream) return;
+
 		// Listen for changes in the src
 		// For example, if the participants wants to change camera
 		this.stream.addEventListener('src-added', () => {

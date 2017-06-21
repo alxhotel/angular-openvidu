@@ -9,7 +9,8 @@ import { MdSidenav } from '@angular/material';
 // OpenVidu Browser
 import { Connection, Session, Stream } from 'openvidu-browser';
 
-//import { BigScreenService } from 'angular-bigscreen';
+// Fullscreen Service
+import { BigScreenService } from 'angular-bigscreen';
 
 import {
 	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
@@ -18,6 +19,7 @@ import {
 
 import { StreamAppearinComponent } from './stream-appearin/stream-appearin.component';
 
+// i18n Labels and Messages
 import { OpenViduAppearinIntl } from './openvidu-appearin-intl';
 
 export enum ConnectionState {
@@ -28,6 +30,12 @@ export enum ConnectionState {
 	CAMERA_ACCESS_GRANTED = 4,
 	CAMERA_ACCESS_DENIED = 5
 };
+
+export interface ToolbarOption {
+	label?: string;
+	icon: string;
+	onClick?: Function;
+}
 
 @Component({
 	selector: 'openvidu-appearin',
@@ -40,6 +48,12 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	@Input() wsUrl: string;
 	@Input() sessionId: string;
 	@Input() participantId: string;
+	@Input() apiKey: string;
+	@Input() token: string;
+
+	// Unique Inputs
+	// To set new options in menu
+	@Input() toolbarOptions: ToolbarOption[] = [];
 
 	// Outputs
 	@Output() onRoomConnected: EventEmitter<void> = new EventEmitter<void>();
@@ -53,6 +67,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	@Output() onLeaveRoom: EventEmitter<void> = new EventEmitter<void>();
 	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
 
+	// Unused events
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
 	//@Output() onStreamRemoved: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticpantPublished: EventEmitter<any> = new EventEmitter();
@@ -104,10 +119,10 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	// My camera
 	private myCamera: Stream;
 
-	constructor(private renderer: Renderer2,// private bigScreenService: BigScreenService,
+	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
 		public _intl: OpenViduAppearinIntl) {
-		this.setUserMessage(this._intl.loadingLabel);
 		this.welcome = true;
+		this.setUserMessage(this._intl.loadingLabel);
 	}
 
 	ngOnInit() {
@@ -115,14 +130,18 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		this.setUserMessage(this._intl.connectingLabel);
 
 		// Set fullscreen listener
-		//this.bigScreenService.onChange(() => {
+		this.bigScreenService.onChange(() => {
 			// No need to check if mainElement is the one with fullscreen
-		//	this.isFullscreen = this.bigScreenService.isFullscreen();
-		//});
+			this.isFullscreen = this.bigScreenService.isFullscreen();
+			// Fix: Resize videos
+			setTimeout(() => {
+				this.resizeStreamsManually();
+			}, 1000);
+		});
 	}
 
 	ngOnDestroy() {
-		//this.bigScreenService.exit();
+		this.bigScreenService.exit();
 		this.leaveRoom();
 	}
 
@@ -132,7 +151,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 
 	@HostListener('window:resize', ['$event'])
 	onResize(event: any) {
-		this.resizeStreamsManually();
+		//this.resizeStreamsManually();
 	}
 
 	toggleMic() {
@@ -144,11 +163,11 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	}
 
 	toggleFullscreen() {
-		//if (this.bigScreenService.isFullscreen()) {
-		//	this.bigScreenService.exit();
-		//} else {
-		//	this.bigScreenService.request(this.mainElement.nativeElement);
-		//}
+		if (this.bigScreenService.isFullscreen()) {
+			this.bigScreenService.exit();
+		} else {
+			this.bigScreenService.request(this.mainElement.nativeElement);
+		}
 	}
 
 	toggleChat() {
@@ -357,6 +376,7 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 	}
 
 	private resizeStreamsManually() {
+		console.log('Resizing...');
 		var obj = this.auxResizeStreamsManually();
 
 		//console.log(obj);
@@ -371,6 +391,8 @@ export class OpenViduAppearinComponent implements OnInit, OnDestroy {
 		if (!this.panelVideo) return;
 
 		var clientRect = this.panelVideo.nativeElement.getBoundingClientRect();
+
+		console.log(clientRect);
 
 		var maxDimensions = {
 			maxW: 0,

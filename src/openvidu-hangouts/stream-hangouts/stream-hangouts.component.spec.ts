@@ -1,14 +1,14 @@
 import { async, getTestBed, ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 
 // Imports dependencies of component to be tested
-import { OpenViduModule } from '../openvidu.module';
+import { OpenViduModule } from '../../openvidu.module';
 
 // Component to be tested
-import { OpenViduHangoutsComponent } from './openvidu-hangouts.component';
+import { StreamHangoutsComponent } from './stream-hangouts.component';
 
-describe('AngularOpenVidu Hangouts', () => {
-	let fixture: ComponentFixture<OpenViduHangoutsComponent>;
-	let component: OpenViduHangoutsComponent;
+describe('AngularOpenVidu Stream Hangouts', () => {
+	let fixture: ComponentFixture<StreamHangoutsComponent>;
+	let component: StreamHangoutsComponent;
 
 	beforeEach(async(() => {
 		// Setup the component to be tested
@@ -21,7 +21,7 @@ describe('AngularOpenVidu Hangouts', () => {
 			]
 		})
 		.compileComponents().then( () => {
-			fixture = TestBed.createComponent(OpenViduHangoutsComponent);
+			fixture = TestBed.createComponent(StreamHangoutsComponent);
 			fixture.detectChanges();
 			component = fixture.componentInstance;
 		});

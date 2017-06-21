@@ -19,6 +19,7 @@ import {
 
 import { StreamGoToMeetingComponent } from './stream-gotomeeting/stream-gotomeeting.component';
 
+// i18n Labels and Messages
 import { OpenViduGoToMeetingIntl } from './openvidu-gotomeeting-intl';
 
 export enum ConnectionState {
@@ -29,6 +30,12 @@ export enum ConnectionState {
 	CAMERA_ACCESS_GRANTED = 4,
 	CAMERA_ACCESS_DENIED = 5
 };
+
+export interface ToolbarOption {
+	label?: string;
+	icon: string;
+	onClick?: Function;
+}
 
 @Component({
 	selector: 'openvidu-gotomeeting',
@@ -41,9 +48,14 @@ export class OpenViduGoToMeetingComponent implements OnInit, OnDestroy {
 	@Input() wsUrl: string;
 	@Input() sessionId: string;
 	@Input() participantId: string;
+	@Input() apiKey: string;
+	@Input() token: string;
 
-	// New Inputs
+	// Unique Inputs
+	// To show secondary content
 	@Input() showSecondaryContent: boolean = false;
+	// To set new options in menu
+	@Input() toolbarOptions: ToolbarOption[] = [];
 
 	// Outputs
 	@Output() onRoomConnected: EventEmitter<void> = new EventEmitter<void>();
@@ -57,6 +69,7 @@ export class OpenViduGoToMeetingComponent implements OnInit, OnDestroy {
 	@Output() onLeaveRoom: EventEmitter<void> = new EventEmitter<void>();
 	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
 
+	// Unused events
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
 	//@Output() onStreamRemoved: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticpantPublished: EventEmitter<any> = new EventEmitter();
@@ -108,8 +121,8 @@ export class OpenViduGoToMeetingComponent implements OnInit, OnDestroy {
 
 	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
 		public _intl: OpenViduGoToMeetingIntl) {
-		this.setUserMessage(this._intl.loadingLabel);
 		this.welcome = true;
+		this.setUserMessage(this._intl.loadingLabel);
 	}
 
 	ngOnInit() {
@@ -120,6 +133,10 @@ export class OpenViduGoToMeetingComponent implements OnInit, OnDestroy {
 		this.bigScreenService.onChange(() => {
 			// No need to check if mainElement is the one with fullscreen
 			this.isFullscreen = this.bigScreenService.isFullscreen();
+			// Fix: Resize videos
+			setTimeout(() => {
+				this.resizeStreamsManually();
+			}, 1000);
 		});
 	}
 

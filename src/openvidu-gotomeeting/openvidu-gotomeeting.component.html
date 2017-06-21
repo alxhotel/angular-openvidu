@@ -185,6 +185,12 @@
 							</button>
 						</div>
 						<div class="bottom">
+							<ng-container *ngFor="let option of toolbarOptions">
+								<button md-button *ngIf="option.icon !== null" (click)="option.onClick !== null && option.onClick()" mdTooltip="{{(option.label) ? option.label : ''}}" mdTooltipPosition="left">
+									<md-icon>{{option.icon}}</md-icon>
+								</button>
+							</ng-container>
+							
 							<button md-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="{{_intl.fullscreenLabel}}" mdTooltipPosition="left">
 								<md-icon>fullscreen</md-icon>
 							</button>

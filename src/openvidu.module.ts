@@ -39,7 +39,7 @@ import { OpenViduGoToMeetingComponent } from './openvidu-gotomeeting/openvidu-go
 import { BigScreenService } from 'angular-bigscreen';
 
 // ObjNgFor Pipe
-import { ObjNgForPipe } from './objngfor-pipe';
+import { ObjNgForPipe } from './utils/objngfor-pipe';
 
 // SplitPane Module
 import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';

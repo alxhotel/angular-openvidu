@@ -106,7 +106,7 @@ First, follow the installation steps at [this README](/README.md#installation). 
 	
 	To display it, just insert that `videoURL` as `src` attribute in an HTML `video` tag.
 
-	You take a look at how [OpenViduHangoutsComponent](openvidu-hangouts/stream-hangouts/stream-hangouts.component.ts) does it.
+	You can take a look at how [OpenViduHangoutsComponent](openvidu-hangouts/stream-hangouts/stream-hangouts.component.ts) does it.
 
 3. Use the `openviduApi` in your template or in your code to implement your logic. For example:
 

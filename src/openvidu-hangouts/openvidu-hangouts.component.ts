@@ -19,7 +19,7 @@ import {
 	ParticipantData, ParticipantEvent, RoomConnectedEvent, StreamEvent
 } from '../openvidu.directive';
 
-// OpenVidu Hanguts i18n
+// i18n Labels and Messages
 import { OpenViduHangoutsIntl } from './openvidu-hangouts-intl';
 
 // OpenVidu Hangouts Dialog
@@ -64,8 +64,10 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	@Input() sessionId: string;
 	@Input() participantId: string;
 	@Input() apiKey: string;
+	@Input() token: string;
 
-	// Input to set new options in menu
+	// Unique Inputs
+	// To set new options in menu
 	@Input() toolbarOptions: ToolbarOption[] = [];
 
 	// Outputs
@@ -80,6 +82,7 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 	@Output() onLeaveRoom: EventEmitter<void> = new EventEmitter<void>();
 	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
 
+	// Unused events
 	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
 	//@Output() onStreamRemoved: EventEmitter<any> = new EventEmitter();
 	//@Output() onParticpantPublished: EventEmitter<any> = new EventEmitter();
@@ -153,28 +156,10 @@ export class OpenViduHangoutsComponent implements OnInit, OnDestroy {
 
 	toggleMic() {
 		this.openviduApi.micEnabled = !this.openviduApi.micEnabled;
-
-		// Broadcast changed in micEnabled
-		/*this.sendCustomNotification({
-			openviduType: OpenViduNotificationType.MIC_CHANGED,
-			micEnabled: this.openviduApi.micEnabled,
-			participantId: this.participantId
-			}, () => {
-			console.log('Custom notification mic sent');
-		});*/
 	}
 
 	toggleCamera() {
 		this.openviduApi.camEnabled = !this.openviduApi.camEnabled;
-
-		// Broadcast changed in camEnabled
-		/*this.sendCustomNotification({
-			openviduType: OpenViduNotificationType.CAM_CHANGED,
-			camEnabled: this.openviduApi.camEnabled,
-			participantId: this.participantId
-			}, () => {
-			console.log('Custom notification camera sent');
-		});*/
 	}
 
 	toggleFullscreen() {

@@ -110,6 +110,20 @@
 				<md-toolbar [color]="primary">
 					<span>{{sessionId}}</span>
 					<span class="example-spacer"></span>
+					
+					<ng-container *ngFor="let option of toolbarOptions">
+						<button md-icon-button *ngIf="option.icon !== null" (click)="option.onClick !== null && option.onClick()" mdTooltip="{{(option.label) ? option.label : ''}}" mdTooltipPosition="below">
+							<md-icon>{{option.icon}}</md-icon>
+						</button>
+					</ng-container>
+					
+					<!-- For fullscreen -->
+					<button md-icon-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="{{_intl.fullscreenLabel}}" mdTooltipPosition="below">
+						<md-icon>fullscreen</md-icon>
+					</button>
+					<button md-icon-button (click)="toggleFullscreen()" *ngIf="isFullscreen" mdTooltip="{{_intl.exitFullscreenLabel}}" mdTooltipPosition="below">
+						<md-icon>clear</md-icon>
+					</button>
 				</md-toolbar>
 			</div>
 
