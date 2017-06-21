@@ -1,7 +1,7 @@
 {
   "name": "angular-openvidu",
   "description": "Simple, robust, OpenVidu room videochat component for Angular",
-  "version": "0.5.6",
+  "version": "0.6.0",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
