@@ -12,6 +12,9 @@ var ngc = require('gulp-ngc');
 var rollup = require('rollup');
 var runSequence = require('run-sequence');
 
+// Rollup Config
+var rollupConfig = require('./rollup.config.js');
+
 gulp.task('css', function () {
 	return gulp.src(['src/**/*.scss'])
 		.pipe(sass({style: 'compressed'}).on('error', gutil.log))
@@ -33,7 +36,7 @@ gulp.task('tslint', function () {
 		.pipe(tslint.report());
 });
 
-gulp.task('tsc', function () {
+gulp.task('inline-files', function () {
 	// ts-node tools/inline-files.ts && tsc -p tsconfig.json
 	return gulp.src(['src/**/*.ts'])
 		.pipe(inlineNg2Template({ base: '/src', useRelativePaths: true }))
@@ -46,16 +49,7 @@ gulp.task('rollup', function () {
 	return rollup.rollup({
 		entry: 'dist/index.js'
 	}).then(function (bundle) {
-		//console.log(bundle);
-		bundle.write({
-			format: 'umd',
-			moduleName: 'angular-openvidu',
-			external: [
-				'@angular/core',
-				'@angular/common'
-			],
-			dest: 'dist/index.bundle.js'
-		});
+		bundle.write(rollupConfig);
 	}).catch(function (thing) {
 		//console.log(thing);
 	});
@@ -74,5 +68,5 @@ gulp.task('copyFiles', function () {
 
 gulp.task('build', ['clean', 'css', 'tslint'], function (cb) {
 	// Run task secuantially
-	runSequence('ngc', 'tsc', 'rollup', 'copyFiles', cb);
+	runSequence('ngc', 'inline-files', 'rollup', 'copyFiles', cb);
 });

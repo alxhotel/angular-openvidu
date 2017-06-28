@@ -4,90 +4,28 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ParticipantData } from '../../openvidu.directive';
 import { OpenViduHangoutsIntl } from '../openvidu-hangouts-intl';
 
+import { StreamComponent } from '../../stream.component';
+
 @Component({
 	selector: 'stream-hangouts',
 	styleUrls: [ './stream-hangouts.component.css' ],
 	template: `
 		<div class="participant">
 			<span #name class="name"></span>
-			
-			<!--<span class="mic-off" [hidden]="micEnabled"><md-icon>mic_off</md-icon></span>
-			<span class="cam-off" [hidden]="camEnabled"><md-icon>videocam_off</md-icon></span>-->
-			
 			<video #videoStream autoplay="true" [src]="videoSrc" [muted]="muted"></video>
-        </div>`,
-	encapsulation: ViewEncapsulation.None
+        </div>`
 })
-export class StreamHangoutsComponent implements OnInit {
+export class StreamHangoutsComponent extends StreamComponent {
 
-	@Output() onSourceAdded: EventEmitter<void> = new EventEmitter<void>();
+	constructor(protected domSanitizer: DomSanitizer, protected renderer: Renderer,
+		protected _intl: OpenViduHangoutsIntl) {
+		super(domSanitizer, renderer);
+	}
 
-	// Input
-	@Input() micEnabled: boolean = false;
-	@Input() camEnabled: boolean = false;
-
-	// HTML elements
-	@ViewChild('name') name: ElementRef;
-	@ViewChild('videoStream') videoStream: ElementRef;
-
-	// Video attributes
-	videoSrc: SafeUrl;
-	muted: boolean;
-
-	// Private variables
-	private _stream: Stream;
-
-	constructor(private domSanitizer: DomSanitizer, private renderer: Renderer,
-		private _intl: OpenViduHangoutsIntl) {}
-
-	@Input('stream')
-	get stream(): Stream { return this._stream; }
-	set stream(val: Stream) {
-		if (val === null || val === undefined) return;
-
-		this._stream = val;
-
-		// Loop until you get a WrStream
-		let int = setInterval(() => {
-			if (this.stream.getWrStream()) {
-				this.videoSrc = this.domSanitizer.bypassSecurityTrustUrl(
-					URL.createObjectURL(this.stream.getWrStream())
-				);
-				console.log('Video tag src = ' + this.videoSrc);
-
-				clearInterval(int);
-
-				// Fix: manually call OnInit
-				this.ngOnInit();
-			}
-		}, 1000);
-
-		// If local, mute video
-		this.muted = this.stream.isLocalMirrored();
-
-		// If local, flip screen
-		this.renderer.setElementClass(this.videoStream.nativeElement, 'flip-screen', this.stream.isLocalMirrored());
-
+	chidSetterStream(val: Stream) {
 		// If local, show nice name
 		let dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
 		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this._intl.you : dataObj.username;
-	}
-
-	ngOnInit() {
-		this.videoStream.nativeElement.addEventListener('loadeddata', () => {
-			// Emit event
-			this.onSourceAdded.emit();
-		}, false);
-
-		if (!this.stream) return;
-
-		// Listen for changes in the src
-		// For example, if the participants wants to change camera
-		this.stream.addEventListener('src-added', () => {
-			this.videoSrc = this.domSanitizer.bypassSecurityTrustUrl(
-				URL.createObjectURL(this.stream.getWrStream())
-			);
-		});
 	}
 
 }

@@ -5,7 +5,6 @@ let singleRun = isCI;
 
 module.exports = function (config) {
 	config.set({
-
 		// base path that will be used to resolve all patterns (eg. files, exclude)
 		basePath: '',
 
@@ -14,7 +13,9 @@ module.exports = function (config) {
 		frameworks: ['jasmine'],
 
 		// list of files / patterns to load in the browser
-		files: [{pattern: './config/testing-bootstrap.js', watched: false}],
+		files: [
+			{pattern: './config/testing-bootstrap.js', watched: false}
+		],
 
 		// list of files to exclude
 		exclude: [
@@ -22,7 +23,9 @@ module.exports = function (config) {
 
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-		preprocessors: {'./config/testing-bootstrap.js': ['webpack']},
+		preprocessors: {
+			'./config/testing-bootstrap.js': ['webpack']
+		},
 
 		webpack: {
 			// karma watches the test entry points

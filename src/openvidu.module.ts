@@ -16,6 +16,10 @@ import {
 	MdTooltipModule
 } from '@angular/material';
 
+// Abstract componentes
+import { OpenViduComponent } from './openvidu.component';
+import { StreamComponent } from './stream.component';
+
 // OpenVidu logic for custom template
 import { OpenViduDirective } from './openvidu.directive';
 
@@ -46,10 +50,11 @@ import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 
 @NgModule({
 	imports: [
+		/* Angular core Modules */
 		CommonModule,
 		FormsModule,
 
-		/* Material Module */
+		/* Material Modules */
 		NoopAnimationsModule,
 		MdButtonModule,
 		MdDialogModule,

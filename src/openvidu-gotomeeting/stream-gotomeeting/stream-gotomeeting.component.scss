@@ -2,7 +2,7 @@
 	transform: scaleX(-1);	
 }
 
-stream-gotomeeting {
+:host(stream-gotomeeting) {
 	display: flex;
 	
 	.participant {

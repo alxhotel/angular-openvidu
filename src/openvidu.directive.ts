@@ -36,6 +36,11 @@ export interface ParticipantData {
 	username: string;
 }
 
+export enum OpenViduNotificationType {
+	MIC_CHANGED = 1,
+	CAM_CHANGED = 2
+};
+
 /**
  * AngularOpenVidu Directive to create your own template
  * - Exports an API called: openviduApi
@@ -219,7 +224,9 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			if (deviceId !== null) {
 				// Ugly fix: leave room and re-enter
 				this.openvidu.openVidu.close(false);
-				this.joinRoom(false);
+				setTimeout(() => {
+					this.joinRoom(false);
+				}, 1000);
 				return;
 			}
 
@@ -475,7 +482,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			});
 		});
 		this.session.on('custom-message-received', (customNotificationEvent: any) => {
-			console.warn('error-media');
+			console.warn('custom-message-received');
 
 			// Emit event
 			this.onCustomNotification.emit(customNotificationEvent.params);

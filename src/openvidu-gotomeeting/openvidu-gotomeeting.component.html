@@ -99,7 +99,7 @@
 						<ul>
 							<li *ngFor="let key of participants | ObjNgFor">
 								<p>
-									{{participants[key].getId()}}
+									{{participants[key].data.split('"')[3]}}
 								</p>
 							</li>
 						</ul>
@@ -133,7 +133,7 @@
 							secondary-component-minsize="50"
 							local-storage-key="split-pane"
 							primary-component-initialratio="0.5"
-							secondary-component-toggled-off="!showSecondaryContent"
+							[secondary-component-toggled-off]="!showSecondaryContent"
 							(on-change)="onChangeSplitPane()">
 
 							<div class="split-pane-content-primary">

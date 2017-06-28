@@ -2,7 +2,7 @@
 	transform: scaleX(-1);	
 }
 
-stream-appearin {
+:host(stream-appearin) {
 	display: flex;
 	
 	.participant {

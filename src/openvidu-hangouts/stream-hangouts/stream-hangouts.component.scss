@@ -2,7 +2,7 @@
 	transform: scaleX(-1);	
 }
 
-stream-hangouts {
+:host(stream-hangouts) {
 	&.main-stream {
 		.participant {
 			width: 100%;

@@ -1,3 +1,6 @@
+// Import OpenVidu GoToMeeting Theme
+@import './openvidu-gotomeeting-theme';
+
 .openvidu-gotomeeting {
 	display: flex;
 	flex-direction: column;
@@ -161,6 +164,8 @@
 							}
 						}
 						/deep/ .lower-component {
+							display: flex;
+							
 							.split-pane-content-secondary {
 								display: flex;
 								flex: 1;
