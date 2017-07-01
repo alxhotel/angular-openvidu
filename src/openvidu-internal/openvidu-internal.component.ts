@@ -5,7 +5,7 @@ import {
 	OpenViduDirective, CameraAccessEvent, ErrorEvent, MessageEvent,
 	OpenViduNotificationType, ParticipantData, ParticipantEvent,
 	RoomConnectedEvent, StreamEvent
-} from './openvidu.directive';
+} from '../openvidu.directive';
 
 // OpenVidu Browser
 import { Connection, Session, Stream } from 'openvidu-browser';
@@ -25,7 +25,7 @@ export interface ToolbarOption {
 	onClick?: Function;
 }
 
-export abstract class OpenViduComponent {
+export abstract class OpenViduInternalComponent {
 
 	// Inputs
 	@Input() wsUrl: string;

@@ -6,17 +6,16 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 // Stream object
 import { Stream } from 'openvidu-browser';
 
+import { OpenViduDirective, StreamEvent } from '../openvidu.directive';
+
+import { SafeUrlPipe } from '../utils/safe-url.pipe';
+
 export abstract class StreamComponent implements OnInit {
 
 	@Output() onSourceAdded: EventEmitter<void> = new EventEmitter<void>();
 
-	// Input
-	//@Input() micEnabled: boolean = false;
-	//@Input() camEnabled: boolean = false;
-
 	// HTML elements
-	@ViewChild('name') name: ElementRef;
-	@ViewChild('videoStream') videoStream: ElementRef;
+	abstract videoStream: ElementRef;
 
 	// Video attributes
 	videoSrc: SafeUrl;
@@ -25,7 +24,7 @@ export abstract class StreamComponent implements OnInit {
 	// Protected variables
 	protected _stream: Stream;
 
-	constructor(protected domSanitizer: DomSanitizer, protected renderer: Renderer) {}
+	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer) {}
 
 	@Input('stream')
 	get stream(): Stream { return this._stream; }
@@ -37,9 +36,7 @@ export abstract class StreamComponent implements OnInit {
 		// Loop until you get a WrStream
 		let int = setInterval(() => {
 			if (this.stream.getWrStream()) {
-				this.videoSrc = this.domSanitizer.bypassSecurityTrustUrl(
-					URL.createObjectURL(this.stream.getWrStream())
-				);
+				this.videoSrc = this.safeUrlPipe.transform(this.stream.getVideoSrc());
 				console.log('Video tag src = ' + this.videoSrc);
 
 				clearInterval(int);
@@ -55,7 +52,7 @@ export abstract class StreamComponent implements OnInit {
 		// If local, flip screen
 		this.renderer.setElementClass(this.videoStream.nativeElement, 'flip-screen', this.stream.isLocalMirrored());
 
-		this.chidSetterStream(val);
+		this.setStreamCallback(val);
 		// If local, show nice name
 		//let dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
 		//this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this._intl.you : dataObj.username;
@@ -72,12 +69,10 @@ export abstract class StreamComponent implements OnInit {
 		// Listen for changes in the src
 		// For example, if the participants wants to change camera
 		this.stream.addEventListener('src-added', () => {
-			this.videoSrc = this.domSanitizer.bypassSecurityTrustUrl(
-				URL.createObjectURL(this.stream.getWrStream())
-			);
+			this.videoSrc = this.safeUrlPipe.transform(this.stream.getVideoSrc());
 		});
 	}
 
-	abstract chidSetterStream(val: Stream): any;
+	protected abstract setStreamCallback(val: Stream): any;
 
 }

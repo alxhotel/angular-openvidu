@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Connection, OpenVidu, Session, Subscriber, Publisher, Stream } from 'openvidu-browser';
 
 /**
@@ -103,6 +103,9 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 	// Flags
 	private connectedToServer: boolean = false;
 
+	constructor(private _changeDetectionRef : ChangeDetectorRef) {
+	}
+
 	ngOnDestroy() {
 		this.leaveRoom();
 	}
@@ -113,7 +116,6 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		if (this.wsUrl && this.sessionId && this.participantId) {
 			// Connect to server
 			this.openvidu = new OpenVidu(this.wsUrl);
-
 			if (this.apiKey) {
 				this.session = this.openvidu.initSession(this.apiKey, this.sessionId);
 			} else {

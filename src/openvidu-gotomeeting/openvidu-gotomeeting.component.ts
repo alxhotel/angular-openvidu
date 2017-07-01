@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 // Parent component
-import { ConnectionState, OpenViduComponent, ToolbarOption } from '../openvidu.component';
+import { ConnectionState, OpenViduInternalComponent, ToolbarOption } from '../openvidu-internal/openvidu-internal.component';
 
 // Angular Material
 import { MdSidenav } from '@angular/material';
@@ -27,7 +27,7 @@ import { OpenViduGoToMeetingIntl } from './openvidu-gotomeeting-intl';
 	templateUrl: './openvidu-gotomeeting.component.html',
 	styleUrls: [ './openvidu-gotomeeting.component.css' ]
 })
-export class OpenViduGoToMeetingComponent extends OpenViduComponent implements OnInit, OnDestroy {
+export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent implements OnInit, OnDestroy {
 
 	// Inputs
 	// To set new options in menu
@@ -51,10 +51,14 @@ export class OpenViduGoToMeetingComponent extends OpenViduComponent implements O
 	showChat: boolean = false;
 	showPeople: boolean = false;
 
+	// Web API access inside template
+	JSON: any;
+
 	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
 		public _intl: OpenViduGoToMeetingIntl) {
 
 		super();
+		this.JSON = JSON;
 		this.welcome = true;
 		this.setUserMessage(this._intl.loadingLabel);
 	}

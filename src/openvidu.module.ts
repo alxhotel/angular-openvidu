@@ -16,9 +16,13 @@ import {
 	MdTooltipModule
 } from '@angular/material';
 
-// Abstract componentes
-import { OpenViduComponent } from './openvidu.component';
-import { StreamComponent } from './stream.component';
+// Internal components
+import { OpenViduInternalComponent } from './openvidu-internal/openvidu-internal.component';
+import { StreamComponent } from './openvidu-internal/stream-internal.component';
+
+// Helper components
+import { OpenViduHelperComponent } from './openvidu-helper.component';
+
 
 // OpenVidu logic for custom template
 import { OpenViduDirective } from './openvidu.directive';
@@ -44,6 +48,9 @@ import { BigScreenService } from 'angular-bigscreen';
 
 // ObjNgFor Pipe
 import { ObjNgForPipe } from './utils/objngfor-pipe';
+
+// SafeURL Pipe
+import { SafeUrlPipe } from './utils/safe-url.pipe';
 
 // SplitPane Module
 import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
@@ -86,7 +93,10 @@ import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 		OpenViduGoToMeetingComponent,
 
 		/* ObjNgFor Pipe */
-		ObjNgForPipe
+		ObjNgForPipe,
+
+		/* SafeUrl Pipe */
+		SafeUrlPipe
 	],
 	exports: [
 		/* OpenVidu Directive */
@@ -99,7 +109,10 @@ import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 		OpenViduAppearinComponent,
 
 		/* OpenVidu GoToMeeting */
-		OpenViduGoToMeetingComponent
+		OpenViduGoToMeetingComponent,
+
+		/* SafeUrl Pipe */
+		SafeUrlPipe
 	],
 	providers: [
 		/* OpenVidu Hangouts i18n */

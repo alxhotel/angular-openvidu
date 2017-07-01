@@ -4,7 +4,9 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ParticipantData } from '../../openvidu.directive';
 import { OpenViduAppearinIntl } from '../openvidu-appearin-intl';
 
-import { StreamComponent } from '../../stream.component';
+import { StreamComponent } from '../../openvidu-internal/stream-internal.component';
+
+import { SafeUrlPipe } from '../../utils/safe-url.pipe';
 
 @Component({
 	selector: 'stream-appearin',
@@ -17,12 +19,15 @@ import { StreamComponent } from '../../stream.component';
 })
 export class StreamAppearinComponent extends StreamComponent implements OnInit {
 
-	constructor(protected domSanitizer: DomSanitizer, protected renderer: Renderer,
+	@ViewChild('name') name: ElementRef;
+	@ViewChild('videoStream') videoStream: ElementRef;
+
+	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer,
 		protected _intl: OpenViduAppearinIntl) {
-		super(domSanitizer, renderer);
+		super(safeUrlPipe, renderer);
 	}
 
-	chidSetterStream(val: Stream) {
+	protected setStreamCallback(val: Stream) {
 		// If local, show nice name
 		let dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
 		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this._intl.you : dataObj.username;

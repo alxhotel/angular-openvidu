@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 // Parent component
-import { ConnectionState, OpenViduComponent, ToolbarOption } from '../openvidu.component';
+import { ConnectionState, OpenViduInternalComponent, ToolbarOption } from '../openvidu-internal/openvidu-internal.component';
 
 // Angular Material
 import { MdSidenav } from '@angular/material';
@@ -27,7 +27,7 @@ import { OpenViduAppearinIntl } from './openvidu-appearin-intl';
 	templateUrl: './openvidu-appearin.component.html',
 	styleUrls: [ './openvidu-appearin.component.css' ]
 })
-export class OpenViduAppearinComponent extends OpenViduComponent implements OnInit, OnDestroy {
+export class OpenViduAppearinComponent extends OpenViduInternalComponent implements OnInit, OnDestroy {
 
 	// Inputs
 	// To set new options in menu

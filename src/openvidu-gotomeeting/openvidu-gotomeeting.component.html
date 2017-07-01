@@ -99,7 +99,7 @@
 						<ul>
 							<li *ngFor="let key of participants | ObjNgFor">
 								<p>
-									{{participants[key].data.split('"')[3]}}
+									{{JSON.parse(participants[key].data).username}}
 								</p>
 							</li>
 						</ul>

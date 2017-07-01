@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 // Parent component
-import { ConnectionState, OpenViduComponent, ToolbarOption } from '../openvidu.component';
+import { ConnectionState, OpenViduInternalComponent, ToolbarOption } from '../openvidu-internal/openvidu-internal.component';
 
 // Angular Material
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -40,7 +40,7 @@ import { DialogHangoutsComponent } from './dialog-hangouts/dialog-hangouts.compo
 		])
 	]
 })
-export class OpenViduHangoutsComponent extends OpenViduComponent implements OnInit, OnDestroy {
+export class OpenViduHangoutsComponent extends OpenViduInternalComponent implements OnInit, OnDestroy {
 
 	// Inputs
 	// To set new options in menu
@@ -57,10 +57,14 @@ export class OpenViduHangoutsComponent extends OpenViduComponent implements OnIn
 	// Connection stats
 	connectionUiState: ConnectionState = ConnectionState.NOT_CONNECTED;
 
+	// Web API access inside template
+	JSON: any;
+
 	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
 		public _intl: OpenViduHangoutsIntl, public dialog: MdDialog) {
 
 		super();
+		this.JSON = JSON;
 		this.setUserMessage(this._intl.loadingLabel);
 	}
 
