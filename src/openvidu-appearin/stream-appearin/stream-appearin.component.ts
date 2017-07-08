@@ -4,7 +4,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ParticipantData } from '../../openvidu.directive';
 import { OpenViduAppearinIntl } from '../openvidu-appearin-intl';
 
-import { StreamComponent } from '../../openvidu-internal/stream-internal.component';
+import { StreamInternalComponent } from '../../openvidu-internal/stream-internal.component';
 
 import { SafeUrlPipe } from '../../utils/safe-url.pipe';
 
@@ -17,7 +17,7 @@ import { SafeUrlPipe } from '../../utils/safe-url.pipe';
 			<video #videoStream autoplay="true" [src]="videoSrc" [muted]="muted"></video>
         </div>`
 })
-export class StreamAppearinComponent extends StreamComponent implements OnInit {
+export class StreamAppearinComponent extends StreamInternalComponent implements OnInit {
 
 	@ViewChild('name') name: ElementRef;
 	@ViewChild('videoStream') videoStream: ElementRef;

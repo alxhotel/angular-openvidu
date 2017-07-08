@@ -18,7 +18,7 @@ import {
 
 // Internal components
 import { OpenViduInternalComponent } from './openvidu-internal/openvidu-internal.component';
-import { StreamComponent } from './openvidu-internal/stream-internal.component';
+import { StreamInternalComponent } from './openvidu-internal/stream-internal.component';
 
 // Helper components
 import { OpenViduHelperComponent } from './openvidu-helper.component';
@@ -125,7 +125,10 @@ import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 		OpenViduGoToMeetingIntl,
 
 		/* Fullscreen Service */
-		BigScreenService
+		BigScreenService,
+
+		/* SafeUrl Pipe */
+		SafeUrlPipe
 	],
 	entryComponents: [
 		/* OpenVidu Hangouts Aux. Component */

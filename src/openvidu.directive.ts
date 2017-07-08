@@ -384,13 +384,12 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			var oldParticipant: Connection = participantEvent.connection;
 			this.participants.delete(oldParticipant.getId());
 
-			console.log(this.mainStream);
-			console.log(oldParticipant);
+			//console.log(this.mainStream);
+			//console.log(oldParticipant);
 
 			// Manually update main speaker if it was the main speaker
 			if (this.mainStream === null ||
 				(this.mainStream !== null && this.mainStream.getParticipant().getId() === oldParticipant.getId())) {
-
 				// Update main speaker locally
 				this.autoUpdateMainSpeaker();
 			}
@@ -443,7 +442,6 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			// Manually update main speaker if it was the main speaker
 			if (this.mainStream === null ||
 				(this.mainStream !== null && this.mainStream.getId() === oldStream.getId())) {
-
 				// Update main speaker locally
 				this.autoUpdateMainSpeaker();
 			}
@@ -497,11 +495,11 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 	private autoUpdateMainSpeaker() {
 		// Consensus: choose next speaker based on participantId
 		var firstParticipant: Connection = null;
-		for (let key in this.participants) {
-			if (firstParticipant === null || this.participants.get(key).getId() < firstParticipant.getId()) {
-				firstParticipant = this.participants.get(key);
+		this.participants.forEach((value: Connection, key: string) => {
+			if (firstParticipant === null || value.getId() < firstParticipant.getId()) {
+				firstParticipant = value;
 			}
-		}
+		});
 
 		if (firstParticipant) {
 			// Get his stream

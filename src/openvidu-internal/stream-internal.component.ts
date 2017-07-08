@@ -10,7 +10,7 @@ import { OpenViduDirective, StreamEvent } from '../openvidu.directive';
 
 import { SafeUrlPipe } from '../utils/safe-url.pipe';
 
-export abstract class StreamComponent implements OnInit {
+export abstract class StreamInternalComponent implements OnInit {
 
 	@Output() onSourceAdded: EventEmitter<void> = new EventEmitter<void>();
 
