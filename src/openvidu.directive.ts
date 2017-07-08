@@ -244,7 +244,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			// By default, current user is main speaker
 			this.mainStream = this.myCamera;
 			this.streams.set(this.myCamera.getId(), this.myCamera);
-			this.participants.set(this.myCamera.getParticipant().getId(), this.myCamera.getParticipant());
+			this.participants.set(this.myCamera.getParticipant().connectionId, this.myCamera.getParticipant());
 
 			// Publish new camera
 			this.myCamera.isReady = true;
@@ -330,8 +330,8 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			var mainStream: Stream = this.streams.get(streamEvent.participantId);
 			if (mainStream) {
 				// Check participant if it exists
-				if (!this.participants.has(mainStream.getParticipant().getId())) {
-					this.participants.set(mainStream.getParticipant().getId(), mainStream.getParticipant());
+				if (!this.participants.has(mainStream.getParticipant().connectionId)) {
+					this.participants.set(mainStream.getParticipant().connectionId, mainStream.getParticipant());
 				}
 
 				// Set main speaker
@@ -370,7 +370,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.log(participantEvent.connection);
 
 			var newParticipant: Connection = participantEvent.connection;
-			this.participants.set(newParticipant.getId(), newParticipant);
+			this.participants.set(newParticipant.connectionId, newParticipant);
 
 			// Emit event
 			this.onParticipantJoined.emit({
@@ -382,14 +382,14 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 
 			// Remove from  array
 			var oldParticipant: Connection = participantEvent.connection;
-			this.participants.delete(oldParticipant.getId());
+			this.participants.delete(oldParticipant.connectionId);
 
 			//console.log(this.mainStream);
 			//console.log(oldParticipant);
 
 			// Manually update main speaker if it was the main speaker
 			if (this.mainStream === null ||
-				(this.mainStream !== null && this.mainStream.getParticipant().getId() === oldParticipant.getId())) {
+				(this.mainStream !== null && this.mainStream.getParticipant().connectionId === oldParticipant.connectionId)) {
 				// Update main speaker locally
 				this.autoUpdateMainSpeaker();
 			}
@@ -417,10 +417,10 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			this.streams.set(newStream.getId(), newStream);
 
 			// Also add to participant
-			if (!this.participants.has(newStream.getParticipant().getId())) {
-				this.participants.set(newStream.getParticipant().getId(), newStream.getParticipant());
+			if (!this.participants.has(newStream.getParticipant().connectionId)) {
+				this.participants.set(newStream.getParticipant().connectionId, newStream.getParticipant());
 			}
-			this.participants.get(newStream.getParticipant().getId()).addStream(newStream);
+			this.participants.get(newStream.getParticipant().connectionId).addStream(newStream);
 
 			// Consensus: Update main speaker by new participant
 			this.updateMainSpeakerManually(newStream);
@@ -496,7 +496,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		// Consensus: choose next speaker based on participantId
 		var firstParticipant: Connection = null;
 		this.participants.forEach((value: Connection, key: string) => {
-			if (firstParticipant === null || value.getId() < firstParticipant.getId()) {
+			if (firstParticipant === null || value.connectionId < firstParticipant.connectionId) {
 				firstParticipant = value;
 			}
 		});

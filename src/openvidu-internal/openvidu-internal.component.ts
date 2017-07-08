@@ -125,8 +125,8 @@ export abstract class OpenViduInternalComponent {
 		this.mainStream = streamEvent.stream;
 
 		// Check if participant exists
-		if (!this.participants[this.mainStream.getParticipant().getId()]) {
-			this.participants[this.mainStream.getParticipant().getId()] = this.mainStream.getParticipant();
+		if (!this.participants[this.mainStream.getParticipant().connectionId]) {
+			this.participants[this.mainStream.getParticipant().connectionId] = this.mainStream.getParticipant();
 		}
 	}
 
@@ -193,21 +193,21 @@ export abstract class OpenViduInternalComponent {
 
 	handleOnParticipantJoined(participantEvent: ParticipantEvent) {
 		var newParticipant = participantEvent.participant;
-		this.participants[newParticipant.getId()] = newParticipant;
+		this.participants[newParticipant.connectionId] = newParticipant;
 
 		// Emit event
 		this.onParticipantJoined.emit({
-			participantId: newParticipant.getId()
+			participantId: newParticipant.connectionId
 		});
 	}
 
 	handleOnParticipantLeft(participantEvent: ParticipantEvent) {
 		var oldParticipant = participantEvent.participant;
-		delete this.participants[oldParticipant.getId()];
+		delete this.participants[oldParticipant.connectionId];
 
 		// Emit event
 		this.onParticipantLeft.emit({
-			participantId: oldParticipant.getId()
+			participantId: oldParticipant.connectionId
 		});
 	}
 
