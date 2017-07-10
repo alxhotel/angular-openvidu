@@ -91,7 +91,14 @@ module.exports = function (config) {
 		customLaunchers: {
 			Chrome_without_security: {
 				base: 'Chrome',
-				flags: ['--disable-web-security', '--ignore-certificate-errors', '--use-fake-ui-for-media-stream']
+				flags: [
+					'--disable-web-security',
+					'--ignore-certificate-errors',
+					'--allow-insecure-localhost',
+					'--use-fake-ui-for-media-stream',
+					'--use-fake-device-for-media-stream'
+					//'--use-file-for-fake-video-capture=./test.y4m'
+				]
 			}
 		},
 

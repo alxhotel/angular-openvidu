@@ -61,3 +61,5 @@ typings
 
 # Generated CSS #
 /src/**/*.css
+
+*.y4m
