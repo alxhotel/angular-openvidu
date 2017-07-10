@@ -98,10 +98,12 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 
 	// My camera stream
 	private myCamera: Stream;
-	private myCameraId: string = null;
+	private selectedMyCameraId: string = null;
 
 	// Flags
 	private connectedToServer: boolean = false;
+
+	private changingCamera: boolean = false;
 
 	constructor(private _changeDetectionRef : ChangeDetectorRef) {
 	}
@@ -220,16 +222,21 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 
 			console.log('CAMERA CHANGED TO: ' + deviceId);
 
-			this.myCameraId = deviceId;
+			this.selectedMyCameraId = deviceId;
 
 			// User wants to change camera
-			if (deviceId !== null) {
+			if (deviceId !== null && !this.changingCamera) {
 				// Ugly fix: leave room and re-enter
-				this.openvidu.openVidu.close(false);
+				this.changingCamera = true;
+				this.leaveRoom();
+				this.ngOnChanges();
+				/*this.openvidu.openVidu.close(false);
 				setTimeout(() => {
 					this.joinRoom(false);
-				}, 1000);
+				}, 1000);*/
 				return;
+			} else if (this.changingCamera) {
+				this.changingCamera = false;
 			}
 
 			// Fix: manually emit event
@@ -315,7 +322,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			}
 
 			if (setCamera !== false) {
-				this.setCamera(this.myCameraId);
+				this.setCamera(this.selectedMyCameraId);
 			}
 		});
 	}
@@ -383,9 +390,6 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			// Remove from  array
 			var oldParticipant: Connection = participantEvent.connection;
 			this.participants.delete(oldParticipant.connectionId);
-
-			//console.log(this.mainStream);
-			//console.log(oldParticipant);
 
 			// Manually update main speaker if it was the main speaker
 			if (this.mainStream === null ||

@@ -1,5 +1,5 @@
 let isCI = !!process.env.CI;
-let browsers = ['Chrome'];
+let browsers = ['Chrome_without_security'];
 let autoWatch =  !isCI;
 let singleRun = isCI;
 
@@ -87,6 +87,13 @@ module.exports = function (config) {
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: browsers,
+
+		customLaunchers: {
+			Chrome_without_security: {
+				base: 'Chrome',
+				flags: ['--disable-web-security', '--ignore-certificate-errors', '--use-fake-ui-for-media-stream']
+			}
+		},
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits

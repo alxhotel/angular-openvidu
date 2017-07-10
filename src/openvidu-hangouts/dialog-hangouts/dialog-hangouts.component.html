@@ -1,19 +1,19 @@
 <md-tab-group>
 	<md-tab label="General">
-		<form>
-			<div>
-				<label>{{_intl.selectVideoInputLabel}}</label>
-			</div>
-			<div>
-				<md-select placeholder="Video input" [(ngModel)]="selectedVideoInput" name="videoInput">
+		<h1 md-dialog-title>{{_intl.settingsLabel}}</h1>
+		<div>
+			<div md-dialog-content>
+				<md-select placeholder="{{_intl.selectVideoInputLabel}}" [(ngModel)]="selectedVideoInput" name="videoInput">
 					<md-option *ngFor="let video of videoInputs" [value]="video.deviceId">
 						{{video.label}}
 					</md-option>
 				</md-select>
 			</div>
-			<div>
-				<button md-raised-button (click)="onSubmit()">{{_intl.readyLabel}}</button>
+			<div md-dialog-actions>
+				<button md-raised-button color="primary" (click)="onSubmit()">
+					{{_intl.readyLabel}}
+				</button>
 			</div>
-		</form>
+		</div>
 	</md-tab>
 </md-tab-group>

@@ -6,7 +6,7 @@ import { async, getTestBed, ComponentFixture, ComponentFixtureAutoDetect, TestBe
 import { OpenViduModule } from './openvidu.module';
 
 // Component to be tested
-import { OpenViduDirective } from './openvidu.directive';
+import { OpenViduDirective, MessageEvent } from './openvidu.directive';
 
 // Testing utils
 import { getRandomCredentials } from './testing/testing-helper';
@@ -31,11 +31,15 @@ class TestComponent {
 	participantId: string;
 	wsUrl: string;
 
+	serverConnected: boolean = false;
+	messages: string[] = [];
+
 	// OpenVidu api
 	@ViewChild('openviduApi') openviduApi: OpenViduDirective;
 
 	onServerConnected() {
 		// Dummy
+		this.serverConnected = true;
 	}
 	onRoomConnected() {
 		// Dummy
@@ -52,8 +56,8 @@ class TestComponent {
 	onLeaveRoom() {
 		// Dummy
 	}
-	onNewMessage() {
-		// Dummy
+	onNewMessage(messageEvent: MessageEvent) {
+		this.messages.push(messageEvent.message);
 	}
 }
 
@@ -81,9 +85,10 @@ describe('AngularOpenVidu Directive', () => {
 			fixture.detectChanges();
 			testComponent = fixture.componentInstance;
 		});
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 	}));
 
-	afterEach(() => {
+	afterAll(() => {
 		// Reset the testing module
 		//getTestBed().resetTestingModule();
 	});
@@ -106,73 +111,128 @@ describe('AngularOpenVidu Directive', () => {
 		expect(testComponent.openviduApi.ngOnChanges).toHaveBeenCalled();
 
 		// Check values
-		const sessionId = 'SessionA';
-		testComponent.sessionId = sessionId;
-		const participantId = 'ParticipantA';
-		testComponent.participantId = participantId;
-		const wsUrl = 'wss://127.0.0.1:8443/';
-		testComponent.wsUrl = wsUrl;
+		const randomCredentials = getRandomCredentials();
+		testComponent.sessionId = randomCredentials['sessionId'];
+		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
-		expect(testComponent.openviduApi.sessionId).toEqual(sessionId);
-		expect(testComponent.openviduApi.participantId).toEqual(participantId);
-		expect(testComponent.openviduApi.wsUrl).toEqual(wsUrl);
+		expect(testComponent.openviduApi.sessionId).toEqual(randomCredentials['sessionId']);
+		expect(testComponent.openviduApi.participantId).toEqual(randomCredentials['participantId']);
+		expect(testComponent.openviduApi.wsUrl).toEqual(defaultWsUrl);
 	});
 
 	it('should trigger onServerConnected', (done) => {
 		console.log(testComponent.openviduApi.wsUrl);
 		// Setup spy
-		const spyChanges = spyOn(testComponent, 'onServerConnected').and.callThrough();
-		// setup creds
+		spyOn(testComponent, 'onServerConnected').and.callThrough();
+		// Setup creds
 		const randomCredentials = getRandomCredentials();
 		testComponent.sessionId = randomCredentials['sessionId'];
 		testComponent.participantId = randomCredentials['participantId'];
 		testComponent.wsUrl = defaultWsUrl;
+		fixture.detectChanges();
 
 		// Check trigger
-		//setTimeout(() => {
-		//	expect(spyChanges).toHaveBeenCalled();
-		//	done();
-		//}, 1000);
-		done();
-		expect(true).toBeTruthy();
+		setTimeout(() => {
+			expect(testComponent.onServerConnected).toHaveBeenCalled();
+			done();
+		}, 1000);
 	});
 
-	it('should trigger onRoomConnected', () => {
+
+	it('should trigger onRoomConnected', (done) => {
 		// Setup spy
-		const spyChanges = spyOn(testComponent, 'onRoomConnected').and.callThrough();
+		spyOn(testComponent, 'onRoomConnected').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
 		testComponent.sessionId = randomCredentials['sessionId'];
 		testComponent.participantId = randomCredentials['participantId'];
 		testComponent.wsUrl = defaultWsUrl;
+		fixture.detectChanges();
 
 		// Check trigger
-		//expect(spyChanges).toHaveBeenCalled();
-		expect(true).toBeTruthy();
+		setTimeout(() => {
+			expect(testComponent.onRoomConnected).toHaveBeenCalled();
+			done();
+		}, 4000);
 	});
 
-	it('should trigger onParticipantJoined', () => {
-		expect(true).toBeTruthy();
+	it('should trigger onLeaveRoom', (done) => {
+		// Setup spy
+		spyOn(testComponent, 'onLeaveRoom').and.callThrough();
+		// setup creds
+		const randomCredentials = getRandomCredentials();
+		testComponent.sessionId = randomCredentials['sessionId'];
+		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.wsUrl = defaultWsUrl;
+		fixture.detectChanges();
+
+		testComponent.openviduApi.leaveRoom();
+
+		// Check trigger
+		setTimeout(() => {
+			expect(testComponent.onLeaveRoom).toHaveBeenCalled();
+			done();
+		}, 1000);
 	});
 
-	it('should trigger onParticipantLeft', () => {
-		expect(true).toBeTruthy();
+	it('should trigger onNewMessage', (done) => {
+		// Setup spy
+		spyOn(testComponent, 'onNewMessage').and.callThrough();
+		// setup creds
+		const randomCredentials = getRandomCredentials();
+		testComponent.sessionId = randomCredentials['sessionId'];
+		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.wsUrl = defaultWsUrl;
+		fixture.detectChanges();
+
+		// Check trigger
+		setTimeout(() => {
+			const testMessage = 'Testing message';
+			testComponent.openviduApi.sendMessage(testMessage);
+			
+			// Check trigger
+			setTimeout(() => {
+				expect(testComponent.onNewMessage).toHaveBeenCalled();
+				expect(testComponent.messages.length).toEqual(1);
+				expect(testComponent.messages[0]).toEqual(testMessage);
+				done();
+			}, 4000);
+		}, 4000);
 	});
 
-	it('should trigger onErrorMedia', () => {
-		expect(true).toBeTruthy();
+	it('should change camera', () => {
+		// Setup spy
+		spyOn(testComponent, 'onNewMessage').and.callThrough();
+		// setup creds
+		const randomCredentials = getRandomCredentials();
+		testComponent.sessionId = randomCredentials['sessionId'];
+		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.wsUrl = defaultWsUrl;
+		fixture.detectChanges();
+
+		// Check trigger
+		setTimeout(() => {
+			testComponent.openviduApi.camEnabled = false;
+			expect(testComponent.messages.length).not.toBeTruthy(testComponent.openviduApi.camEnabled);
+		}, 4000);
 	});
 
-	it('should trigger onLeaveRoom', () => {
-		expect(true).toBeTruthy();
+	it('should chnage microphone', () => {
+		// Setup spy
+		spyOn(testComponent, 'onNewMessage').and.callThrough();
+		// setup creds
+		const randomCredentials = getRandomCredentials();
+		testComponent.sessionId = randomCredentials['sessionId'];
+		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.wsUrl = defaultWsUrl;
+		fixture.detectChanges();
+
+		// Check trigger
+		setTimeout(() => {
+			testComponent.openviduApi.micEnabled = false;
+			expect(testComponent.messages.length).not.toBeTruthy(testComponent.openviduApi.micEnabled);
+		}, 4000);
 	});
-
-	it('should trigger onNewMessage', () => {
-		expect(true).toBeTruthy();
-	});
-
-	//const h2 = fixture.debugElement.query(By.css('h2'));
-
-	//expect(h2.nativeElement.textContent).to.equal('Value: 0'
 
 });

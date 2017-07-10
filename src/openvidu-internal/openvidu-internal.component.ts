@@ -159,10 +159,14 @@ export abstract class OpenViduInternalComponent {
 	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent) {
 		if (cameraEvent.access) {
 			// All good :)
+			this.handleOnStreamRemoved({
+				stream: this.myCamera
+			});
+
 			this.myCamera = cameraEvent.camera;
-			if (this.streams.indexOf(this.myCamera) < 0) {
-				this.streams.push(this.myCamera);
-			}
+			this.handleOnStreamAdded({
+				stream: this.myCamera
+			});
 
 			this.connectionUiState = ConnectionState.CAMERA_ACCESS_GRANTED;
 		} else if (!cameraEvent.access) {
@@ -231,6 +235,11 @@ export abstract class OpenViduInternalComponent {
 	}
 
 	handleOnLeaveRoom() {
+		this.session = null;
+		this.participants = {};
+		this.streams = [];
+		this.mainStream = null;
+
 		// Emit event
 		this.onLeaveRoom.emit();
 	}

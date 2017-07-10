@@ -170,20 +170,9 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 	}
 
 	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent) {
+		super.handleOnCameraAccessChange(cameraEvent);
 		if (cameraEvent.access) {
-			// All good :)
-			this.myCamera = cameraEvent.camera;
-			if (this.streams.indexOf(this.myCamera) < 0) {
-				this.streams.push(this.myCamera);
-			}
-
 			this.welcome = false;
-
-			this.connectionUiState = ConnectionState.CAMERA_ACCESS_GRANTED;
-		} else if (!cameraEvent.access) {
-			// No camera :(
-
-			this.connectionUiState = ConnectionState.CAMERA_ACCESS_DENIED;
 		}
 	}
 
