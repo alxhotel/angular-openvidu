@@ -190,7 +190,7 @@ describe('AngularOpenVidu Directive', () => {
 		setTimeout(() => {
 			const testMessage = 'Testing message';
 			testComponent.openviduApi.sendMessage(testMessage);
-			
+
 			// Check trigger
 			setTimeout(() => {
 				expect(testComponent.onNewMessage).toHaveBeenCalled();
