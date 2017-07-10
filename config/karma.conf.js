@@ -97,7 +97,6 @@ module.exports = function (config) {
 					'--allow-insecure-localhost',
 					'--use-fake-ui-for-media-stream',
 					'--use-fake-device-for-media-stream'
-					//'--use-file-for-fake-video-capture=./test.y4m'
 				]
 			}
 		},

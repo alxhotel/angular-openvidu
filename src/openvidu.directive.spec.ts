@@ -177,6 +177,9 @@ describe('AngularOpenVidu Directive', () => {
 	});
 
 	it('should trigger onNewMessage', (done) => {
+		// Fix popup from openvidu-browser
+		//window.alert = function(){return;};
+		window.confirm = () => {return false;};
 		// Setup spy
 		spyOn(testComponent, 'onNewMessage').and.callThrough();
 		// setup creds
