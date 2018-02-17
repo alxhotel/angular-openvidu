@@ -39,7 +39,7 @@ export interface ParticipantData {
 export enum OpenViduNotificationType {
 	MIC_CHANGED = 1,
 	CAM_CHANGED = 2
-};
+}
 
 /**
  * AngularOpenVidu Directive to create your own template
