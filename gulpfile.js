@@ -57,7 +57,7 @@ gulp.task('rollup', function () {
 
 gulp.task('ngc', function () {
 	// ngc -p tsconfig.json
-	return ngc('tsconfig.json')
+	return ngc(['tsconfig.json'])
 });
 
 gulp.task('copyFiles', function () {
