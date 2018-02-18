@@ -6,6 +6,8 @@ import { OpenViduModule } from '../openvidu.module';
 // Component to be tested
 import { OpenViduHangoutsComponent } from './openvidu-hangouts.component';
 
+import { BigScreenModule } from 'angular-bigscreen';
+
 describe('AngularOpenVidu Hangouts', () => {
 	let fixture: ComponentFixture<OpenViduHangoutsComponent>;
 	let component: OpenViduHangoutsComponent;
@@ -14,10 +16,11 @@ describe('AngularOpenVidu Hangouts', () => {
 		// Setup the component to be tested
 		TestBed.configureTestingModule({
 			imports: [
-				OpenViduModule
+				OpenViduModule,
+				BigScreenModule.forRoot()
 			],
 			providers: [
-				{ provide: ComponentFixtureAutoDetect, useValue: true }
+				{ provide: ComponentFixtureAutoDetect, useValue: true },
 			]
 		})
 		.compileComponents().then( () => {

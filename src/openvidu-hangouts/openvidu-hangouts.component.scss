@@ -30,12 +30,12 @@
 				flex: 1 1 auto;
 			}
 		}
-		md-sidenav-container {
+		mat-sidenav-container {
 			flex: 1;
 			
 			height: 400px;
 			
-			md-sidenav {
+			mat-sidenav {
 				display: flex;
 				flex-direction: column;
 				background: #212121;
@@ -89,7 +89,7 @@
 						display: flex;
 						flex-direction: row;
 						
-						md-input-container {
+						mat-input-container {
 							flex: 1;
 							width: auto;
 							
@@ -176,7 +176,7 @@
 								color: #000;
 								background-color: rgba(255, 255, 255, 1);
 
-								md-icon {
+								mat-icon {
 									display: none;
 
 									&.disabled-icon {
@@ -184,7 +184,7 @@
 									}
 								}
 							}
-							md-icon {
+							mat-icon {
 								display: inline-block;
 
 								&.disabled-icon {
@@ -222,7 +222,7 @@
 				height: 48px;
 				bottom: 58px;
 				
-				md-icon {
+				mat-icon {
 					font-size: 24px;
 					line-height: 18px;
 				}

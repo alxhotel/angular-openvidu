@@ -85,7 +85,7 @@ First, follow the installation steps at [this README](/README.md#installation). 
 		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
 		(onRoomConnected)="myRoomConnectedHandler($event)">
 
-		<md-toolbar>My app</md-toolbar>
+		<mat-toolbar>My app</mat-toolbar>
 
 		<my-custom-stream *ngFor="let s of streams" [stream]="s"></my-custom-stream>
 
@@ -153,7 +153,7 @@ This is an example of a template:
 	[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
 	(eventName)="myEventHandler($event)">
 
-	<md-toolbar>My app</md-toolbar>
+	<mat-toolbar>My app</mat-toolbar>
 
 	<my-custom-stream *ngFor="let s of streams" [stream]="s"></my-custom-stream>
 

@@ -1,10 +1,10 @@
 module.exports = {
-	entry: 'dist/index.js',
+	input: 'dist/index.js',
 	format: 'umd',
-	moduleName: 'angular-openvidu',
+	name: 'angular-openvidu',
 	external: [
 		'@angular/core',
 		'@angular/common'
 	],
-	dest: 'dist/index.bundle.js'
+	output: 'dist/index.bundle.js'
 };

@@ -7,7 +7,7 @@ import {
 import { ConnectionState, OpenViduInternalComponent, ToolbarOption } from '../openvidu-internal/openvidu-internal.component';
 
 // Angular Material
-import { MdSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material';
 
 // Fullscreen Service
 import { BigScreenService } from 'angular-bigscreen';
@@ -35,7 +35,7 @@ export class OpenViduAppearinComponent extends OpenViduInternalComponent impleme
 
 	// HTML elements
 	@ViewChild('main') mainElement: ElementRef;
-	@ViewChild('sidenav') sidenav: MdSidenav;
+	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild('messageInput') messageInput: ElementRef;
 	@ViewChild('panelVideo') panelVideo: ElementRef;
 	@ViewChildren('streamAppearin') streamAppearin: QueryList<StreamAppearinComponent>;
