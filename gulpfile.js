@@ -8,7 +8,8 @@ var ts = require('gulp-typescript');
 var tsProj = ts.createProject('tsconfig.json');
 var inlineNg2Template = require('gulp-inline-ng2-template');
 var tslint = require('gulp-tslint');
-var ngc = require('gulp-ngc');
+//var ngc = require('gulp-ngc');
+var ngc = require('@angular/compiler-cli/src/main').main;
 var rollup = require('rollup');
 var runSequence = require('run-sequence');
 
@@ -47,7 +48,7 @@ gulp.task('inline-files', function () {
 gulp.task('rollup', function () {
 	// rollup -c rollup.config.js dist/index.js > dist/index.bundle.js
 	return rollup.rollup({
-		entry: 'dist/index.js'
+		input: 'dist/index.js'
 	}).then(function (bundle) {
 		bundle.write(rollupConfig);
 	}).catch(function (thing) {
@@ -57,7 +58,7 @@ gulp.task('rollup', function () {
 
 gulp.task('ngc', function () {
 	// ngc -p tsconfig.json
-	return ngc('tsconfig.json')
+	return ngc(['tsconfig.json'])
 });
 
 gulp.task('copyFiles', function () {

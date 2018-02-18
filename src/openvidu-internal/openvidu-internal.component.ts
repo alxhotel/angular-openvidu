@@ -17,7 +17,7 @@ export enum ConnectionState {
 	REQUESTING_CAMERA_ACCESS = 3,
 	CAMERA_ACCESS_GRANTED = 4,
 	CAMERA_ACCESS_DENIED = 5
-};
+}
 
 export interface ToolbarOption {
 	label?: string;

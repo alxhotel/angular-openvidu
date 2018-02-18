@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 // OpenVidu Hanguts i18n
 import { OpenViduHangoutsIntl } from '../openvidu-hangouts-intl';
@@ -14,7 +14,7 @@ export class DialogHangoutsComponent implements OnInit {
 
 	videoInputs: Object[] = [];
 
-	constructor(public dialogRef: MdDialogRef<DialogHangoutsComponent>,
+	constructor(public dialogRef: MatDialogRef<DialogHangoutsComponent>,
 		public _intl: OpenViduHangoutsIntl) {
 
 	}

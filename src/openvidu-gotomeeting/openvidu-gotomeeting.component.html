@@ -89,11 +89,11 @@
 
 		<div class="wrapper" *ngIf="session && !welcome">
 			<!-- SIDENAV -->
-			<md-sidenav-container>
-				<md-sidenav #sidenav align="end" mode="side" (close-start)="onSidenavCloseStart()">
+			<mat-sidenav-container>
+				<mat-sidenav #sidenav align="end" mode="side" (close-start)="onSidenavCloseStart()">
 					<div class="people" *ngIf="showPeople">
 						<button class="close" (click)="togglePeople()">
-							<md-icon>close</md-icon>
+							<mat-icon>close</mat-icon>
 						</button>
 						<h2>{{_intl.peopleLabel}}</h2>
 						<ul>
@@ -106,7 +106,7 @@
 					</div>
 					<div class="chat" *ngIf="showChat">
 						<button class="close" (click)="toggleChat()">
-							<md-icon>close</md-icon>
+							<mat-icon>close</mat-icon>
 						</button>
 						<h2>{{_intl.chatLabel}}</h2>
 						<ul>
@@ -118,15 +118,15 @@
 						</ul>
 						<div class="message-input-container" (submit)="sendMessage(messageInput.value);" accept-charset="UTF-8">
 							<form>
-								<md-input-container color="primary" floatPlaceholder="never">
-									<input mdInput #messageInput placeholder="{{_intl.sendAMessageLabel}}">
-								</md-input-container>
+								<mat-input-container color="primary" floatPlaceholder="never">
+									<input matInput #messageInput placeholder="{{_intl.sendAMessageLabel}}">
+								</mat-input-container>
 							</form>
 						</div>
 					</div>
-				</md-sidenav>
+				</mat-sidenav>
 
-				<div class="md-sidenav-content">
+				<div class="mat-sidenav-content">
 					<div class="panel">
 						<horizontal-split-pane
 							primary-component-minsize="50"
@@ -162,46 +162,46 @@
 					<!-- BUTTONS -->
 					<div class="buttons">
 						<div class="up">
-							<button md-button class="close-session" (click)="leaveRoom()" title="{{_intl.leaveRoomLabel}}">
-								<md-icon>close</md-icon>
+							<button mat-button class="close-session" (click)="leaveRoom()" title="{{_intl.leaveRoomLabel}}">
+								<mat-icon>close</mat-icon>
 								<div>{{_intl.leaveRoomLabel}}</div>
 							</button>
-							<button md-icon-button class="toggle-mic" [ngClass]="{'disabled': !openviduApi.micEnabled}" (click)="toggleMic()" mdTooltip="{{(openviduApi.micEnabled) ? _intl.muteLabel : _intl.unmuteLabel}}" mdTooltipPosition="left">
-								<md-icon>mic</md-icon>
-								<md-icon class="disabled-icon">mic_off</md-icon>
+							<button mat-icon-button class="toggle-mic" [ngClass]="{'disabled': !openviduApi.micEnabled}" (click)="toggleMic()" matTooltip="{{(openviduApi.micEnabled) ? _intl.muteLabel : _intl.unmuteLabel}}" matTooltipPosition="left">
+								<mat-icon>mic</mat-icon>
+								<mat-icon class="disabled-icon">mic_off</mat-icon>
 							</button>
-							<button md-icon-button class="toggle-camera" [ngClass]="{'disabled': !openviduApi.camEnabled}" (click)="toggleCamera()" mdTooltip="{{(openviduApi.micEnabled) ? _intl.videoOffLabel : _intl.videoOnLabel}}" mdTooltipPosition="left">
-								<md-icon>videocam</md-icon>
-								<md-icon class="disabled-icon">videocam_off</md-icon>
+							<button mat-icon-button class="toggle-camera" [ngClass]="{'disabled': !openviduApi.camEnabled}" (click)="toggleCamera()" matTooltip="{{(openviduApi.micEnabled) ? _intl.videoOffLabel : _intl.videoOnLabel}}" matTooltipPosition="left">
+								<mat-icon>videocam</mat-icon>
+								<mat-icon class="disabled-icon">videocam_off</mat-icon>
 							</button>
 						</div>
 						<hr />
 						<div class="middle">
-							<button md-button class="show-people" [ngClass]="{'active': showPeople}" (click)="togglePeople()" mdTooltip="{{_intl.peopleLabel}}" mdTooltipPosition="left">
-								<md-icon>people</md-icon>
+							<button mat-button class="show-people" [ngClass]="{'active': showPeople}" (click)="togglePeople()" matTooltip="{{_intl.peopleLabel}}" matTooltipPosition="left">
+								<mat-icon>people</mat-icon>
 							</button>
-							<button md-button class="show-chat" [ngClass]="{'active': showChat}" (click)="toggleChat()" mdTooltip="{{_intl.chatLabel}}" mdTooltipPosition="left">
-								<md-icon>chat</md-icon>
+							<button mat-button class="show-chat" [ngClass]="{'active': showChat}" (click)="toggleChat()" matTooltip="{{_intl.chatLabel}}" matTooltipPosition="left">
+								<mat-icon>chat</mat-icon>
 							</button>
 						</div>
 						<div class="bottom">
 							<ng-container *ngFor="let option of toolbarOptions">
-								<button md-button *ngIf="option.icon !== null" (click)="option.onClick !== null && option.onClick()" mdTooltip="{{(option.label) ? option.label : ''}}" mdTooltipPosition="left">
-									<md-icon>{{option.icon}}</md-icon>
+								<button mat-button *ngIf="option.icon !== null" (click)="option.onClick !== null && option.onClick()" matTooltip="{{(option.label) ? option.label : ''}}" matTooltipPosition="left">
+									<mat-icon>{{option.icon}}</mat-icon>
 								</button>
 							</ng-container>
 							
-							<button md-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" mdTooltip="{{_intl.fullscreenLabel}}" mdTooltipPosition="left">
-								<md-icon>fullscreen</md-icon>
+							<button mat-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" matTooltip="{{_intl.fullscreenLabel}}" matTooltipPosition="left">
+								<mat-icon>fullscreen</mat-icon>
 							</button>
-							<button md-button (click)="toggleFullscreen()" *ngIf="isFullscreen" mdTooltip="{{_intl.exitFullscreenLabel}}" mdTooltipPosition="left">
-								<md-icon>clear</md-icon>
+							<button mat-button (click)="toggleFullscreen()" *ngIf="isFullscreen" matTooltip="{{_intl.exitFullscreenLabel}}" matTooltipPosition="left">
+								<mat-icon>clear</mat-icon>
 							</button>
 						</div>
 					</div>
 				</div>
 
-			</md-sidenav-container>
+			</mat-sidenav-container>
 		</div>
 	</div>
 		

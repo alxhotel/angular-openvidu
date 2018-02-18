@@ -8,7 +8,7 @@ import { ConnectionState, OpenViduInternalComponent, ToolbarOption } from '../op
 
 // Angular Material
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MdDialog, MdSidenav } from '@angular/material';
+import { MatDialog, MatSidenav } from '@angular/material';
 
 // Fullscreen Service
 import { BigScreenService } from 'angular-bigscreen';
@@ -48,7 +48,7 @@ export class OpenViduHangoutsComponent extends OpenViduInternalComponent impleme
 
 	// HTML elements
 	@ViewChild('main') mainElement: ElementRef;
-	@ViewChild('sidenav') sidenav: MdSidenav;
+	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild('messageInput') messageInput: ElementRef;
 
 	// Animations
@@ -61,7 +61,7 @@ export class OpenViduHangoutsComponent extends OpenViduInternalComponent impleme
 	JSON: any;
 
 	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
-		public _intl: OpenViduHangoutsIntl, public dialog: MdDialog) {
+		public _intl: OpenViduHangoutsIntl, public dialog: MatDialog) {
 
 		super();
 		this.JSON = JSON;

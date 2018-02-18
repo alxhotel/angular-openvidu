@@ -6,14 +6,15 @@ import { FormsModule } from '@angular/forms';
 // Angular Material
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
-	MdButtonModule,
-	MdDialogModule,
-	MdIconModule,
-	MdInputModule,
-	MdSelectModule,
-	MdSidenavModule,
-	MdToolbarModule,
-	MdTooltipModule
+	MatButtonModule,
+	MatDialogModule,
+	MatIconModule,
+	MatInputModule,
+	MatSelectModule,
+	MatSidenavModule,
+	MatTabsModule,
+	MatToolbarModule,
+	MatTooltipModule
 } from '@angular/material';
 
 // Internal components
@@ -44,7 +45,7 @@ import { StreamGoToMeetingComponent } from './openvidu-gotomeeting/stream-gotome
 import { OpenViduGoToMeetingComponent } from './openvidu-gotomeeting/openvidu-gotomeeting.component';
 
 // Fullscreen Service
-import { BigScreenService } from 'angular-bigscreen';
+import { BigScreenModule } from 'angular-bigscreen';
 
 // ObjNgFor Pipe
 import { ObjNgForPipe } from './utils/objngfor-pipe';
@@ -63,17 +64,21 @@ import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 
 		/* Material Modules */
 		NoopAnimationsModule,
-		MdButtonModule,
-		MdDialogModule,
-		MdIconModule,
-		MdInputModule,
-		MdSelectModule,
-		MdSidenavModule,
-		MdToolbarModule,
-		MdTooltipModule,
+		MatButtonModule,
+		MatDialogModule,
+		MatIconModule,
+		MatInputModule,
+		MatSelectModule,
+		MatSidenavModule,
+		MatTabsModule,
+		MatToolbarModule,
+		MatTooltipModule,
 
 		/* SpliPane Module */
-		SplitPaneModule
+		SplitPaneModule,
+
+		/* Fullscreen Module */
+		BigScreenModule.forRoot()
 	],
 	declarations: [
 		/* OpenVidu Directive */
@@ -125,7 +130,7 @@ import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 		OpenViduGoToMeetingIntl,
 
 		/* Fullscreen Service */
-		BigScreenService,
+		//BigScreenService,
 
 		/* SafeUrl Pipe */
 		SafeUrlPipe

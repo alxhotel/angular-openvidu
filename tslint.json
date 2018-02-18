@@ -18,7 +18,6 @@
     "no-eval": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
     "one-line": [true,
       "check-open-brace",
       "check-catch",
@@ -40,9 +39,6 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "import-destructuring-spacing": true,
-    "templates-use-public": true,
-    "no-access-missing-member": true,
-    "invoke-injectable": true
+    "import-destructuring-spacing": true
   }
 }

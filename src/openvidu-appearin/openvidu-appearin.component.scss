@@ -80,7 +80,7 @@
 				flex-direction: column;
 			}
 			.camera-off-icon {
-				md-icon {
+				mat-icon {
 					height: 84px;
 					width: 500px;
 
@@ -132,7 +132,7 @@
 				flex: 1 1 auto;
 			}
 		}
-		md-sidenav-container {
+		mat-sidenav-container {
 			flex: 1;
 			background: transparent;
 
@@ -150,7 +150,7 @@
 				color: #fff;
 				z-index: 99;
 			}
-			.md-sidenav-content {
+			.mat-sidenav-content {
 				display: flex;
 				flex-direction: column;
 				height: 100%;
@@ -233,7 +233,7 @@
 							background: #fff;
 							padding: 0px 10px;
 							
-							md-input-container {
+							mat-input-container {
 								width: 100%;
 							}
 						}
@@ -276,7 +276,7 @@
 							&.disabled {
 								background-color: #ff2e63;
 
-								md-icon {
+								mat-icon {
 									display: none;
 
 									&.disabled-icon {
@@ -291,7 +291,7 @@
 									}
 								}
 							}
-							md-icon {
+							mat-icon {
 								display: inline-block;
 
 								&.disabled-icon {

@@ -1,6 +1,6 @@
 angular-openvidu-server-kms:
   container_name: docker-compose-angular-openvidu-server-kms
-  image: openvidu/openvidu-server-kms
+  image: openvidu/openvidu-server-kms:1.0.0-beta.1
   ports:
     - 8443:8443
   environment:
