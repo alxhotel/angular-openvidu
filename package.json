@@ -55,7 +55,7 @@
     "codelyzer": "^4.1.0",
     "css-loader": "^0.28.4",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^5.0.0",
+    "gulp-autoprefixer": "^6.0.0",
     "gulp-inline-ng2-template": "^4.0.0",
     "gulp-ngc": "^0.3.0",
     "gulp-rollup": "^2.11.0",
