@@ -77,9 +77,9 @@
 					<div class="bottom" (submit)="sendMessage(messageInput.value);" accept-charset="UTF-8">
 						<button mat-fab class="close-chat transparent-button" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></button>
 						<form>
-							<mat-input-container color="primary" floatPlaceholder="never">
+							<mat-form-field color="primary" floatPlaceholder="never">
 								<input matInput #messageInput placeholder="Send a message">
-							</mat-input-container>
+							</mat-form-field>
 							<button #sendMessageButton mat-fab type="submit" class="send-message transparent-button" [disabled]="messageInput.value.length == 0" [class.enabled]="messageInput.value.length > 0"><mat-icon>send</mat-icon></button>
 						</form>
 					</div>

@@ -96,7 +96,8 @@ module.exports = function (config) {
 					'--ignore-certificate-errors',
 					'--allow-insecure-localhost',
 					'--use-fake-ui-for-media-stream',
-					'--use-fake-device-for-media-stream'
+					'--use-fake-device-for-media-stream',
+					'--ignore-urlfetcher-cert-requests'
 				]
 			}
 		},
