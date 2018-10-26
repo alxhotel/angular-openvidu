@@ -11,7 +11,6 @@ var tslint = require('gulp-tslint');
 //var ngc = require('gulp-ngc');
 var ngc = require('@angular/compiler-cli/src/main').main;
 var rollup = require('rollup');
-var runSequence = require('run-sequence');
 
 // Rollup Config
 var rollupConfig = require('./rollup.config.js');
@@ -20,33 +19,33 @@ gulp.task('css', function () {
 	return gulp.src(['src/**/*.scss'])
 		.pipe(sass({style: 'compressed'}).on('error', gutil.log))
 		.pipe(autoprefixer('last 10 versions', 'ie 9'))
-		.pipe(gulp.dest('src'));
+		.pipe(gulp.dest('src'))
 });
 
 gulp.task('watch', function () {
-	gulp.watch(['src/**/*.scss'], ['css']);
+	return gulp.watch(['src/**/*.scss'], gulp.series('css'))
 });
 
 gulp.task('clean', function (cb) {
-	return rimraf('./dist', cb);
+	return rimraf('./dist', cb)
 });
 
 gulp.task('tslint', function () {
 	return gulp.src('src/**/*.ts')
 		.pipe(tslint())
-		.pipe(tslint.report());
+		.pipe(tslint.report())
 });
 
-gulp.task('inline-files', function () {
-	// ts-node tools/inline-files.ts && tsc -p tsconfig.json
+// ts-node tools/inline-files.ts && tsc -p tsconfig.json
+gulp.task('inlineFiles', function () {
 	return gulp.src(['src/**/*.ts'])
 		.pipe(inlineNg2Template({ base: '/src', useRelativePaths: true }))
 		.pipe(tsProj())
-		.pipe(gulp.dest('./dist'));
+		.pipe(gulp.dest('./dist'))
 });
 
+// rollup -c rollup.config.js dist/index.js > dist/index.bundle.js
 gulp.task('rollup', function () {
-	// rollup -c rollup.config.js dist/index.js > dist/index.bundle.js
 	return rollup.rollup({
 		input: 'dist/index.js'
 	}).then(function (bundle) {
@@ -56,18 +55,19 @@ gulp.task('rollup', function () {
 	});
 });
 
-gulp.task('ngc', function () {
-	// ngc -p tsconfig.json
-	return ngc(['tsconfig.json'])
+// ngc -p tsconfig.json
+gulp.task('ngc', function (done) {
+	ngc(['tsconfig.json']);
+	done();
 });
 
+// Copy README and package.json
 gulp.task('copyFiles', function () {
-	// Copy README and package.json
-	gulp.src('package.json').pipe(gulp.dest('./dist'));
-	gulp.src('README.md').pipe(gulp.dest('./dist'));
+	return gulp.src(['package.json', 'README.md']).pipe(gulp.dest('./dist'))
 });
 
-gulp.task('build', ['clean', 'css', 'tslint'], function (cb) {
-	// Run task secuantially
-	runSequence('ngc', 'inline-files', 'rollup', 'copyFiles', cb);
-});
+// Run task secuantially
+gulp.task('build', gulp.series(
+	gulp.parallel('clean', 'css', 'tslint'),
+	gulp.series('ngc', 'inlineFiles', 'rollup', 'copyFiles')
+));
