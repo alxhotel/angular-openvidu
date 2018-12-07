@@ -53,7 +53,7 @@
     "angular2-template-loader": "^0.6.2",
     "chai": "^4.2.0",
     "codelyzer": "^4.5.0",
-    "css-loader": "^1.0.0",
+    "css-loader": "^2.0.0",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-inline-ng2-template": "^5.0.1",
