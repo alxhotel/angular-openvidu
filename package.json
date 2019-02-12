@@ -48,7 +48,7 @@
     "@angular/compiler-cli": "^5.2.11",
     "@types/hammerjs": "^2.0.36",
     "@types/jasmine": "^3.0.0",
-    "@types/node": "^10.12.0",
+    "@types/node": "^11.9.0",
     "@types/requirejs": "^2.1.28",
     "angular2-template-loader": "^0.6.2",
     "chai": "^4.2.0",
