@@ -76,7 +76,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-remap-istanbul": "^0.6.0",
     "karma-webpack": "^3.0.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "protractor": "^5.4.1",
     "raw-loader": "^0.5.1",
     "reflect-metadata": "^0.1.10",
