@@ -1,27 +1,119 @@
-# AngularOpenviduDemo
+# Angular Openvidu Demo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
+[![Travis][travis-image]][travis-url]
+[![Dependency Status][dependency-status-image]][dependency-status-url]
+[![Angular style guide][codelyzer-image]][codelyzer-url]
+[![GitHub license][license-image]][license-url]
 
-## Development server
+This is a demo app that implements **angular-openvidu**, using ALL the features included in the component.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+<p align="center"><img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/app.png?raw=true"/></p>
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Install `@angular/cli` through npm:
 
-## Build
+	```bash
+	$ sudo npm install -g @angular/cli
+	```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+2. Start docker:
+
+	```bash
+	$ sudo docker run -p 8443:8443 --rm -e KMS_STUN_IP=193.147.51.12 -e KMS_STUN_PORT=3478 openvidu/openvidu-server-kms
+	```
+
+3. Install dependencies:
+
+	```bash
+	$ npm install
+	```
+
+4. Start the server from the root folder of the app:
+
+	```bash
+	$ ng serve
+	```
+
+*Note: To run the preceding commands, [Node.js](http://nodejs.org), [npm](https://npmjs.com) and [docker](https://www.docker.com/) must be installed.*
+
+## Usage
+
+Open your browser at: [http://localhost:4200](http://localhost:4200).
+
+The app will automatically reload if you change any of the source files.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+To execute the unit tests via [Karma](https://karma-runner.github.io), run:
+
+```sh
+$ ng test
+```
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+To execute the end-to-end tests via [Protractor](http://www.protractortest.org/), run:
 
-## Further help
+```sh
+$ ng e2e
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Before running the tests make sure you are serving the app via `ng serve`.
+
+## Troubleshooting
+
+### Why does it keep saying "Connecting..."?
+
+You may be having some trouble connecting to the OpenVidu Server's websocket.
+
+To make sure you are accepting its certificate go to:
+
+- `[IP]`: Openvidu Server IP
+- `[PORT]`: Openvidu Server port
+
+```
+https://[IP]:[PORT]/room
+```
+
+And make sure to accept its certificate. Then go back to the app and refresh the page.
+
+### Why does it keep saying "Joining room..." or "Loading camera..."?
+
+If you are accessing the app through a host different from `localhost` then you need to enable `HTTPS`.
+
+At least in Google Chrome, this is because: *Any website which has integrated geolocation technology, screen-sharing, WebRTC and more, will now be required
+ to be served from a secure (HTTPS) site.*
+
+You could use [ngrok](https://ngrok.com/) to make an SSL tunnel to your computer. Or you could create a self-signed certificate,
+but don't use it in production.
+
+Create an SSL key:
+
+- `[SSL_KEY_PATH]`: your SSL key path
+- `[SSL_CERT_PATH]`: your SSL cert path
+
+```bash
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "[SSL_KEY_PATH]" -out "[SSL_CERT_PATH]"
+```
+
+To enable HTTPS just run `angular-cli` with this command:
+
+```bash
+$ ng serve --ssl true --ssl-key "[SSL_KEY_PATH]" --ssl-cert "[SSL_CERT_PATH]" --host=0.0.0.0
+```
+
+Since you are not using `localhost`, you need `host=0.0.0.0` to listen for all IPs; you can change it to listen only for the IPs needed.
+
+## License
+
+Apache Software License 2.0 ©
+
+[travis-image]: https://img.shields.io/travis/alxhotel/angular-openvidu-demo/master.svg
+[travis-url]: https://travis-ci.org/alxhotel/angular-openvidu-demo
+[dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu-demo.svg
+[dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu-demo
+[codelyzer-image]: https://img.shields.io/badge/code_style-codelyzer-brightgreen.svg
+[codelyzer-url]: https://github.com/mgechev/codelyzer
+[license-image]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+[license-url]: https://raw.githubusercontent.com/alxhotel/angular-openvidu-demo/master/LICENSE
