@@ -16,8 +16,8 @@ import {
 
 // OpenVidu dependencies
 import { OpenViduModule, OpenViduHangoutsIntl } from 'angular-openvidu';
-//import { MySpanishOpenViduHangoutsIntl } from './my-spanish-openvidu-hangouts-intl';
-//import 'hammerjs';
+// import { MySpanishOpenViduHangoutsIntl } from './my-spanish-openvidu-hangouts-intl';
+// import 'hammerjs';
 
 // My component
 import { AppComponent } from './app.component';

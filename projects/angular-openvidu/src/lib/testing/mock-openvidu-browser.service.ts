@@ -1,4 +1,4 @@
-//import { Connection, OpenVidu, Publisher, Session, Subscriber, Stream } from 'openvidu-browser';
+// import { Connection, OpenVidu, Publisher, Session, Subscriber, Stream } from 'openvidu-browser';
 
 export class MockOpenVidu {
 	openVidu: MockOpenViduInternal;

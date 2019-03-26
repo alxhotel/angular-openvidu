@@ -130,7 +130,7 @@ import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 		OpenViduGoToMeetingIntl,
 
 		/* Fullscreen Service */
-		//BigScreenService,
+		// BigScreenService,
 
 		/* SafeUrl Pipe */
 		SafeUrlPipe

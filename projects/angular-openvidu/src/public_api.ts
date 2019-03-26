@@ -4,8 +4,8 @@
 
 // Export OpenDirective
 export {
-    CameraAccessEvent, ErrorEvent, MessageEvent,
-    ParticipantData, ParticipantEvent, RoomConnectedEvent, StreamEvent
+	CameraAccessEvent, ErrorEvent, MessageEvent,
+	ParticipantData, ParticipantEvent, RoomConnectedEvent, StreamEvent
 } from './lib/openvidu.directive';
 
 // Export Misc
