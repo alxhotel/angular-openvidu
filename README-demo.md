@@ -1,10 +1,5 @@
 # Angular Openvidu Demo
 
-[![Travis][travis-image]][travis-url]
-[![Dependency Status][dependency-status-image]][dependency-status-url]
-[![Angular style guide][codelyzer-image]][codelyzer-url]
-[![GitHub license][license-image]][license-url]
-
 This is a demo app that implements **angular-openvidu**, using ALL the features included in the component.
 
 <p align="center"><img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/app.png?raw=true"/></p>
@@ -108,12 +103,3 @@ Since you are not using `localhost`, you need `host=0.0.0.0` to listen for all I
 ## License
 
 Apache Software License 2.0 ©
-
-[travis-image]: https://img.shields.io/travis/alxhotel/angular-openvidu-demo/master.svg
-[travis-url]: https://travis-ci.org/alxhotel/angular-openvidu-demo
-[dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu-demo.svg
-[dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu-demo
-[codelyzer-image]: https://img.shields.io/badge/code_style-codelyzer-brightgreen.svg
-[codelyzer-url]: https://github.com/mgechev/codelyzer
-[license-image]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-[license-url]: https://raw.githubusercontent.com/alxhotel/angular-openvidu-demo/master/LICENSE
