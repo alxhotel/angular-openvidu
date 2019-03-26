@@ -42,6 +42,8 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 
 In this demo you will see a use case of `angular-openvidu`, where you can test ALL the features included in this component.
 
+Follow the instructions from the [app's README](README-demo.md) to test it out.
+
 ### Features
 
 - Join a group call
