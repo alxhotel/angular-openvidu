@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+  Copyright 2004-2012 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.pom</groupId>
+    <artifactId>kuali-common</artifactId>
+    <version>1.2.2</version>
+  </parent>
+  <groupId>org.kuali.common</groupId>
+  <artifactId>kuali-threads</artifactId>
+  <version>1.0.9</version>
+  <name>Kuali Threads</name>
+  <url>http://${kuali.site.hostname}/common/${project.artifactId}/${project.version}</url>
+  <description>Small helper package for writing multi-threaded apps</description>
+  <properties>
+    <kuali.compile.source>1.5</kuali.compile.source>
+    <kuali.compile.target>1.5</kuali.compile.target>
+    <slf4j.version>1.6.4</slf4j.version>
+  </properties>
+  <developers>
+    <developer>
+      <id>jcaddel</id>
+      <name>Jeff Caddel</name>
+      <email>jcaddel@kuali.org</email>
+      <organization>rSmart</organization>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+      <version>4.10</version>
+    </dependency>
+  </dependencies>
+  <scm>
+    <connection>scm:svn:http://svn.kuali.org/repos/foundation/tags/kuali-threads-1.0.9</connection>
+    <developerConnection>scm:svn:http://svn.kuali.org/repos/foundation/tags/kuali-threads-1.0.9</developerConnection>
+    <url>http://svn.kuali.org/repos/foundation/tags/kuali-threads-1.0.9</url>
+  </scm>
+</project>

@@ -1,0 +1,192 @@
+<openvidu-template
+	#openviduApi="openviduApi"
+	[wsUrl]="wsUrl"
+	[sessionId]="sessionId"
+	[participantId]="participantId"
+	
+	(onUpdateMainSpeaker)="handleOnUpdateMainSpeaker($event)"
+	
+	(onServerConnected)="handleOnServerConnected()"
+	(onErrorServer)="handleOnErrorServer($event)"
+	(onRoomConnected)="handleOnRoomConnected($event)"
+	(onErrorRoom)="handleOnErrorRoom($event)"
+	(onCameraAccessChange)="handleOnCameraAccessChange($event)"
+	
+	(onParticipantJoined)="handleOnParticipantJoined($event)"
+	(onParticipantLeft)="handleOnParticipantLeft($event)"
+	
+	(onStreamAdded)="handleOnStreamAdded($event)"
+	(onStreamRemoved)="handleOnStreamRemoved($event)"
+	
+	(onErrorMedia)="handleOnErrorMedia($event)"
+	(onLeaveRoom)="handleOnLeaveRoom()"
+	(onNewMessage)="handleOnNewMessage($event)"
+	(onCustomNotification)="handleOnCustomNotification($event)">
+
+	<div #main class="openvidu-appearin" [ngClass]="{'fullscreen': isFullscreen}">
+		
+		<!-- WELCOME MESSAGE -->
+		<div id="welcome" *ngIf="welcome">
+			<header class="room-connecting-content-header">
+				<h1>{{_intl.youAreEnteringRoomLabel}}</h1>
+			</header>
+
+			<section class="body" *ngIf="connectionUiState == ConnectionState.NOT_CONNECTED">
+				<div class="ai-spinner">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="Layer_1" x="0px" y="0px" viewBox="0 0 38 38">
+						<style type="text/css">
+							.st0{fill:none;stroke:#D1D1D1;stroke-width:1;}
+							.st1{fill:none;stroke:#FF2E63;stroke-width:1;transform-origin:18px 18px;}
+							.st2{fill:none;stroke:#41CC8D;stroke-width:1;transform-origin:18px 18px;}
+						</style>
+						<g transform="translate(1 1)">
+							<circle class="st0" cx="18" cy="18" r="18"></circle>
+							<path class="st1" d="M36,18c0-9.9-8.1-18-18-18"></path>
+							<path class="st2" d="M18,36c9.9,0,18-8.1,18-18"></path>
+						</g>
+					</svg>
+				</div>
+				<p class="text-state">{{_intl.connectingLabel}}</p>
+			</section>
+
+			<section class="body" *ngIf="connectionUiState == ConnectionState.CONNECTED_TO_SERVER">
+				<div class="ai-spinner">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="Layer_1" x="0px" y="0px" viewBox="0 0 38 38">
+						<style type="text/css">
+							.st0{fill:none;stroke:#D1D1D1;stroke-width:1;}
+							.st1{fill:none;stroke:#FF2E63;stroke-width:1;transform-origin:18px 18px;}
+							.st2{fill:none;stroke:#41CC8D;stroke-width:1;transform-origin:18px 18px;}
+						</style>
+						<g transform="translate(1 1)">
+							<circle class="st0" cx="18" cy="18" r="18"></circle>
+							<path class="st1" d="M36,18c0-9.9-8.1-18-18-18"></path>
+							<path class="st2" d="M18,36c9.9,0,18-8.1,18-18"></path>
+						</g>
+					</svg>
+				</div>
+				<p class="text-state">{{_intl.joiningRoomLabel}}</p>
+			</section>
+
+			<section class="body" *ngIf="connectionUiState == ConnectionState.CONNECTED_TO_ROOM || connectionUiState == ConnectionState.REQUESTING_CAMERA_ACCESS">
+				<div class="ai-spinner">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="Layer_1" x="0px" y="0px" viewBox="0 0 38 38">
+						<style type="text/css">
+							.st0{fill:none;stroke:#D1D1D1;stroke-width:1;}
+							.st1{fill:none;stroke:#FF2E63;stroke-width:1;transform-origin:18px 18px;}
+							.st2{fill:none;stroke:#41CC8D;stroke-width:1;transform-origin:18px 18px;}
+						</style>
+						<g transform="translate(1 1)">
+							<circle class="st0" cx="18" cy="18" r="18"></circle>
+							<path class="st1" d="M36,18c0-9.9-8.1-18-18-18"></path>
+							<path class="st2" d="M18,36c9.9,0,18-8.1,18-18"></path>
+						</g>
+					</svg>
+				</div>
+				<p class="text-state">{{_intl.loadingCameraLabel}}</p>
+			</section>
+
+			<section class="body" *ngIf="connectionUiState == ConnectionState.CAMERA_ACCESS_DENIED">
+				<h2>{{_intl.browserBlockingLabel}}</h2>
+
+				<figure>
+					<img src="https://d1x2efl61akomv.cloudfront.net/images/blocked-camera-chrome.4c7620aa.png" height="38">
+				</figure>
+
+				<p class="text">{{_intl.browserBlockingExplainOneLabel}}</p>
+				<p class="text">{{_intl.browserBlockingExplainTwoLabel}}</p>
+			</section>
+		</div>
+
+		<!-- GOODBYE MESSAGE -->
+		<div class="feedback-wrapper" *ngIf="!session && !welcome">
+			<div class="thank-you-message">
+				<p class="body">You have left the room</p>
+			</div>
+		</div>
+
+		<div class="wrapper" *ngIf="session && !welcome">
+			<!-- TOOLBAR -->
+			<div class="toolbar">
+				<mat-toolbar color="primary">
+					<span>{{sessionId}}</span>
+					<span class="example-spacer"></span>
+					
+					<ng-container *ngFor="let option of toolbarOptions">
+						<button mat-icon-button *ngIf="option.icon !== null" (click)="option.onClick !== null && option.onClick()" matTooltip="{{(option.label) ? option.label : ''}}" matTooltipPosition="below">
+							<mat-icon>{{option.icon}}</mat-icon>
+						</button>
+					</ng-container>
+					
+					<!-- For fullscreen -->
+					<button mat-icon-button (click)="toggleFullscreen()" *ngIf="!isFullscreen" matTooltip="{{_intl.fullscreenLabel}}" matTooltipPosition="below">
+						<mat-icon>fullscreen</mat-icon>
+					</button>
+					<button mat-icon-button (click)="toggleFullscreen()" *ngIf="isFullscreen" matTooltip="{{_intl.exitFullscreenLabel}}" matTooltipPosition="below">
+						<mat-icon>clear</mat-icon>
+					</button>
+				</mat-toolbar>
+			</div>
+
+			<mat-sidenav-container>
+				<!-- CHAT BUTTON -->
+				<button mat-fab class="chat-button" (click)="toggleChat()" *ngIf="!showChat">
+					<mat-icon>chat_bubble</mat-icon>
+				</button>
+
+				<div class="mat-sidenav-content">
+					<!-- MAIN VIDEO -->
+					<div #panelVideo class="panel-videos">
+						<div class="stream-flex">
+							<stream-appearin #streamAppearin *ngFor="let s of streams" class="stream" [stream]="s"
+								[style.max-width]="streamMaxWidth"
+								[style.max-height]="streamMaxHeight"
+								(onSourceAdded)="handleOnSourceAdded()">
+							</stream-appearin>
+						</div>
+						<div class="chat" *ngIf="showChat">
+							<button class="close" (click)="toggleChat()">
+								<mat-icon>close</mat-icon>
+							</button>
+							<ul>
+								<li *ngFor="let message of chatMessages" [ngClass]="{'me': message.username == participantId}">
+									<p>
+										{{message.message}}
+									</p>
+								</li>
+							</ul>
+							<div class="message-input-container" (submit)="sendMessage(messageInput.value);" accept-charset="UTF-8">
+								<form>
+									<mat-form-field color="primary" floatPlaceholder="never">
+										<input matInput #messageInput placeholder="{{_intl.sendAMessageLabel}}">
+									</mat-form-field>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<!-- BUTTONS & OTHERS VIDEOS -->
+					<div class="bottom-bar">
+						<div class="buttons">
+							<button mat-button class="toggle-mic" [ngClass]="{'disabled': !openviduApi.micEnabled}" (click)="toggleMic()">
+								<mat-icon>mic</mat-icon>
+								<mat-icon class="disabled-icon">mic_off</mat-icon>
+								<div>{{_intl.muteLabel}}</div>
+								<div class="disabled-text">{{_intl.unmuteLabel}}</div>
+							</button>
+							<button mat-fab class="close-session" (click)="leaveRoom()" title="Leave room">
+								<mat-icon>close</mat-icon>
+							</button>
+							<button mat-button class="toggle-camera" [ngClass]="{'disabled': !openviduApi.camEnabled}" (click)="toggleCamera()">
+								<mat-icon>videocam</mat-icon>
+								<mat-icon class="disabled-icon">videocam_off</mat-icon>
+								<div>{{_intl.videoOffLabel}}</div>
+								<div class="disabled-text">{{_intl.videoOnLabel}}</div>
+							</button>
+						</div>
+					</div>
+				</div>
+			</mat-sidenav-container>
+		</div>
+	</div>
+	
+</openvidu-template>

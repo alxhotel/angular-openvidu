@@ -1,40 +1,29 @@
 {
-	"compilerOptions": {
-		"target": "es5",
-		"module": "commonjs",
-		"sourceMap": true,
-		"moduleResolution": "node",
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"stripInternal": true,
-		"declaration": true,
-		"outDir": "./dist",
-		"lib": ["es2015", "dom"],
-		"typeRoots": [
-			"./node_modules/@types",
-			"./node_modules"
-		],
-		"types": [
-			"hammerjs",
-			"node",
-			"jasmine"
-		]
-	},
-	"files": [
-		"./src/index.ts",
-		"./src/testing/mock-openvidu-browser.service.ts",
-		"./src/testing/testing-helper.ts",
-		"./src/openvidu.directive.spec.ts",
-		"./src/openvidu-hangouts/openvidu-hangouts.component.spec.ts",
-		"./src/openvidu-hangouts/stream-hangouts/stream-hangouts.component.spec.ts"
-	],
-	"exclude": [
-		"node_modules",
-		"dist",
-		"docs"
-	],
-	"angularCompilerOptions": {
-		"genDir": "dist",
-		"skipTemplateCodegen": true
-	}
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "angular-openvidu": [
+        "dist/angular-openvidu"
+      ],
+      "angular-openvidu/*": [
+        "dist/angular-openvidu/*"
+      ]
+    }
+  }
 }

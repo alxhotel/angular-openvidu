@@ -1,0 +1,20 @@
+{
+  "name": "sdp-translator",
+  "description": "A simple SDP interoperability layer for Unified Plan/Plan B",
+  "license": "Apache-2.0",
+  "keywords": [
+    "sdp",
+    "webrtc",
+    "interoperability",
+    "polyfill"
+  ],
+  "authors": [
+    {
+      "name": "Miguel París",
+      "email": "mparisdiaz@gmail.co"
+    }
+  ],
+  "main": [
+    "js/sdp-translator.js"
+  ]
+}

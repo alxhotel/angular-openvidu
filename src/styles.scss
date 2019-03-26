@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+html, body {
+	margin: 0px;
+	height: 100%;
+}
+app-root, .app-content {
+	background-color: #dfdfdf;
+}
+app-root {
+	display: flex;
+    flex-direction: column;
+    height: 100%;
+	
+	& > mat-toolbar {
+		min-height: 120px !important;
+	}
+	.app-content {
+		padding: 20px;
+		height: 100%;
+
+		h1 {
+			font-weight: 400;
+		}
+		mat-card {
+			margin: 20px;
+			position: relative;
+			top: -60px;
+			z-index: 99;
+			
+			.go-back {
+				margin-bottom: 20px;
+			}
+			form mat-form-field {
+				width: 250px;
+			}
+		}
+	}
+}

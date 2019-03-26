@@ -1,0 +1,298 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>cbuild-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-beta-1</version>
+
+  <name>Plugins and Tools for C Builds</name>
+  <inceptionYear>2005</inceptionYear>
+  <description>
+    These plugins are designed to convert tarballs of typical non-java open
+    source project and with patch/autoconf/configure/make/install prepare a
+    directory for packaging with RPM.  Stuffing a java project into an RPM
+    is also supported.
+  </description>
+  <url>http://mojo.codehaus.org/cbuild-parent/</url>
+
+  <parent>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>mojo-parent</artifactId>
+    <version>21</version>
+  </parent>
+
+  <properties>
+    <mavenVersion>2.1.0</mavenVersion>
+    <wagonVersion>1.0-beta-5</wagonVersion>
+    <pkgName>${project.artifactId}-${project.version}</pkgName>
+    <project.build.java.target>1.5</project.build.java.target>
+    <test.remote.repo.url>file://${basedir}/src/it/remote-repository</test.remote.repo.url>
+    <test.deploy.repo.url>file://${basedir}/target/deployment-repository</test.deploy.repo.url>
+  </properties>
+
+  <developers>
+    <developer>
+      <id>stimpy</id>
+      <name>Lee Thompson</name>
+      <email>stimpy@codehaus.org</email>
+      <url>http://xircles.codehaus.org/users/stimpy</url>
+      <organization>self</organization>
+      <roles>
+        <!--role>Project Manager</role-->
+        <role>Developer</role>
+      </roles>
+      <timezone>-6</timezone>
+    </developer>
+  </developers>
+
+  <prerequisites>
+    <maven>2.0.9999</maven>
+    <!-- this breaks eclipse...
+    <maven>${mavenVersion}</maven-->
+  </prerequisites>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-changes-plugin</artifactId>
+          <version>2.1</version>
+        </plugin>
+	<!-- version 2.2 buggy -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>wagon-maven-plugin</artifactId>
+          <version>1.0-beta-1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-on-demand-maven-plugin</artifactId>
+          <version>1.0-beta-1</version>
+        </plugin>      
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>make-maven-plugin</artifactId>
+          <version>1.0-beta-1</version>
+        </plugin>      
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>rpm-cbuild-maven-plugin</artifactId>
+          <version>1.0-beta-1</version>
+        </plugin>      
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>patch-maven-plugin</artifactId>
+          <version>1.0-beta-1</version>
+        </plugin>      
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <modules>
+    <module>downloader</module>
+    <module>cbuild-utils</module>
+    <!--module>cbuild-automvn</module-->
+    <module>cbuild-plugin-parent</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.4</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>easymock</groupId>
+        <artifactId>easymock</artifactId>
+        <version>1.2_Java1.5</version>
+        <!--version>2.0</version-->
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-file</artifactId>
+        <version>1.0-beta-5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-provider-api</artifactId>
+        <version>1.0-beta-5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-http-shared</artifactId>
+        <version>1.0-beta-5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>maven-shared-io</artifactId>
+        <version>1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>file-management</artifactId>
+        <version>1.2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>maven-invoker</artifactId>
+        <version>2.0.10</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-model</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-settings</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-monitor</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-project</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-descriptor</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-core</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-artifact</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-artifact-manager</artifactId>
+        <version>2.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-container-default</artifactId>
+        <version>1.0-alpha-9-stable-1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-utils</artifactId>
+        <version>1.5.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-io</artifactId>
+        <version>1.0-alpha-3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-interpolation</artifactId>
+        <version>1.8.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-archiver</artifactId>
+        <version>1.0-alpha-11</version>
+        <!-- what a waste of a weekend
+             http://jira.codehaus.org/browse/MNG-3438 -->
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-container-default</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-component-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cbuild-utils</artifactId>
+        <version>1.0-beta-1</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <configuration>
+          <dependencyLocationEnabled>false</dependencyLocationEnabled>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changes-report</report>
+              <!-- needs 2.1 version of plugin, but that won't expand %ISSUE% -->
+              <report>jira-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+        <configuration>
+          <issueLinkTemplate>http://jira.codehaus.org/browse/%ISSUE%</issueLinkTemplate>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </reporting>
+
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.codehaus.org/browse/CBUILDS</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/tags/cbuild-parent-1.0-beta-1</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/cbuild-parent-1.0-beta-1</developerConnection>
+    <url>http://fisheye.codehaus.org/browse/mojo/tags/cbuild-parent-1.0-beta-1</url>
+  </scm>
+</project>

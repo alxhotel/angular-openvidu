@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>plexus</artifactId>
+    <groupId>org.codehaus.plexus</groupId>
+    <version>1.0.13</version>
+  </parent>
+  <artifactId>plexus-interpolation</artifactId>
+  <version>1.8.1</version>
+  <name>Plexus Interpolation API</name>
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/plexus/pom/tags/plexus-interpolation-1.8.1</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/plexus/pom/tags/plexus-interpolation-1.8.1</developerConnection>
+    <url>http://fisheye.codehaus.org/browse/plexus/pom/tags/plexus-interpolation-1.8.1</url>
+  </scm>
+</project>

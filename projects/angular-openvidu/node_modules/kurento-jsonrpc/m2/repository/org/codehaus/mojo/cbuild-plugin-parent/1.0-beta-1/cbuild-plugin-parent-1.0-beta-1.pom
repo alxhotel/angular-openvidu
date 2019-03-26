@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cbuild-plugin-parent</artifactId>
+  <packaging>pom</packaging>
+  <name>C-Build Plugin Root</name>
+
+  <parent>
+    <artifactId>cbuild-parent</artifactId>
+    <groupId>org.codehaus.mojo</groupId>
+    <version>1.0-beta-1</version>
+  </parent>
+
+  <modules>
+    <!-- functionality moved to rpm-cbuild-maven-plugin validate phase
+    <module>platform-detector-maven-plugin</module-->
+    <module>cbuild-lifecycles</module>
+    <!-- functionality covered by make much better than this code
+    <module>multibuild-optimizer-maven-plugin</module-->
+    <module>rpm-cbuild-maven-plugin</module>
+    <module>patch-maven-plugin</module>
+    <!-- This plugin is completely obsoleted by wagon-maven-plugin
+    <module>remote-source-maven-plugin</module-->
+    <module>make-maven-plugin</module>
+    <module>shell-maven-plugin</module>
+    <module>build-on-demand-maven-plugin</module>
+
+    <!-- This plugin is pretty much obsoleted by maven-wagon-plugin
+         and don't want to support it.  Has invoker integration tests
+         which work so it would be easy to re-incarnate until the
+         point where cbuild-utils and platform-detector is killed
+    <module>project-sources-maven-plugin</module-->
+
+    <!-- Build this with maven 3.0...
+    <module>cbuild-profile-activators</module-->
+  </modules>
+
+</project>

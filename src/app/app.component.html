@@ -1,0 +1,52 @@
+<mat-toolbar color="primary">
+	<span>Angular OpenVidu Demo</span>
+</mat-toolbar>
+
+<div class="app-content">
+	  <mat-card>
+		<mat-card-content>
+			<!-- Form to login into the room -->
+			<div class="form-session" *ngIf="!showOpenvidu">
+				<h1>Join a group call</h1>
+				<form (submit)="sendForm()" accept-charset="UTF-8">
+					<p>
+						<mat-form-field>
+							<input matInput required type="text" placeholder="Participant ID" [(ngModel)]="participantId" name="participantId">
+						</mat-form-field>
+					</p>
+					<p>
+						<mat-form-field>
+							<input matInput required type="text" placeholder="Session ID" [(ngModel)]="sessionId" name="sessionId">
+						</mat-form-field>
+					</p>
+					<p>
+						<button mat-raised-button type="submit" color="primary">
+							Join!
+						</button>
+					</p>
+				</form>
+			</div>
+			
+			<!-- Options to go back -->
+			<div class="go-back" *ngIf="sessionClosed">
+				<button mat-raised-button type="submit" color="primary" (click)="goBack()">
+					<mat-icon>arrow_back</mat-icon>
+					Go back
+				</button>
+			</div>
+
+			<!-- AngularOpenVidu Component -->
+			<openvidu-hangouts *ngIf="showOpenvidu"
+				[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
+				(onRoomConnected)="onRoomConnected()"
+				(onParticipantJoined)="onParticipantJoined($event)"
+				(onParticipantLeft)="onParticipantLeft($event)"
+				(onErrorMedia)="onErrorMedia()"
+				(onLeaveRoom)="onLeaveRoom()"
+				(onNewMessage)="onNewMessage($event)"
+				(onCustomNotification)="onCustomNotification($event)">
+				Loading openvidu...
+			</openvidu-hangouts>
+		</mat-card-content>
+	</mat-card>
+</div>

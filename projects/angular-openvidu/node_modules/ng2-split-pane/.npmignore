@@ -1,0 +1,30 @@
+
+# Node
+node_modules/*
+compiled/
+.vscode/
+src/
+npm-debug.log
+
+*.tgz
+
+# DO NOT IGNORE TYPESCRIPT FILES FOR NPM
+# TypeScript
+# *.js
+# *.map
+# *.d.ts
+
+# JetBrains
+.idea
+.project
+.settings
+.idea/*
+*.iml
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
+**/.DS_Store

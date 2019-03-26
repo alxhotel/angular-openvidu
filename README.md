@@ -42,10 +42,6 @@ To use AngularOpenVidu, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) support i
 
 In this demo you will see a use case of `angular-openvidu`, where you can test ALL the features included in this component.
 
-Follow the instructions from the [app's README][angular-openvidu-demo] to test it out.
-
-Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angular-openvidu-demo]
-
 ### Features
 
 - Join a group call
@@ -68,7 +64,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 2. Also install [HammerJS](http://hammerjs.github.io/) node module (is a dependency of AngularMaterial):
 
 	```bash
-	$ npm install hammerjs --save
+	$ npm install @angular/material @angular/cdk @angular/animations hammerjs --save
 	```
 
 3. Import `OpenViduModule` and `hammerjs` to your AppModule
@@ -90,7 +86,7 @@ Link to the repository: [https://github.com/alxhotel/angular-openvidu-demo][angu
 	export class AppModule { }
 	```
 
-	You may also find it useful to view the [demo source](https://github.com/alxhotel/angular-openvidu-app/blob/master/src/app/app.component.ts).
+	You may also find it useful to view the [demo source](https://github.com/alxhotel/angular-openvidu/blob/master/src/app/app.component.ts).
 
 4. Deploy OpenVidu Server
 
@@ -116,7 +112,7 @@ You are ready. Use it in your template:
 
 *Note: `openvidu` is a selector for the [OpenViduHangoutsComponent](#openviduhangoutscomponent).*
 
-For more info checkout the [OpenViduHangoutsComponent documentation](src/openvidu-hangouts)
+For more info checkout the [OpenViduHangoutsComponent documentation](projects/angular-openvidu/src/lib/openvidu-hangouts)
 
 ### Structure
 
@@ -162,7 +158,7 @@ It exports an API named `openviduApi`, which can then be used to build the video
 It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [Google Hangouts](https://hangouts.google.com).
 If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
 
-[Click here to see the documentation](src/openvidu-hangouts)
+[Click here to see the documentation](projects/angular-openvidu/src/lib/openvidu-hangouts)
 
 <img width="250" src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_hangouts.png?raw=true"/>
 
@@ -171,7 +167,7 @@ If you require a more customised video chat, you will need to use the `OpenViduD
 It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [AppearIn](https://appear.in).
 If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
 
-[Click here to see the documentation](src/openvidu-appearin)
+[Click here to see the documentation](projects/angular-openvidu/src/lib/openvidu-appearin)
 
 <img width="250" src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_appearin.png?raw=true"/>
 
@@ -182,7 +178,7 @@ If you require a more customised video chat, you will need to use the `OpenViduD
 It is implemented on top of the `OpenViduDirective`, and has a pre-set template and styles based on [GoToMeeting](https://gotomeeting.com).
 If you require a more customised video chat, you will need to use the `OpenViduDirective` and implement your own component.
 
-[Click here to see the documentation](src/openvidu-gotomeeting)
+[Click here to see the documentation](projects/angular-openvidu/src/lib/openvidu-gotomeeting)
 
 <img width="250" src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_gotomeeting.png?raw=true"/>
 
@@ -255,6 +251,14 @@ You can find it [here](CHANGELOG.md).
 
 ### Troubleshooting
 
+#### Why I get the error "global is not defined"?
+
+Add this into the `polyfills.ts` file:
+
+```js
+(window as any).global = window;
+```
+
 #### Why does it keep saying "Connecting..."?
 
 You may be having some trouble connecting to the OpenVidu Server's websocket.
@@ -306,8 +310,6 @@ Open an issue on the AngularOpenVidu [issue tracker][issues].
 Apache Software License 2.0 ©
 
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
-
-[angular-openvidu-demo]: https://github.com/alxhotel/angular-openvidu-demo
 
 [issues]: https://github.com/alxhotel/angular-openvidu/issues
 
