@@ -8,36 +8,42 @@ dist: trusty
 addons:
   chrome: stable
 
+# 1. Use headless Chrome for Travis
+# 2. Install greenkeep-lockfile
 before_install:
-- export CHROME_BIN=chromium-browser
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - npm install -g greenkeeper-lockfile
 
 install:
-# Update docker-engine using Ubuntu 'trusty' apt repo
-#- curl -sSL "https://get.docker.com/gpg" | sudo -E apt-key add -
-#- echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee -a /etc/apt/sources.list
-#- sudo apt-get update
-#- sudo apt-get install docker-engine
-- docker version
-# Update docker-compose via pip
-- sudo pip install docker-compose
-- docker-compose version
+  # Update docker-engine using Ubuntu 'trusty' apt repo
+  #- curl -sSL "https://get.docker.com/gpg" | sudo -E apt-key add -
+  #- echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee -a /etc/apt/sources.list
+  #- sudo apt-get update
+  #- sudo apt-get install docker-engine
+  - docker version
+  # Update docker-compose via pip
+  - sudo pip install docker-compose
+  - docker-compose version
+  # NPM packages
+  - npm install
 
 before_script:
-# Setup docker
-- docker-compose up --build -d
-# For logging purposes
-- docker ps
-# Install deps
-- npm install
-# Build
-- npm run build
+  # Setup docker
+  - docker-compose up --build -d
+  - docker ps
+  # Enable greenkeeper-lockfile
+  - greenkeeper-lockfile-update
+  # Build
+  - npm run build
 
 script:
-# Execute tests
-- npm test
+  # Execute tests
+  - npm test
 
 after_script:
-# Close docker
-- docker-compose down
+  # Upload greenkeeper-lockfile
+  - greenkeeper-lockfile-upload
+  # Close docker
+  - docker-compose down
