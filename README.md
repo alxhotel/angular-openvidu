@@ -315,7 +315,7 @@ Apache Software License 2.0 ©
 
 [issues]: https://github.com/alxhotel/angular-openvidu/issues
 
-[travis-image]: https://img.shields.io/travis/alxhotel/angular-openvidu/master.svg
+[travis-image]: https://img.shields.io/travis/com/alxhotel/angular-openvidu/master.svg
 [travis-url]: https://travis-ci.com/alxhotel/angular-openvidu
 [dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu.svg
 [dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu
