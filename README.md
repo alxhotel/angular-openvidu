@@ -1,9 +1,9 @@
 # angular-openvidu
 
-[![Travis][travis-image]][travis-url]
+[![NPM Version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
 [![Dependency Status][dependency-status-image]][dependency-status-url]
-[![Angular style guide][codelyzer-image]][codelyzer-url]
-[![GitHub license][license-image]][license-url]
+[![Angular style guide][codestyle-image]][codestyle-url]
 
 **AngularOpenVidu** is a room videoconference component library for [Angular](https://angular.io/).
 
@@ -315,11 +315,11 @@ Apache Software License 2.0 ©
 
 [issues]: https://github.com/alxhotel/angular-openvidu/issues
 
+[npm-image]: https://img.shields.io/npm/v/angular-openvidu.svg
+[npm-url]: https://www.npmjs.com/package/angular-openvidu
 [travis-image]: https://img.shields.io/travis/com/alxhotel/angular-openvidu/master.svg
 [travis-url]: https://travis-ci.com/alxhotel/angular-openvidu
 [dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu.svg
 [dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu
-[codelyzer-image]: https://img.shields.io/badge/code_style-codelyzer-brightgreen.svg
-[codelyzer-url]: https://github.com/mgechev/codelyzer
-[license-image]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-[license-url]: https://raw.githubusercontent.com/alxhotel/angular-openvidu/master/LICENSE
+[codestyle-image]: https://img.shields.io/badge/code_style-codelyzer-brightgreen.svg
+[codestyle-url]: https://github.com/mgechev/codelyzer
