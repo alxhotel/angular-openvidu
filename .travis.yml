@@ -1,6 +1,6 @@
 sudo: required
 language: node_js
-node_js: stable
+node_js: lts/*
 
 # Ubuntu Trusty
 dist: trusty
@@ -43,7 +43,5 @@ script:
   - npm test
 
 after_script:
-  # Upload greenkeeper-lockfile
-  - greenkeeper-lockfile-upload
   # Close docker
   - docker-compose down
