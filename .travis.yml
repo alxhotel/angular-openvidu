@@ -8,7 +8,7 @@ dist: trusty
 addons:
   chrome: stable
 
-# 1. Use headless Chrome for Travis
+# Use headless Chrome for Travis
 before_install:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
@@ -34,7 +34,8 @@ before_script:
 
 script:
   # Execute tests
-  - npm test
+  - npm run lint
+  - npm run test
 
 after_script:
   # Close docker

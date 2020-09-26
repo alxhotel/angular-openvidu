@@ -5,49 +5,47 @@ import { FormsModule } from '@angular/forms';
 // Angular Material
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
-	MatButtonModule,
-	MatCardModule,
-	MatIconModule,
-	MatInputModule,
-	MatSelectModule,
-	MatSnackBarModule,
-	MatToolbarModule
+  MatButtonModule,
+  MatCardModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatToolbarModule
 } from '@angular/material';
 
 // OpenVidu dependencies
-import { OpenViduModule, OpenViduHangoutsIntl } from 'angular-openvidu';
+// import { OpenViduModule, OpenViduHangoutsIntl } from 'angular-openvidu';
 // import { MySpanishOpenViduHangoutsIntl } from './my-spanish-openvidu-hangouts-intl';
 // import 'hammerjs';
 
-// My component
 import { AppComponent } from './app.component';
 
 @NgModule({
-	declarations: [
-		AppComponent
-	],
-	imports: [
-		BrowserModule,
-		FormsModule,
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
 
-		/* OpenVidu Module */
-		OpenViduModule,
+    /* OpenVidu Module */
+    // OpenViduModule,
 
-		/* Material Module */
-		NoopAnimationsModule,
-		MatButtonModule,
-		MatCardModule,
-		MatIconModule,
-		MatInputModule,
-		MatSelectModule,
-		MatSnackBarModule,
-		MatToolbarModule
-	],
-	providers: [
-		// {provide: OpenViduHangoutsIntl, useClass: MySpanishOpenViduHangoutsIntl},
-	],
-	bootstrap: [ AppComponent ]
+    /* Material Module */
+    NoopAnimationsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatToolbarModule
+  ],
+  providers: [
+    // {provide: OpenViduHangoutsIntl, useClass: MySpanishOpenViduHangoutsIntl},
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppModule {
+export class AppModule { }
 
-}

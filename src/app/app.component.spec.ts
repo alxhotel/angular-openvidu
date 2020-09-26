@@ -1,29 +1,62 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
+// Angular Material
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatToolbarModule
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { AppModule } from './app.module';
 
 describe('AppComponent', () => {
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				AppModule
-			],
-		}).compileComponents();
-	}));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [
+        AppComponent
+      ],
+      imports: [
+        /* OpenVidu Module */
+        // OpenViduModule,
 
-	it('should create the app', async(() => {
-		const fixture = TestBed.createComponent(AppComponent);
-		const app = fixture.debugElement.componentInstance;
-		expect(app).toBeTruthy();
-	}));
+        /* Material Module */
+        NoopAnimationsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatInputModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        MatToolbarModule
+      ],
+      providers: [
+        // {provide: OpenViduHangoutsIntl, useClass: MySpanishOpenViduHangoutsIntl},
+      ]
+    }).compileComponents();
+  });
 
-	it(`should have as title 'Angular OpenVidu Demo'`, async(() => {
-		const fixture = TestBed.createComponent(AppComponent);
-		const app = fixture.debugElement.componentInstance;
-		const compiled = fixture.debugElement.nativeElement;
-		console.log(app);
-		console.log(compiled);
-		expect(compiled.querySelector('mat-toolbar').textContent.trim()).toEqual('Angular OpenVidu Demo');
-	}));
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it(`should have as title 'Angular OpenVidu Demo'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('Angular OpenVidu Demo');
+  });
+
+  it(`should render title 'Angular OpenVidu Demo'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('mat-toolbar').textContent.trim()).toEqual('Angular OpenVidu Demo');
+  });
 });
+
