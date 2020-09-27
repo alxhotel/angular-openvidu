@@ -1,4 +1,4 @@
-# openvidu-gotomeeting
+# opv-gotomeeting
 
 <p align="center">
 	<img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_gotomeeting.png?raw=true"/>
@@ -16,12 +16,12 @@
 
 ### About
 
-`openvidu-gotomeeting` is an GoToMeeting-styled component with a predefined layout, which you can use out-of-the-box.
+`opv-gotomeeting` is an GoToMeeting-styled component with a predefined layout, which you can use out-of-the-box.
 In addition, you have multiple methods and events you can use to personalized the user experience.
 
 ### Selector
 
-- `openvidu-gotomeeting`
+- `opv-gotomeeting`
 
 ### Properties
 
@@ -104,7 +104,7 @@ And you are good to go.
 Follow the installation steps at [this README](/README.md#installation). 
 
 ```html
-<openvidu-gotomeeting
+<opv-gotomeeting
 	[wsUrl]="wsUrl"
 	[sessionId]="sessionId"
 	[participantId]="participantId"
@@ -112,7 +112,7 @@ Follow the installation steps at [this README](/README.md#installation).
 
 	Loading openvidu...
 
-</openvidu-gotomeeting>
+</opv-gotomeeting>
 ```
 
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server

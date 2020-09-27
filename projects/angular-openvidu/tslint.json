@@ -4,14 +4,19 @@
     "directive-selector": [
       true,
       "attribute",
-      "lib",
+      "opv",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "lib",
+      "opv",
       "kebab-case"
+    ],
+    "indent": [
+      true,
+      "tabs",
+      4
     ]
   }
 }

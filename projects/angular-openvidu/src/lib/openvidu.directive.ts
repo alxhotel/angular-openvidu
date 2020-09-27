@@ -46,7 +46,7 @@ export enum OpenViduNotificationType {
  * - Exports an API called: openviduApi
  */
 @Directive({
-	selector: 'openvidu-template, [openvidu-template]',
+	selector: 'opvTemplate, [opvTemplate]',
 	exportAs: 'openviduApi'
 })
 export class OpenViduDirective implements OnDestroy, OnChanges {
@@ -59,27 +59,27 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 	@Input() token: string;
 
 	// Outputs
-	@Output() onRoomConnected: EventEmitter<RoomConnectedEvent> = new EventEmitter();
-	@Output() onErrorRoom: EventEmitter<ErrorEvent> = new EventEmitter();
-	@Output() onLeaveRoom: EventEmitter<any> = new EventEmitter();
-	@Output() onErrorMedia: EventEmitter<ErrorEvent> = new EventEmitter();
-	@Output() onLostConnection: EventEmitter<any> = new EventEmitter();
-	@Output() onNewMessage: EventEmitter<MessageEvent> = new EventEmitter();
-	@Output() onParticipantJoined: EventEmitter<ParticipantEvent> = new EventEmitter();
-	@Output() onParticipantLeft: EventEmitter<ParticipantEvent> = new EventEmitter();
-	@Output() onRoomClosed: EventEmitter<any> = new EventEmitter();
+	@Output() roomConnected: EventEmitter<RoomConnectedEvent> = new EventEmitter();
+	@Output() errorRoom: EventEmitter<ErrorEvent> = new EventEmitter();
+	@Output() leaveRoom: EventEmitter<any> = new EventEmitter();
+	@Output() errorMedia: EventEmitter<ErrorEvent> = new EventEmitter();
+	@Output() lostConnection: EventEmitter<any> = new EventEmitter();
+	@Output() newMessage: EventEmitter<MessageEvent> = new EventEmitter();
+	@Output() participantJoined: EventEmitter<ParticipantEvent> = new EventEmitter();
+	@Output() participantLeft: EventEmitter<ParticipantEvent> = new EventEmitter();
+	@Output() roomClosed: EventEmitter<any> = new EventEmitter();
 
 	// New Output
-	@Output() onParticipantEvicted: EventEmitter<ParticipantEvent> = new EventEmitter();
-	@Output() onParticipantPublished: EventEmitter<ParticipantEvent> = new EventEmitter();
-	@Output() onStreamAdded: EventEmitter<StreamEvent> = new EventEmitter();
-	@Output() onStreamRemoved: EventEmitter<StreamEvent> = new EventEmitter();
-	@Output() onUpdateMainSpeaker: EventEmitter<StreamEvent> = new EventEmitter();
-	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
+	@Output() participantEvicted: EventEmitter<ParticipantEvent> = new EventEmitter();
+	@Output() participantPublished: EventEmitter<ParticipantEvent> = new EventEmitter();
+	@Output() streamAdded: EventEmitter<StreamEvent> = new EventEmitter();
+	@Output() streamRemoved: EventEmitter<StreamEvent> = new EventEmitter();
+	@Output() updateMainSpeaker: EventEmitter<StreamEvent> = new EventEmitter();
+	@Output() customNotification: EventEmitter<any> = new EventEmitter();
 
-	@Output() onServerConnected: EventEmitter<any> = new EventEmitter();
-	@Output() onErrorServer: EventEmitter<ErrorEvent> = new EventEmitter();
-	@Output() onCameraAccessChange: EventEmitter<CameraAccessEvent> = new EventEmitter();
+	@Output() serverConnected: EventEmitter<any> = new EventEmitter();
+	@Output() errorServer: EventEmitter<ErrorEvent> = new EventEmitter();
+	@Output() cameraAccessChange: EventEmitter<CameraAccessEvent> = new EventEmitter();
 
 	// Openvidu object
 	private openvidu: OpenVidu;
@@ -105,15 +105,15 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 
 	private changingCamera: boolean = false;
 
-	constructor(private _changeDetectionRef : ChangeDetectorRef) {
+	constructor(private changeDetectionRef: ChangeDetectorRef) {
 	}
 
-	ngOnDestroy() {
+	ngOnDestroy(): void {
 		this.leaveRoom();
 	}
 
 	// Listen for changes in variables
-	ngOnChanges() {
+	ngOnChanges(): void {
 		// Check if we have all of the required params
 		if (this.wsUrl && this.sessionId && this.participantId) {
 			// Connect to server
@@ -126,7 +126,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 
 			/*if (error) {
 				// Emit event
-				this.onErrorServer.emit({
+				this.errorServer.emit({
 					error: error
 				});
 				return console.log(error);
@@ -139,7 +139,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			this.connectedToServer = true;
 
 			// Emit event
-			this.onServerConnected.emit();
+			this.serverConnected.emit();
 
 			// [Debug]
 			console.log(this.openvidu);
@@ -149,27 +149,27 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		}
 	}
 
-	get micEnabled() {
+	get micEnabled(): void {
 		return (this.myCamera && this.myCamera.getWebRtcPeer() && this.myCamera.getWebRtcPeer().audioEnabled);
 	}
 
-	set micEnabled(enabled: boolean) {
+	set micEnabled(enabled: boolean): void {
 		this.myCamera.getWebRtcPeer().audioEnabled = enabled;
 	}
 
-	get camEnabled() {
+	get camEnabled(): void {
 		return (this.myCamera && this.myCamera.getWebRtcPeer() && this.myCamera.getWebRtcPeer().videoEnabled);
 	}
 
-	set camEnabled(enabled: boolean) {
+	set camEnabled(enabled: boolean): void {
 		this.myCamera.getWebRtcPeer().videoEnabled = enabled;
 	}
 
-	sendMessage(text: string) {
+	sendMessage(text: string): void {
 		this.openvidu.openVidu.sendMessage(this.sessionId, this.getCurrentToken(), text);
 	}
 
-	sendCustomNotification(obj: any, callback: any) {
+	sendCustomNotification(obj: any, callback: any): void {
 		this.openvidu.openVidu.sendCustomRequest(obj, callback);
 	}
 
@@ -177,7 +177,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 	 * Set new camera device for current user.
 	 * @param deviceId - if null the camera is the default one
 	 */
-	setCamera(deviceId: string) {
+	setCamera(deviceId: string): void {
 		// Set camera options
 		let cameraOptions = null;
 		if (deviceId === null) {
@@ -207,15 +207,15 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		}
 
 		// Create stream with the options
-		let camera = this.openvidu.openVidu.getCamera(cameraOptions);
+		const cameraObj = this.openvidu.openVidu.getCamera(cameraOptions);
 
 		// Show camera
-		camera.requestCameraAccess((error, camera) => {
+		cameraObj.requestCameraAccess((error, camera) => {
 			// User didn't allow access
 			if (error) {
-				this.onCameraAccessChange.emit({
+				this.cameraAccessChange.emit({
 					access: false,
-					error: error
+					error
 				});
 				return console.log(error);
 			}
@@ -240,7 +240,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			}
 
 			// Fix: manually emit event
-			this.onRoomConnected.emit({
+			this.roomConnected.emit({
 				session: this.session
 			});
 
@@ -258,27 +258,27 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			this.myCamera.publish();
 
 			// [Debug]
-			var allStreams = this.session.connection.getStreams();
+			const allStreams = this.session.connection.getStreams();
 			console.log('MY CAMERA APPROVED: ', camera);
 			console.log('All streams: ', allStreams);
 
 			// Emit event
-			this.onUpdateMainSpeaker.emit({
+			this.updateMainSpeaker.emit({
 				stream: this.mainStream
 			});
 
 			// Emit event
-			this.onCameraAccessChange.emit({
+			this.cameraAccessChange.emit({
 				access: true,
-				camera: camera
+				camera
 			});
 		});
 	}
 
-	leaveRoom() {
+	leaveRoom(): void {
 		if (this.connectedToServer) {
 			// Emit event
-			this.onLeaveRoom.emit();
+			this.leaveRoom.emit();
 		}
 
 		// Reset
@@ -292,18 +292,18 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		this.connectedToServer = false;
 	}
 
-	private joinRoom(setCamera?: boolean) {
+	private joinRoom(setCamera?: boolean): void {
 		// Check that we are connected
 		if (!this.connectedToServer) {
-			this.onErrorRoom.emit({
+			this.errorRoom.emit({
 				error: new Error('Not connected to server yet')
 			});
 			return;
 		}
 
 		// Set attributes
-		var token = this.getCurrentToken();
-		var participantData: ParticipantData = {
+		const token = this.getCurrentToken();
+		const participantData: ParticipantData = {
 			username: this.participantId
 		};
 
@@ -315,8 +315,8 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 				}
 
 				// Emit event
-				this.onErrorRoom.emit({
-					error: error
+				this.errorRoom.emit({
+					error
 				});
 				return console.log(error);
 			}
@@ -327,14 +327,14 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		});
 	}
 
-	private setListeners() {
+	private setListeners(): void {
 		// Set listeners
 		this.session.on('update-main-speaker', (streamEvent: any) => {
 			console.warn('update-main-speaker');
 
 			// [PR] make a fix in Openvidu ? PR #2
 			// "participantId" is not a participant ID, is a stream ID
-			var mainStream: Stream = this.streams.get(streamEvent.participantId);
+			const mainStream: Stream = this.streams.get(streamEvent.participantId);
 			if (mainStream) {
 				// Check participant if it exists
 				if (!this.participants.has(mainStream.getParticipant().connectionId)) {
@@ -345,7 +345,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 				this.mainStream = mainStream;
 
 				// Emit event
-				this.onUpdateMainSpeaker.emit({
+				this.updateMainSpeaker.emit({
 					stream: mainStream
 				});
 			}
@@ -354,13 +354,13 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('room-connected');
 
 			// Emit event
-			this.onRoomConnected.emit();
+			this.roomConnected.emit();
 		});
 		this.session.on('error-room', (errorEvent: any) => {
 			console.warn('error-room');
 
 			// Emit event
-			this.onErrorRoom.emit({
+			this.errorRoom.emit({
 				error: errorEvent
 			});
 		});
@@ -368,7 +368,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('participant-published');
 
 			// Emit event
-			this.onParticipantPublished.emit({
+			this.participantPublished.emit({
 				participant: participantEvent.participant
 			});
 		});
@@ -376,11 +376,11 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('participant-joined');
 			console.log(participantEvent.connection);
 
-			var newParticipant: Connection = participantEvent.connection;
+			const newParticipant: Connection = participantEvent.connection;
 			this.participants.set(newParticipant.connectionId, newParticipant);
 
 			// Emit event
-			this.onParticipantJoined.emit({
+			this.participantJoined.emit({
 				participant: newParticipant
 			});
 		});
@@ -388,7 +388,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('participant-left');
 
 			// Remove from  array
-			var oldParticipant: Connection = participantEvent.connection;
+			const oldParticipant: Connection = participantEvent.connection;
 			this.participants.delete(oldParticipant.connectionId);
 
 			// Manually update main speaker if it was the main speaker
@@ -399,7 +399,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			}
 
 			// Emit event
-			this.onParticipantLeft.emit({
+			this.participantLeft.emit({
 				participant: oldParticipant
 			});
 		});
@@ -407,7 +407,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('participant-evicted');
 
 			// Emit event
-			this.onParticipantEvicted.emit({
+			this.participantEvicted.emit({
 				participant: participantEvent.participant
 			});
 		});
@@ -415,7 +415,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('stream-added');
 
 			// Subscribe to be able to receive stream
-			var newStream: Stream = streamEvent.stream;
+			const newStream: Stream = streamEvent.stream;
 			newStream.subscribe();
 
 			this.streams.set(newStream.getId(), newStream);
@@ -430,7 +430,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			this.updateMainSpeakerManually(newStream);
 
 			// Emit event
-			this.onStreamAdded.emit({
+			this.streamAdded.emit({
 				stream: newStream
 			});
 		});
@@ -438,7 +438,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('stream-removed');
 
 			// Remove from array
-			var oldStream: Stream = streamEvent.stream;
+			const oldStream: Stream = streamEvent.stream;
 			this.streams.delete(oldStream.getId());
 
 			// TODO: remove from participant
@@ -451,7 +451,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			}
 
 			// Emit event
-			this.onStreamRemoved.emit({
+			this.streamRemoved.emit({
 				stream: oldStream
 			});
 		});
@@ -459,7 +459,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('new-message');
 
 			// Emit event
-			this.onNewMessage.emit({
+			this.newMessage.emit({
 				session: this.session,
 				participant: this.participants.get(messageEvent.user),
 				message: messageEvent.message
@@ -469,19 +469,19 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('room-closed');
 
 			// Emit event
-			this.onRoomClosed.emit();
+			this.roomClosed.emit();
 		});
 		this.session.on('lost-connection', () => {
 			console.warn('lost-connection');
 
 			// Emit event
-			this.onLostConnection.emit();
+			this.lostConnection.emit();
 		});
 		this.session.on('error-media', (errorEvent: any) => {
 			console.warn('error-media');
 
 			// Emit event
-			this.onErrorMedia.emit({
+			this.errorMedia.emit({
 				error: errorEvent.error
 			});
 		});
@@ -489,16 +489,16 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 			console.warn('custom-message-received');
 
 			// Emit event
-			this.onCustomNotification.emit(customNotificationEvent.params);
+			this.customNotification.emit(customNotificationEvent.params);
 		});
 	}
 
 	/**
 	 * Update main speaker based on a established consensus
 	 */
-	private autoUpdateMainSpeaker() {
+	private autoUpdateMainSpeaker(): void {
 		// Consensus: choose next speaker based on participantId
-		var firstParticipant: Connection = null;
+		let firstParticipant: Connection = null;
 		this.participants.forEach((value: Connection, key: string) => {
 			if (firstParticipant === null || value.connectionId < firstParticipant.connectionId) {
 				firstParticipant = value;
@@ -507,13 +507,13 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 
 		if (firstParticipant) {
 			// Get his stream
-			var firstStream: Stream = firstParticipant.getStreams()[Object.keys(firstParticipant.getStreams())[0]];
+			const firstStream: Stream = firstParticipant.getStreams()[Object.keys(firstParticipant.getStreams())[0]];
 
 			// Set new main speaker
 			this.mainStream = firstStream;
 
 			// Emit event
-			this.onUpdateMainSpeaker.emit({
+			this.updateMainSpeaker.emit({
 				stream: firstStream
 			});
 		}
@@ -522,19 +522,19 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 	/**
 	 * Update main speaker and emit event
 	 */
-	private updateMainSpeakerManually(stream: Stream) {
+	private updateMainSpeakerManually(stream: Stream): void {
 		this.mainStream = stream;
 
 		// Emit event
-		this.onUpdateMainSpeaker.emit({
-			stream: stream
+		this.updateMainSpeaker.emit({
+			stream: this.mainStream
 		});
 	}
 
 	/**
 	 * Get current token to connect to OpenVidu server
 	 */
-	private getCurrentToken() {
+	private getCurrentToken(): void {
 		return (this.token)
 			? this.token
 			: 'dummytoken' + this.participantId;

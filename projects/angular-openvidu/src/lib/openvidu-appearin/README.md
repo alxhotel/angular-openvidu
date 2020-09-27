@@ -1,4 +1,4 @@
-# openvidu-appearin
+# opv-appearin
 
 <p align="center">
 	<img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_appearin.png?raw=true"/>
@@ -16,12 +16,12 @@
 
 ### About
 
-`openvidu-appearin` is an Appearin-styled component with a predefined layout, which you can use out-of-the-box.
+`opv-appearin` is an Appearin-styled component with a predefined layout, which you can use out-of-the-box.
 In addition, you have multiple methods and events you can use to personalized the user experience.
 
 ### Selector
 
-- `openvidu-appearin`
+- `opv-appearin`
 
 ### Properties
 
@@ -40,7 +40,7 @@ In addition, you have multiple methods and events you can use to personalized th
 
 ### Events
 
-These events are coming from `openvidu-browser`, AngularOpenVidu uses them to implement the logic.
+These events are coming from `opv-browser`, AngularOpenVidu uses them to implement the logic.
 
 These are the events AngularOpenVidu exposes for the user of the module.
 
@@ -103,7 +103,7 @@ And you are good to go.
 Follow the installation steps at [this README](/README.md#installation). 
 
 ```html
-<openvidu-appearin
+<opv-appearin
 	[wsUrl]="wsUrl"
 	[sessionId]="sessionId"
 	[participantId]="participantId"
@@ -111,7 +111,7 @@ Follow the installation steps at [this README](/README.md#installation).
 
 	Loading openvidu...
 
-</openvidu-appearin>
+</opv-appearin>
 ```
 
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server

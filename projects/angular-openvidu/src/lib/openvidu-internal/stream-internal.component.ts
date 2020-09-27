@@ -12,7 +12,7 @@ import { SafeUrlPipe } from '../utils/safe-url.pipe';
 
 export abstract class StreamInternalComponent implements OnInit {
 
-	@Output() onSourceAdded: EventEmitter<void> = new EventEmitter<void>();
+	@Output() sourceAdded: EventEmitter<void> = new EventEmitter<void>();
 
 	// HTML elements
 	abstract videoStream: ElementRef;
@@ -22,19 +22,21 @@ export abstract class StreamInternalComponent implements OnInit {
 	muted: boolean;
 
 	// Protected variables
-	protected _stream: Stream;
+	protected stream: Stream;
 
 	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer) {}
 
 	@Input('stream')
-	get stream(): Stream { return this._stream; }
+	get stream(): Stream { return this.stream; }
 	set stream(val: Stream) {
-		if (val === null || val === undefined) return;
+		if (val === null || val === undefined) {
+			return;
+		}
 
-		this._stream = val;
+		this.stream = val;
 
 		// Loop until you get a WrStream
-		let int = setInterval(() => {
+		const int = setInterval(() => {
 			if (this.stream.getWrStream()) {
 				this.videoSrc = this.safeUrlPipe.transform(this.stream.getVideoSrc());
 				console.log('Video tag src = ' + this.videoSrc);
@@ -53,18 +55,21 @@ export abstract class StreamInternalComponent implements OnInit {
 		this.renderer.setElementClass(this.videoStream.nativeElement, 'flip-screen', this.stream.isLocalMirrored());
 
 		this.setStreamCallback(val);
+
 		// If local, show nice name
-		//let dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
-		//this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this._intl.you : dataObj.username;
+		// const dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
+		// this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this._intl.you : dataObj.username;
 	}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.videoStream.nativeElement.addEventListener('loadeddata', () => {
 			// Emit event
-			this.onSourceAdded.emit();
+			this.sourceAdded.emit();
 		}, false);
 
-		if (!this.stream) return;
+		if (!this.stream) {
+			return;
+		}
 
 		// Listen for changes in the src
 		// For example, if the participants wants to change camera

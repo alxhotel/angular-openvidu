@@ -1,27 +1,27 @@
-<openvidu-template
+<opv-template
 	#openviduApi="openviduApi"
 	[wsUrl]="wsUrl"
 	[sessionId]="sessionId"
 	[participantId]="participantId"
 	
-	(onUpdateMainSpeaker)="handleOnUpdateMainSpeaker($event)"
+	(updateMainSpeaker)="handleOnUpdateMainSpeaker($event)"
 	
-	(onServerConnected)="handleOnServerConnected()"
-	(onErrorServer)="handleOnErrorServer($event)"
-	(onRoomConnected)="handleOnRoomConnected($event)"
-	(onErrorRoom)="handleOnErrorRoom($event)"
-	(onCameraAccessChange)="handleOnCameraAccessChange($event)"
+	(serverConnected)="handleOnServerConnected()"
+	(errorServer)="handleOnErrorServer($event)"
+	(roomConnected)="handleOnRoomConnected($event)"
+	(errorRoom)="handleOnErrorRoom($event)"
+	(cameraAccessChange)="handleOnCameraAccessChange($event)"
 	
-	(onParticipantJoined)="handleOnParticipantJoined($event)"
-	(onParticipantLeft)="handleOnParticipantLeft($event)"
+	(participantJoined)="handleOnParticipantJoined($event)"
+	(participantLeft)="handleOnParticipantLeft($event)"
 	
-	(onStreamAdded)="handleOnStreamAdded($event)"
-	(onStreamRemoved)="handleOnStreamRemoved($event)"
+	(streamAdded)="handleOnStreamAdded($event)"
+	(streamRemoved)="handleOnStreamRemoved($event)"
 	
-	(onErrorMedia)="handleOnErrorMedia($event)"
-	(onLeaveRoom)="handleOnLeaveRoom()"
-	(onNewMessage)="handleOnNewMessage($event)"
-	(onCustomNotification)="handleOnCustomNotification($event)">
+	(errorMedia)="handleOnErrorMedia($event)"
+	(leaveRoom)="handleOnLeaveRoom()"
+	(newMessage)="handleOnNewMessage($event)"
+	(customNotification)="handleOnCustomNotification($event)">
 
 	<div #main class="openvidu-appearin" [ngClass]="{'fullscreen': isFullscreen}">
 		
@@ -137,11 +137,11 @@
 					<!-- MAIN VIDEO -->
 					<div #panelVideo class="panel-videos">
 						<div class="stream-flex">
-							<stream-appearin #streamAppearin *ngFor="let s of streams" class="stream" [stream]="s"
+							<opv-stream-appearin #streamAppearin *ngFor="let s of streams" class="stream" [stream]="s"
 								[style.max-width]="streamMaxWidth"
 								[style.max-height]="streamMaxHeight"
-								(onSourceAdded)="handleOnSourceAdded()">
-							</stream-appearin>
+								(sourceAdded)="handleOnSourceAdded()">
+							</opv-stream-appearin>
 						</div>
 						<div class="chat" *ngIf="showChat">
 							<button class="close" (click)="toggleChat()">
@@ -189,4 +189,4 @@
 		</div>
 	</div>
 	
-</openvidu-template>
+</opv-template>

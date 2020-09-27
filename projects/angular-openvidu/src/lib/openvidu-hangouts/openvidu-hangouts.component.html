@@ -1,27 +1,27 @@
-<openvidu-template
+<opv-template
 	#openviduApi="openviduApi"
 	[wsUrl]="wsUrl"
 	[sessionId]="sessionId"
 	[participantId]="participantId"
 	
-	(onUpdateMainSpeaker)="handleOnUpdateMainSpeaker($event)"
+	(updateMainSpeaker)="handleOnUpdateMainSpeaker($event)"
 	
-	(onServerConnected)="handleOnServerConnected()"
-	(onErrorServer)="handleOnErrorServer($event)"
-	(onRoomConnected)="handleOnRoomConnected($event)"
-	(onErrorRoom)="handleOnErrorRoom($event)"
-	(onCameraAccessChange)="handleOnCameraAccessChange($event)"
+	(serverConnected)="handleOnServerConnected()"
+	(errorServer)="handleOnErrorServer($event)"
+	(roomConnected)="handleOnRoomConnected($event)"
+	(errorRoom)="handleOnErrorRoom($event)"
+	(cameraAccessChange)="handleOnCameraAccessChange($event)"
 	
-	(onParticipantJoined)="handleOnParticipantJoined($event)"
-	(onParticipantLeft)="handleOnParticipantLeft($event)"
+	(participantJoined)="handleOnParticipantJoined($event)"
+	(participantLeft)="handleOnParticipantLeft($event)"
 	
-	(onStreamAdded)="handleOnStreamAdded($event)"
-	(onStreamRemoved)="handleOnStreamRemoved($event)"
+	(streamAdded)="handleOnStreamAdded($event)"
+	(streamRemoved)="handleOnStreamRemoved($event)"
 	
-	(onErrorMedia)="handleOnErrorMedia($event)"
-	(onLeaveRoom)="handleOnLeaveRoom()"
-	(onNewMessage)="handleOnNewMessage($event)"
-	(onCustomNotification)="handleOnCustomNotification($event)">
+	(errorMedia)="handleOnErrorMedia($event)"
+	(leaveRoom)="handleOnLeaveRoom()"
+	(newMessage)="handleOnNewMessage($event)"
+	(customNotification)="handleOnCustomNotification($event)">
 	
 	<div #main class="openvidu-hangouts">
 
@@ -88,7 +88,7 @@
 				<!-- MAIN VIDEO -->
 				<div class="main-video">
 					<div class="message" *ngIf="streams.length == 1">You are alone in this room :(</div>
-					<stream-hangouts class="main-stream" *ngIf="mainStream != null && mainStream.getWrStream() != null" [stream]="mainStream"></stream-hangouts>
+					<opv-stream-hangouts class="main-stream" *ngIf="mainStream != null && mainStream.getWrStream() != null" [stream]="mainStream"></opv-stream-hangouts>
 					<div class="name-placeholder" *ngIf="mainStream == null || mainStream.getWrStream() == null">
 						<div *ngIf="mainStream != null">{{JSON.parse(mainStream.getParticipant().data).username.charAt(0)}}</div>
 						<div *ngIf="mainStream == null && participantId != null">{{participantId.charAt(0)}}</div>
@@ -111,16 +111,16 @@
 						</button>
 					</div>
 					<div class="streams" *ngIf="streams.length > 1">
-						<stream-hangouts class="stream side-stream" [stream]="myCamera" [ngClass]="{'hide-video': (myCamera === mainStream)}">
+						<opv-stream-hangouts class="stream side-stream" [stream]="myCamera" [ngClass]="{'hide-video': (myCamera === mainStream)}">
 
-						</stream-hangouts>
+						</opv-stream-hangouts>
 						<ng-container *ngFor="let s of streams">
-							<stream-hangouts class="stream side-stream square"
+							<opv-stream-hangouts class="stream side-stream square"
 								*ngIf="(s !== myCamera)"
 								[stream]="s"
 								[ngClass]="{'hide-video': (s === mainStream), 'mic-off': micOffParticipants.indexOf(s.getParticipant()) >= 0, 'cam-off': camOffParticipants.indexOf(s.getParticipant()) >= 0}">
 
-							</stream-hangouts>
+							</opv-stream-hangouts>
 						</ng-container>
 					</div>
 				</div>
@@ -132,4 +132,4 @@
 
 		</div>
 	</div>
-</openvidu-template>
+</opv-template>

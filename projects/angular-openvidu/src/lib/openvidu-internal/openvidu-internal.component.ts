@@ -22,7 +22,7 @@ export enum ConnectionState {
 export interface ToolbarOption {
 	label?: string;
 	icon: string;
-	onClick?: Function;
+	onClick?: () => void;
 }
 
 export abstract class OpenViduInternalComponent {
@@ -35,25 +35,25 @@ export abstract class OpenViduInternalComponent {
 	@Input() token: string;
 
 	// Outputs
-	@Output() onServerConnected: EventEmitter<any> = new EventEmitter();
-	@Output() onErrorServer: EventEmitter<any> = new EventEmitter();
-	@Output() onRoomConnected: EventEmitter<any> = new EventEmitter();
-	@Output() onErrorRoom: EventEmitter<any> = new EventEmitter();
-	@Output() onRoomClosed: EventEmitter<any> = new EventEmitter();
-	@Output() onLostConnection: EventEmitter<any> = new EventEmitter();
-	@Output() onParticipantJoined: EventEmitter<any> = new EventEmitter();
-	@Output() onParticipantLeft: EventEmitter<any> = new EventEmitter();
-	@Output() onErrorMedia: EventEmitter<any> = new EventEmitter();
-	@Output() onLeaveRoom: EventEmitter<any> = new EventEmitter();
-	@Output() onNewMessage: EventEmitter<any> = new EventEmitter();
-	@Output() onCustomNotification: EventEmitter<any> = new EventEmitter();
+	@Output() serverConnected: EventEmitter<any> = new EventEmitter();
+	@Output() errorServer: EventEmitter<any> = new EventEmitter();
+	@Output() roomConnected: EventEmitter<any> = new EventEmitter();
+	@Output() errorRoom: EventEmitter<any> = new EventEmitter();
+	@Output() roomClosed: EventEmitter<any> = new EventEmitter();
+	@Output() lostConnection: EventEmitter<any> = new EventEmitter();
+	@Output() participantJoined: EventEmitter<any> = new EventEmitter();
+	@Output() participantLeft: EventEmitter<any> = new EventEmitter();
+	@Output() errorMedia: EventEmitter<any> = new EventEmitter();
+	@Output() leaveRoom: EventEmitter<any> = new EventEmitter();
+	@Output() newMessage: EventEmitter<any> = new EventEmitter();
+	@Output() customNotification: EventEmitter<any> = new EventEmitter();
 
 	// Unused events
-	//@Output() onStreamAdded: EventEmitter<any> = new EventEmitter();
-	//@Output() onStreamRemoved: EventEmitter<any> = new EventEmitter();
-	//@Output() onParticpantPublished: EventEmitter<any> = new EventEmitter();
-	//@Output() onParticipantEvicted: EventEmitter<any> = new EventEmitter();
-	//@Output() onUpodateMainSpeaker: EventEmitter<any> = new EventEmitter();
+	// @Output() streamAdded: EventEmitter<any> = new EventEmitter();
+	// @Output() streamRemoved: EventEmitter<any> = new EventEmitter();
+	// @Output() particpantPublished: EventEmitter<any> = new EventEmitter();
+	// @Output() participantEvicted: EventEmitter<any> = new EventEmitter();
+	// @Output() upodateMainSpeaker: EventEmitter<any> = new EventEmitter();
 
 	// OpenVidu API
 	@ViewChild('openviduApi') openviduApi: OpenViduDirective;
@@ -94,11 +94,11 @@ export abstract class OpenViduInternalComponent {
 	/* GUI RELATED METHODS */
 	/*---------------------*/
 
-	sendCustomNotification(obj: any, callback: any) {
+	sendCustomNotification(obj: any, callback: any): void {
 		this.openviduApi.sendCustomNotification(obj, callback);
 	}
 
-	leaveRoom(callLeaveRoom?: boolean) {
+	leaveRoom(callLeaveRoom?: boolean): void {
 		// Reset
 		this.mainStream = null;
 		this.streams = [];
@@ -115,7 +115,7 @@ export abstract class OpenViduInternalComponent {
 	/* HANDLE OPENVIDU EVENTS */
 	/*------------------------*/
 
-	handleOnUpdateMainSpeaker(streamEvent: StreamEvent) {
+	handleOnUpdateMainSpeaker(streamEvent: StreamEvent): void {
 		// Check if stream exists
 		if (this.streams.indexOf(streamEvent.stream) < 0) {
 			this.streams.push(streamEvent.stream);
@@ -130,35 +130,35 @@ export abstract class OpenViduInternalComponent {
 		}
 	}
 
-	handleOnServerConnected() {
+	handleOnServerConnected(): void {
 		this.connectionUiState = ConnectionState.CONNECTED_TO_SERVER;
 	}
 
-	handleOnErrorServer(errorEvent: ErrorEvent) {
+	handleOnErrorServer(errorEvent: ErrorEvent): void {
 		if (errorEvent.error) {
 			this.setUserMessage(errorEvent.error.message);
 		}
 	}
 
-	handleOnRoomConnected(roomConnectedEvent: RoomConnectedEvent) {
+	handleOnRoomConnected(roomConnectedEvent: RoomConnectedEvent): void {
 		if (roomConnectedEvent && roomConnectedEvent.session) {
 			this.session = roomConnectedEvent.session;
 		}
 
 		// Emit event
-		this.onRoomConnected.emit();
+		this.roomConnected.emit();
 
 		this.connectionUiState = ConnectionState.CONNECTED_TO_ROOM;
 	}
 
-	handleOnErrorRoom(errorEvent: ErrorEvent) {
+	handleOnErrorRoom(errorEvent: ErrorEvent): void {
 		// Emit event
-		this.onErrorRoom.emit({
+		this.errorRoom.emit({
 			error: errorEvent.error
 		});
 	}
 
-	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent) {
+	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent): void {
 		if (cameraEvent.access) {
 			// All good :)
 			this.handleOnStreamRemoved({
@@ -178,77 +178,77 @@ export abstract class OpenViduInternalComponent {
 		}
 	}
 
-	handleOnRoomClosed() {
+	handleOnRoomClosed(): void {
 		this.session = null;
 
 		// Emit event
-		this.onRoomClosed.emit();
+		this.roomClosed.emit();
 	}
 
-	handleOnLostConnection() {
+	handleOnLostConnection(): void {
 		if (!this.session) {
 			// Emit event
-			this.onLostConnection.emit({
+			this.lostConnection.emit({
 				error: new Error('Lost connection with the server')
 			});
 		} else {
 			// Emit event
-			this.onLostConnection.emit();
+			this.lostConnection.emit();
 		}
 	}
 
-	handleOnParticipantJoined(participantEvent: ParticipantEvent) {
-		var newParticipant = participantEvent.participant;
+	handleOnParticipantJoined(participantEvent: ParticipantEvent): void {
+		const newParticipant = participantEvent.participant;
 		this.participants[newParticipant.connectionId] = newParticipant;
 
 		// Emit event
-		this.onParticipantJoined.emit({
+		this.participantJoined.emit({
 			participantId: newParticipant.connectionId
 		});
 	}
 
-	handleOnParticipantLeft(participantEvent: ParticipantEvent) {
-		var oldParticipant = participantEvent.participant;
+	handleOnParticipantLeft(participantEvent: ParticipantEvent): void {
+		const oldParticipant = participantEvent.participant;
 		delete this.participants[oldParticipant.connectionId];
 
 		// Emit event
-		this.onParticipantLeft.emit({
+		this.participantLeft.emit({
 			participantId: oldParticipant.connectionId
 		});
 	}
 
-	handleOnErrorMedia(errorEvent: ErrorEvent) {
+	handleOnErrorMedia(errorEvent: ErrorEvent): void {
 		// Emit event
-		this.onErrorMedia.emit({
+		this.errorMedia.emit({
 			error: errorEvent.error
 		});
 	}
 
-	handleOnStreamAdded(streamEvent: StreamEvent) {
-		var newStream = streamEvent.stream;
+	handleOnStreamAdded(streamEvent: StreamEvent): void {
+		const newStream = streamEvent.stream;
 		if (this.streams.indexOf(newStream) < 0) {
 			this.streams.push(newStream);
 		}
 	}
 
-	handleOnStreamRemoved(streamEvent: StreamEvent) {
-		var oldStream = streamEvent.stream;
+	handleOnStreamRemoved(streamEvent: StreamEvent): void {
+		const oldStream = streamEvent.stream;
 		this.streams.splice(this.streams.indexOf(oldStream), 1);
 	}
 
-	handleOnLeaveRoom() {
+	handleOnLeaveRoom(): void {
 		this.session = null;
 		this.participants = {};
 		this.streams = [];
 		this.mainStream = null;
 
 		// Emit event
-		this.onLeaveRoom.emit();
+		this.leaveRoom.emit();
 	}
 
-	handleOnNewMessage(messageEvent: MessageEvent) {
+	handleOnNewMessage(messageEvent: MessageEvent): void {
 		// Fix: to get usernam
-		var dataObj: ParticipantData = JSON.parse(messageEvent.participant.data);
+		const dataObj: ParticipantData = JSON.parse(messageEvent.participant.data);
 
 		// Handle message
 		this.chatMessages.push({
@@ -257,10 +257,10 @@ export abstract class OpenViduInternalComponent {
 			date: new Date() // Use current date
 		});
 
-		this.onNewMessage.emit(messageEvent);
+		this.newMessage.emit(messageEvent);
 	}
 
-	handleOnCustomNotification(obj: any) {
+	handleOnCustomNotification(obj: any): void {
 		if (obj.openviduType) {
 			// TODO: Internal custom notification
 			switch (obj.openviduType) {
@@ -280,7 +280,7 @@ export abstract class OpenViduInternalComponent {
 					break;
 			}
 		} else {
-			this.onCustomNotification.emit(obj);
+			this.customNotification.emit(obj);
 		}
 	}
 
@@ -288,7 +288,7 @@ export abstract class OpenViduInternalComponent {
 	/* PROTECTED METHODS */
 	/*-------------------*/
 
-	protected setUserMessage(msg: string) {
+	protected setUserMessage(msg: string): void {
 		this.userMessage = msg;
 	}
 
@@ -301,14 +301,16 @@ export abstract class OpenViduInternalComponent {
 	 * @return Object {width?: number, height?: number, error?: boolean}
 	 */
 	protected auxResizeStreamsManually(container: ElementRef, boxes: ElementRef[]): {width?: number, height?: number, error?: boolean} {
-		if (!container || !boxes || boxes.length === 0) return {error: true};
+		if (!container || !boxes || boxes.length === 0) {
+			return { error: true };
+		}
 
-		var maxDimensions = {
+		const maxDimensions = {
 			maxW: 0,
 			maxH: 0
 		};
 		boxes.forEach((box: any) => {
-			var videoEl = box.nativeElement;
+			const videoEl = box.nativeElement;
 			if (videoEl.videoWidth > maxDimensions.maxW) {
 				if (videoEl.videoHeight > maxDimensions.maxH) {
 					maxDimensions.maxW = videoEl.videoWidth;
@@ -317,17 +319,17 @@ export abstract class OpenViduInternalComponent {
 			}
 		});
 
-		//console.log(maxDimensions);
+		// console.log(maxDimensions);
 
-		var clientRect = container.nativeElement.getBoundingClientRect();
-		var numElements = boxes.length;
-		var width = clientRect.width;
-		var height = clientRect.height;
-		var area = height * width;
-		var elementArea = parseInt((area / numElements) + '');
+		const clientRect = container.nativeElement.getBoundingClientRect();
+		const numElements = boxes.length;
+		const width = clientRect.width;
+		const height = clientRect.height;
+		const area = height * width;
+		const elementArea = parseInt((area / numElements) + '', 10);
 
 		// Calculate proportions
-		var maxProportions = {
+		const maxProportions = {
 			maxW: 0,
 			maxH: 0,
 		};
@@ -345,16 +347,16 @@ export abstract class OpenViduInternalComponent {
 			maxProportions.maxH = ((maxDimensions.maxW / maxDimensions.maxH) * maxDimensions.maxH) / maxDimensions.maxW;
 		}
 
-		//console.log(maxProportions);
+		// console.log(maxProportions);
 
-		var elementWidth = parseInt(Math.sqrt(elementArea * (maxProportions.maxW / maxProportions.maxH)) + '');
-		var elementHeight = parseInt(Math.sqrt(elementArea * (maxProportions.maxH / maxProportions.maxW)) + '');
+		let elementWidth = parseInt(Math.sqrt(elementArea * (maxProportions.maxW / maxProportions.maxH)) + '', 10);
+		let elementHeight = parseInt(Math.sqrt(elementArea * (maxProportions.maxH / maxProportions.maxW)) + '', 10);
 
-		//console.log(elementWidth);
+		// console.log(elementWidth);
 
 		// We now need to fit the squares. Let's reduce the square size
 		// so an integer number fits the width.
-		var numX = Math.ceil(width / elementWidth);
+		let numX = Math.ceil(width / elementWidth);
 		elementWidth = width / numX;
 		elementHeight = elementWidth * (maxProportions.maxH / maxProportions.maxW);
 		while (numX <= numElements) {

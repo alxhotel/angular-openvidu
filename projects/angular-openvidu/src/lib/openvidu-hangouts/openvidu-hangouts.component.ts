@@ -20,7 +20,7 @@ import { OpenViduHangoutsIntl } from './openvidu-hangouts-intl';
 import { DialogHangoutsComponent } from './dialog-hangouts/dialog-hangouts.component';
 
 @Component({
-	selector: 'openvidu, openvidu-hangouts',
+	selector: 'opv-hangouts',
 	templateUrl: './openvidu-hangouts.component.html',
 	styleUrls: [ './openvidu-hangouts.component.css' ],
 	animations: [
@@ -60,17 +60,17 @@ export class OpenViduHangoutsComponent extends OpenViduInternalComponent impleme
 	// Web API access inside template
 	JSON: any;
 
-	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
-		public _intl: OpenViduHangoutsIntl, public dialog: MatDialog) {
-
+	constructor(
+		private renderer: Renderer2, private bigScreenService: BigScreenService,
+		public intl: OpenViduHangoutsIntl, public dialog: MatDialog) {
 		super();
 		this.JSON = JSON;
-		this.setUserMessage(this._intl.loadingLabel);
+		this.setUserMessage(this.intl.loadingLabel);
 	}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		// Display message
-		this.setUserMessage(this._intl.connectingLabel);
+		this.setUserMessage(this.intl.connectingLabel);
 
 		// Set fullscreen listener
 		this.bigScreenService.onChange(() => {
@@ -79,7 +79,7 @@ export class OpenViduHangoutsComponent extends OpenViduInternalComponent impleme
 		});
 	}
 
-	ngOnDestroy() {
+	ngOnDestroy(): void {
 		this.bigScreenService.exit();
 		this.leaveRoom(false);
 	}
@@ -88,15 +88,15 @@ export class OpenViduHangoutsComponent extends OpenViduInternalComponent impleme
 	/* GUI RELATED METHODS */
 	/*---------------------*/
 
-	toggleMic() {
+	toggleMic(): void {
 		this.openviduApi.micEnabled = !this.openviduApi.micEnabled;
 	}
 
-	toggleCamera() {
+	toggleCamera(): void {
 		this.openviduApi.camEnabled = !this.openviduApi.camEnabled;
 	}
 
-	toggleFullscreen() {
+	toggleFullscreen(): void {
 		if (this.bigScreenService.isFullscreen()) {
 			this.bigScreenService.exit();
 		} else {
@@ -104,12 +104,12 @@ export class OpenViduHangoutsComponent extends OpenViduInternalComponent impleme
 		}
 	}
 
-	toggleChat() {
+	toggleChat(): void {
 		this.sidenav.toggle();
 	}
 
-	openSettings() {
-		let dialogRef = this.dialog.open(DialogHangoutsComponent);
+	openSettings(): void {
+		const dialogRef = this.dialog.open(DialogHangoutsComponent);
 		// On change video input
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
@@ -120,45 +120,45 @@ export class OpenViduHangoutsComponent extends OpenViduInternalComponent impleme
 		});
 	}
 
-	onSidenavOpenStart() {
+	onSidenavOpenStart(): void {
 		this.chatButtonState = 'hide';
 	}
 
-	onSidenavCloseStart() {
+	onSidenavCloseStart(): void {
 		this.chatButtonState = 'show';
 	}
 
-	sendMessage(text: string) {
+	sendMessage(text: string): void {
 		// Clean input
 		this.messageInput.nativeElement.value = null;
-		//this.renderer.setValue(this.messageInput, null);
+		// this.renderer.setValue(this.messageInput, null);
 		// Send to OpenVidu server
 		this.openviduApi.sendMessage(text);
 	}
 
-	leaveRoom(callLeaveRoom?: boolean) {
+	leaveRoom(callLeaveRoom?: boolean): void {
 		super.leaveRoom(callLeaveRoom);
 
 		// Reset button
 		this.chatButtonState = 'show';
 		// Display message
-		this.setUserMessage(this._intl.youLeftTheRoomLabel);
+		this.setUserMessage(this.intl.youLeftTheRoomLabel);
 	}
 
 	/*------------------------*/
 	/* HANDLE OPENVIDU EVENTS */
 	/*------------------------*/
 
-	handleOnServerConnected() {
+	handleOnServerConnected(): void {
 		super.handleOnServerConnected();
 
-		this.setUserMessage(this._intl.connectingToRoomLabel);
+		this.setUserMessage(this.intl.connectingToRoomLabel);
 	}
 
-	handleOnErrorRoom(errorEvent: ErrorEvent) {
+	handleOnErrorRoom(errorEvent: ErrorEvent): void {
 		super.handleOnErrorRoom(errorEvent);
 
-		this.setUserMessage(this._intl.errorRoom);
+		this.setUserMessage(this.intl.errorRoom);
 	}
 
 }

@@ -21,24 +21,27 @@ export abstract class OpenViduHelperComponent {
 	// My camera
 	myCamera: Stream;
 
-	private _openviduApi: OpenViduDirective;
+	private openviduApi: OpenViduDirective;
 
 	@ViewChild(OpenViduDirective)
-	get openviduApi(): OpenViduDirective { return this._openviduApi; }
-	set openviduApi(openviduApi: OpenViduDirective) {
-		if (this._openviduApi || !openviduApi) return;
-		this._openviduApi = openviduApi;
+	get openviduApi(): OpenViduDirective { return this.openviduApi; }
+	set openviduApi(openviduApi: OpenViduDirective): void {
+		if (this.openviduApi || !openviduApi) {
+			return;
+		}
 
-		this._openviduApi.onUpdateMainSpeaker.subscribe((streamEvent: StreamEvent) => {
+		this.openviduApi = openviduApi;
+
+		this.openviduApi.onUpdateMainSpeaker.subscribe((streamEvent: StreamEvent) => {
 			this.handleOnUpdateMainSpeaker(streamEvent);
 		});
-		this._openviduApi.onCameraAccessChange.subscribe((cameraEvent: CameraAccessEvent) => {
+		this.openviduApi.onCameraAccessChange.subscribe((cameraEvent: CameraAccessEvent) => {
 			this.handleOnCameraAccessChange(cameraEvent);
 		});
-		this._openviduApi.onStreamAdded.subscribe((streamEvent: StreamEvent) => {
+		this.openviduApi.onStreamAdded.subscribe((streamEvent: StreamEvent) => {
 			this.handleOnStreamAdded(streamEvent);
 		});
-		this._openviduApi.onStreamRemoved.subscribe((streamEvent: StreamEvent) => {
+		this.openviduApi.onStreamRemoved.subscribe((streamEvent: StreamEvent) => {
 			this.handleOnStreamRemoved(streamEvent);
 		});
 	}
@@ -47,7 +50,7 @@ export abstract class OpenViduHelperComponent {
 	/* HANDLE OPENVIDU EVENTS */
 	/*------------------------*/
 
-	handleOnUpdateMainSpeaker(streamEvent: StreamEvent) {
+	handleOnUpdateMainSpeaker(streamEvent: StreamEvent): void {
 		// Check if stream exists
 		if (this.streams.indexOf(streamEvent.stream) < 0) {
 			this.streams.push(streamEvent.stream);
@@ -57,7 +60,7 @@ export abstract class OpenViduHelperComponent {
 		this.mainStream = streamEvent.stream;
 	}
 
-	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent) {
+	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent): void {
 		if (cameraEvent.access) {
 			// All good :)
 			if (this.streams.indexOf(this.myCamera) < 0) {
@@ -68,15 +71,15 @@ export abstract class OpenViduHelperComponent {
 		}
 	}
 
-	handleOnStreamAdded(streamEvent: StreamEvent) {
-		var newStream = streamEvent.stream;
+	handleOnStreamAdded(streamEvent: StreamEvent): void {
+		const newStream = streamEvent.stream;
 		if (this.streams.indexOf(newStream) < 0) {
 			this.streams.push(newStream);
 		}
 	}
 
-	handleOnStreamRemoved(streamEvent: StreamEvent) {
-		var oldStream = streamEvent.stream;
+	handleOnStreamRemoved(streamEvent: StreamEvent): void {
+		const oldStream = streamEvent.stream;
 		this.streams.splice(this.streams.indexOf(oldStream), 1);
 	}
 

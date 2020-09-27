@@ -10,7 +10,7 @@
     "test": "npm run test:app",
     "test:app": "ng test angular-openvidu-app",
     "test:lib": "ng test angular-openvidu",
-    "lint": "npm run lint:app",
+    "lint": "npm run lint:lib && npm run lint:app",
     "lint:app": "ng lint angular-openvidu-app",
     "lint:lib": "ng lint angular-openvidu",
     "e2e": "ng e2e"

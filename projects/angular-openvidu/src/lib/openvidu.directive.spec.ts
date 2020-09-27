@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { async, getTestBed, ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { getTestBed, ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 
 // Imports dependencies of component to be tested
 import { OpenViduModule } from './openvidu.module';
@@ -13,18 +13,18 @@ import { getRandomCredentials } from './testing/testing-helper';
 
 @Component({
 	template: `
-	<openvidu-template
+	<opv-template
 		#openviduApi="openviduApi"
 		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
-		(onServerConnected)="onServerConnected()"
-		(onRoomConnected)="onRoomConnected()"
-		(onParticipantJoined)="onParticipantJoined($event)"
-		(onParticipantLeft)="onParticipantLeft($event)"
-		(onErrorMedia)="onErrorMedia()"
-		(onLeaveRoom)="onLeaveRoom()"
-		(onNewMessage)="onNewMessage($event)">
+		(serverConnected)="onServerConnected()"
+		(roomConnected)="onRoomConnected()"
+		(participantJoined)="onParticipantJoined($event)"
+		(participantLeft)="onParticipantLeft($event)"
+		(errorMedia)="onErrorMedia()"
+		(leaveRoom)="onLeaveRoom()"
+		(newMessage)="onNewMessage($event)">
 		Loading openvidu...
-	</openvidu-template>`
+	</opv-template>`
 })
 class TestComponent {
 	sessionId: string;
@@ -37,26 +37,26 @@ class TestComponent {
 	// OpenVidu api
 	@ViewChild('openviduApi') openviduApi: OpenViduDirective;
 
-	onServerConnected() {
+	onServerConnected(): void {
 		// Dummy
 		this.serverConnected = true;
 	}
-	onRoomConnected() {
+	onRoomConnected(): void {
 		// Dummy
 	}
-	onParticipantJoined() {
+	onParticipantJoined(): void {
 		// Dummy
 	}
-	onParticipantLeft() {
+	onParticipantLeft(): void {
 		// Dummy
 	}
-	onErrorMedia() {
+	onErrorMedia(): void {
 		// Dummy
 	}
-	onLeaveRoom() {
+	onLeaveRoom(): void {
 		// Dummy
 	}
-	onNewMessage(messageEvent: MessageEvent) {
+	onNewMessage(messageEvent: MessageEvent): void {
 		this.messages.push(messageEvent.message);
 	}
 }
@@ -67,9 +67,9 @@ describe('AngularOpenVidu Directive', () => {
 
 	const defaultWsUrl = 'wss://127.0.0.1:8443/';
 
-	beforeEach(async(() => {
+	beforeEach(async () => {
 		// Setup the component to be tested
-		TestBed.configureTestingModule({
+		await TestBed.configureTestingModule({
 			imports: [
 				OpenViduModule
 			],
@@ -80,17 +80,18 @@ describe('AngularOpenVidu Directive', () => {
 				{ provide: ComponentFixtureAutoDetect, useValue: true }
 			]
 		})
-		.compileComponents().then( () => {
-			fixture = TestBed.createComponent(TestComponent);
-			fixture.detectChanges();
-			testComponent = fixture.componentInstance;
-		});
+		.compileComponents();
+
+		fixture = TestBed.createComponent(TestComponent);
+		fixture.detectChanges();
+		testComponent = fixture.componentInstance;
+
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-	}));
+	});
 
 	afterAll(() => {
 		// Reset the testing module
-		//getTestBed().resetTestingModule();
+		// getTestBed().resetTestingModule();
 	});
 
 	it('should create the component', () => {
@@ -112,12 +113,12 @@ describe('AngularOpenVidu Directive', () => {
 
 		// Check values
 		const randomCredentials = getRandomCredentials();
-		testComponent.sessionId = randomCredentials['sessionId'];
-		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.sessionId = randomCredentials.sessionId;
+		testComponent.participantId = randomCredentials.participantId;
 		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
-		expect(testComponent.openviduApi.sessionId).toEqual(randomCredentials['sessionId']);
-		expect(testComponent.openviduApi.participantId).toEqual(randomCredentials['participantId']);
+		expect(testComponent.openviduApi.sessionId).toEqual(randomCredentials.sessionId);
+		expect(testComponent.openviduApi.participantId).toEqual(randomCredentials.participantId);
 		expect(testComponent.openviduApi.wsUrl).toEqual(defaultWsUrl);
 	});
 
@@ -127,8 +128,8 @@ describe('AngularOpenVidu Directive', () => {
 		spyOn(testComponent, 'onServerConnected').and.callThrough();
 		// Setup creds
 		const randomCredentials = getRandomCredentials();
-		testComponent.sessionId = randomCredentials['sessionId'];
-		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.sessionId = randomCredentials.sessionId;
+		testComponent.participantId = randomCredentials.participantId;
 		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
 
@@ -145,8 +146,8 @@ describe('AngularOpenVidu Directive', () => {
 		spyOn(testComponent, 'onRoomConnected').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
-		testComponent.sessionId = randomCredentials['sessionId'];
-		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.sessionId = randomCredentials.sessionId;
+		testComponent.participantId = randomCredentials.participantId;
 		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
 
@@ -162,8 +163,8 @@ describe('AngularOpenVidu Directive', () => {
 		spyOn(testComponent, 'onLeaveRoom').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
-		testComponent.sessionId = randomCredentials['sessionId'];
-		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.sessionId = randomCredentials.sessionId;
+		testComponent.participantId = randomCredentials.participantId;
 		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
 
@@ -178,14 +179,16 @@ describe('AngularOpenVidu Directive', () => {
 
 	it('should trigger onNewMessage', (done) => {
 		// Fix popup from openvidu-browser
-		//window.alert = function(){return;};
-		window.confirm = () => {return false;};
+		// window.alert = function(){return;};
+		window.confirm = () => {
+			return false;
+		};
 		// Setup spy
 		spyOn(testComponent, 'onNewMessage').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
-		testComponent.sessionId = randomCredentials['sessionId'];
-		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.sessionId = randomCredentials.sessionId;
+		testComponent.participantId = randomCredentials.participantId;
 		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
 
@@ -209,8 +212,8 @@ describe('AngularOpenVidu Directive', () => {
 		spyOn(testComponent, 'onNewMessage').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
-		testComponent.sessionId = randomCredentials['sessionId'];
-		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.sessionId = randomCredentials.sessionId;
+		testComponent.participantId = randomCredentials.participantId;
 		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
 
@@ -226,8 +229,8 @@ describe('AngularOpenVidu Directive', () => {
 		spyOn(testComponent, 'onNewMessage').and.callThrough();
 		// setup creds
 		const randomCredentials = getRandomCredentials();
-		testComponent.sessionId = randomCredentials['sessionId'];
-		testComponent.participantId = randomCredentials['participantId'];
+		testComponent.sessionId = randomCredentials.sessionId;
+		testComponent.participantId = randomCredentials.participantId;
 		testComponent.wsUrl = defaultWsUrl;
 		fixture.detectChanges();
 

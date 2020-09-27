@@ -1,4 +1,4 @@
-# openvidu-template
+# opv-template
 
 ### Table of contents
 
@@ -12,12 +12,12 @@
 
 ### About
 
-`openvidu-template` is a directive which provides most of the logic behind AngularOpenVidu.
+`opv-template` is a directive which provides most of the logic behind AngularOpenVidu.
 It exports properties, methods and events to let you implement your own videochat layout.
 
 ### Selector
 
-- `openvidu-template`
+- `opv-template`
 
 ### Properties
 
@@ -69,27 +69,27 @@ These are the events AngularOpenVidu exposes for the user of the module.
 
 First, follow the installation steps at [this README](/README.md#installation). Then continue with these steps:
 
-1. Add `openvidu-template` with the required properties to your current app template:
+1. Add `opv-template` with the required properties to your current app template:
 
 	```html
-	<openvidu-template
+	<opv-template
 		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId">
 		...
-	</openvidu-template>
+	</opv-template>
 	```
 
-2. You can now build your template between the `openvidu-template` tags.
+2. You can now build your template between the `opv-template` tags.
 
 	```html
-	<openvidu-template
+	<opv-template
 		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
-		(onRoomConnected)="myRoomConnectedHandler($event)">
+		(roomConnected)="myRoomConnectedHandler($event)">
 
 		<mat-toolbar>My app</mat-toolbar>
 
 		<my-custom-stream *ngFor="let s of streams" [stream]="s"></my-custom-stream>
 
-	</openvidu-template>
+	</opv-template>
 	```
 
 	**NOTE:**
@@ -111,17 +111,17 @@ First, follow the installation steps at [this README](/README.md#installation). 
 3. Use the `openviduApi` in your template or in your code to implement your logic. For example:
 
 	```html
-	<openvidu-template
+	<opv-template
 		#openviduApi="openviduApi"
 		[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
-		(onRoomConnected)="myRoomConnectedHandler($event)">
+		(roomConnected)="myRoomConnectedHandler($event)">
 		...
 		<button (click)="openvdiuApi.micEnabled = !openviduApu.micEnabled">
 			<span [hidden]="!openviduApi.micEnabled">Mute mic</span>
 			<span [hidden]="openviduApi.micEnabled">Unmute mic</span>
 		</button>
 		...
-	</openvidu-template>
+	</opv-template>
 	```
 
 	or
@@ -148,7 +148,7 @@ For a real-world implementation of a custom component, take a look at the source
 This is an example of a template:
 
 ```html
-<openvidu-template
+<opv-template
 	#openviduApi="openviduApi"
 	[wsUrl]="wsUrl" [sessionId]="sessionId" [participantId]="participantId"
 	(eventName)="myEventHandler($event)">
@@ -162,5 +162,5 @@ This is an example of a template:
 		<span [hidden]="openviduApi.micEnabled">Unmute mic</span>
 	</button>
 
-</openvidu-template>
+</opv-template>
 ```

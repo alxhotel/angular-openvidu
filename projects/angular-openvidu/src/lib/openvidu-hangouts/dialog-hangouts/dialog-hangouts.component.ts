@@ -4,23 +4,27 @@ import { MatDialogRef } from '@angular/material';
 // OpenVidu Hanguts i18n
 import { OpenViduHangoutsIntl } from '../openvidu-hangouts-intl';
 
+interface VideoInput {
+	label: string;
+	deviceId: string;
+}
+
 @Component({
-	selector: 'dialog-hangouts',
+	selector: 'opv-dialog-hangouts',
 	templateUrl: './dialog-hangouts.component.html',
 })
 export class DialogHangoutsComponent implements OnInit {
 
 	selectedVideoInput: string;
 
-	videoInputs: Object[] = [];
+	videoInputs: VideoInput[] = [];
 
-	constructor(public dialogRef: MatDialogRef<DialogHangoutsComponent>,
-		public _intl: OpenViduHangoutsIntl) {
+	constructor(public dialogRef: MatDialogRef<DialogHangoutsComponent>, public intl: OpenViduHangoutsIntl) {
 
 	}
 
-	ngOnInit() {
-		var that = this;
+	ngOnInit(): void {
+		const that = this;
 		navigator.mediaDevices.enumerateDevices().then((deviceInfos: MediaDeviceInfo[]) => {
 			that.gotDevices(deviceInfos);
 		}).catch((error: any) => {
@@ -28,12 +32,12 @@ export class DialogHangoutsComponent implements OnInit {
 		});
 	}
 
-	onSubmit() {
+	onSubmit(): void {
 		this.dialogRef.close(this.selectedVideoInput);
 	}
 
-	private gotDevices(deviceInfos: MediaDeviceInfo[]) {
-		for (let deviceInfo of deviceInfos) {
+	private gotDevices(deviceInfos: MediaDeviceInfo[]): void {
+		for (const deviceInfo of deviceInfos) {
 			/*if (deviceInfo.kind === 'audioinput') {
 				option.text = deviceInfo.label ||
 					 'microphone ' + (audioInputSelect.length + 1);
@@ -55,7 +59,7 @@ export class DialogHangoutsComponent implements OnInit {
 		}
 	}
 
-	private handleError(error: any) {
+	private handleError(error: any): void {
 		console.log('navigator.getUserMedia error: ', error);
 	}
 

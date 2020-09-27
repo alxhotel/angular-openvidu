@@ -9,7 +9,7 @@ import { StreamInternalComponent } from '../../openvidu-internal/stream-internal
 import { SafeUrlPipe } from '../../utils/safe-url.pipe';
 
 @Component({
-	selector: 'stream-gotomeeting',
+	selector: 'opv-stream-gotomeeting',
 	styleUrls: [ './stream-gotomeeting.component.css' ],
 	template: `
 		<div class="participant">
@@ -22,15 +22,14 @@ export class StreamGoToMeetingComponent extends StreamInternalComponent {
 	@ViewChild('name') name: ElementRef;
 	@ViewChild('videoStream') videoStream: ElementRef;
 
-	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer,
-		protected _intl: OpenViduGoToMeetingIntl) {
+	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer, protected intl: OpenViduGoToMeetingIntl) {
 		super(safeUrlPipe, renderer);
 	}
 
-	protected setStreamCallback(val: Stream) {
+	protected setStreamCallback(val: Stream): void {
 		// If local, show nice name
-		let dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
-		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this._intl.you : dataObj.username;
+		const dataObj: ParticipantData = JSON.parse(this.stream.getParticipant().data);
+		this.name.nativeElement.textContent = (this.stream.isLocalMirrored()) ? this.intl.you : dataObj.username;
 	}
 
 }

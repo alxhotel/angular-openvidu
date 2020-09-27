@@ -1,4 +1,4 @@
-import { async, getTestBed, ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { getTestBed, ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 
 // Imports dependencies of component to be tested
 import { OpenViduModule } from '../openvidu.module';
@@ -12,9 +12,9 @@ describe('AngularOpenVidu Hangouts', () => {
 	let fixture: ComponentFixture<OpenViduHangoutsComponent>;
 	let component: OpenViduHangoutsComponent;
 
-	beforeEach(async(() => {
+	beforeEach(async () => {
 		// Setup the component to be tested
-		TestBed.configureTestingModule({
+		await TestBed.configureTestingModule({
 			imports: [
 				OpenViduModule,
 				BigScreenModule
@@ -23,12 +23,12 @@ describe('AngularOpenVidu Hangouts', () => {
 				{ provide: ComponentFixtureAutoDetect, useValue: true },
 			]
 		})
-		.compileComponents().then( () => {
-			fixture = TestBed.createComponent(OpenViduHangoutsComponent);
-			fixture.detectChanges();
-			component = fixture.componentInstance;
-		});
-	}));
+		.compileComponents();
+
+		fixture = TestBed.createComponent(OpenViduHangoutsComponent);
+		fixture.detectChanges();
+		component = fixture.componentInstance;
+	});
 
 	afterEach(() => {
 		// Reset the testing module
@@ -39,5 +39,4 @@ describe('AngularOpenVidu Hangouts', () => {
 		// Check that the componente has been instanciated
 		expect(component).toBeTruthy();
 	});
-
 });

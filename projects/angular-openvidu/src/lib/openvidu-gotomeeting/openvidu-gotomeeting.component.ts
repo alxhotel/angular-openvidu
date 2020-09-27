@@ -23,7 +23,7 @@ import { StreamGoToMeetingComponent } from './stream-gotomeeting/stream-gotomeet
 import { OpenViduGoToMeetingIntl } from './openvidu-gotomeeting-intl';
 
 @Component({
-	selector: 'openvidu-gotomeeting',
+	selector: 'opv-gotomeeting',
 	templateUrl: './openvidu-gotomeeting.component.html',
 	styleUrls: [ './openvidu-gotomeeting.component.css' ]
 })
@@ -54,18 +54,16 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 	// Web API access inside template
 	JSON: any;
 
-	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService,
-		public _intl: OpenViduGoToMeetingIntl) {
-
+	constructor(private renderer: Renderer2, private bigScreenService: BigScreenService, public intl: OpenViduGoToMeetingIntl) {
 		super();
 		this.JSON = JSON;
 		this.welcome = true;
-		this.setUserMessage(this._intl.loadingLabel);
+		this.setUserMessage(this.intl.loadingLabel);
 	}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		// Display message
-		this.setUserMessage(this._intl.connectingLabel);
+		this.setUserMessage(this.intl.connectingLabel);
 
 		// Set fullscreen listener
 		this.bigScreenService.onChange(() => {
@@ -78,7 +76,7 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 		});
 	}
 
-	ngOnDestroy() {
+	ngOnDestroy(): void {
 		this.bigScreenService.exit();
 		this.leaveRoom(false);
 	}
@@ -88,19 +86,19 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 	/*---------------------*/
 
 	@HostListener('window:resize', ['$event'])
-	onResize(event: any) {
+	onResize(event: any): void {
 		this.resizeStreamsManually();
 	}
 
-	toggleMic() {
+	toggleMic(): void {
 		this.openviduApi.micEnabled = !this.openviduApi.micEnabled;
 	}
 
-	toggleCamera() {
+	toggleCamera(): void {
 		this.openviduApi.camEnabled = !this.openviduApi.camEnabled;
 	}
 
-	togglePeople() {
+	togglePeople(): void {
 		if (!this.showPeople) {
 			this.showChat = false;
 			this.showPeople = true;
@@ -110,7 +108,7 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 		}
 	}
 
-	toggleChat() {
+	toggleChat(): void {
 		if (!this.showChat) {
 			this.showPeople = false;
 			this.showChat = true;
@@ -120,7 +118,7 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 		}
 	}
 
-	toggleFullscreen() {
+	toggleFullscreen(): void {
 		if (this.bigScreenService.isFullscreen()) {
 			this.bigScreenService.exit();
 		} else {
@@ -128,83 +126,83 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 		}
 	}
 
-	onSidenavCloseStart() {
+	onSidenavCloseStart(): void {
 		this.showPeople = false;
 		this.showChat = false;
 	}
 
-	onChangeSplitPane() {
+	onChangeSplitPane(): void {
 		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
 
-	sendMessage(text: string) {
+	sendMessage(text: string): void {
 		// Clean input
 		this.messageInput.nativeElement.value = null;
-		//this.renderer.setValue(this.messageInput, null);
+		// this.renderer.setValue(this.messageInput, null);
 		// Send to OpenVidu server
 		this.openviduApi.sendMessage(text);
 	}
 
-	leaveRoom(callLeaveRoom?: boolean) {
+	leaveRoom(callLeaveRoom?: boolean): void {
 		super.leaveRoom(callLeaveRoom);
 
 		// Display message
-		this.setUserMessage(this._intl.youLeftTheRoomLabel);
+		this.setUserMessage(this.intl.youLeftTheRoomLabel);
 	}
 
 	/*------------------------*/
 	/* HANDLE OPENVIDU EVENTS */
 	/*------------------------*/
 
-	handleOnServerConnected() {
+	handleOnServerConnected(): void {
 		super.handleOnServerConnected();
 
-		this.setUserMessage(this._intl.connectingToRoomLabel);
+		this.setUserMessage(this.intl.connectingToRoomLabel);
 	}
 
-	handleOnErrorRoom(errorEvent: ErrorEvent) {
+	handleOnErrorRoom(errorEvent: ErrorEvent): void {
 		super.handleOnErrorRoom(errorEvent);
 
-		this.setUserMessage(this._intl.errorRoom);
+		this.setUserMessage(this.intl.errorRoom);
 	}
 
-	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent) {
+	handleOnCameraAccessChange(cameraEvent: CameraAccessEvent): void {
 		super.handleOnCameraAccessChange(cameraEvent);
 		if (cameraEvent.access) {
 			this.welcome = false;
 		}
 	}
 
-	handleOnParticipantJoined(participantEvent: ParticipantEvent) {
+	handleOnParticipantJoined(participantEvent: ParticipantEvent): void {
 		super.handleOnParticipantJoined(participantEvent);
 
 		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
 
-	handleOnParticipantLeft(participantEvent: ParticipantEvent) {
+	handleOnParticipantLeft(participantEvent: ParticipantEvent): void {
 		super.handleOnParticipantLeft(participantEvent);
 
 		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
 
-	handleOnStreamAdded(streamEvent: StreamEvent) {
+	handleOnStreamAdded(streamEvent: StreamEvent): void {
 		super.handleOnStreamAdded(streamEvent);
 
 		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
 
-	handleOnStreamRemoved(streamEvent: StreamEvent) {
+	handleOnStreamRemoved(streamEvent: StreamEvent): void {
 		super.handleOnStreamRemoved(streamEvent);
 
 		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
 
-	handleOnSourceAdded() {
+	handleOnSourceAdded(): void {
 		// Fix: manually resize panel
 		this.resizeStreamsManually();
 	}
@@ -213,11 +211,11 @@ export class OpenViduGoToMeetingComponent extends OpenViduInternalComponent impl
 	/* PRIVATE METHODS */
 	/*-----------------*/
 
-	private resizeStreamsManually() {
-		let videoStreams = this.streamGoToMeeting.map((stream: StreamGoToMeetingComponent) => {
+	private resizeStreamsManually(): void {
+		const videoStreams = this.streamGoToMeeting.map((stream: StreamGoToMeetingComponent) => {
 			return stream.videoStream;
 		});
-		var obj = this.auxResizeStreamsManually(this.panelVideo, videoStreams);
+		const obj = this.auxResizeStreamsManually(this.panelVideo, videoStreams);
 
 		if (!obj.error) {
 			this.streamMaxWidth = obj.width + 'px';

@@ -1,4 +1,4 @@
-# openvidu-hangouts
+# opv-hangouts
 
 <p align="center">
 	<img src="https://github.com/alxhotel/angular-openvidu/blob/master/docs/screenshots/openvidu_hangouts.png?raw=true"/>
@@ -16,13 +16,12 @@
 
 ### About
 
-`openvidu-hangouts` is a Hangouts-styled component with a predefined layout, which you can use out-of-the-box.
+`opv-hangouts` is a Hangouts-styled component with a predefined layout, which you can use out-of-the-box.
 In addition, you have multiple methods and events you can use to personalized the user experience.
 
 ### Selector
 
-- `openvidu`
-- `openvidu-hangouts`
+- `opv-hangouts`
 
 ### Properties
 
@@ -105,7 +104,7 @@ And you are good to go.
 Follow the installation steps at [this README](/README.md#installation). 
 
 ```html
-<openvidu-hangouts
+<opv-hangouts
 	[wsUrl]="wsUrl"
 	[sessionId]="sessionId"
 	[participantId]="participantId"
@@ -113,7 +112,7 @@ Follow the installation steps at [this README](/README.md#installation).
 	
 	Loading openvidu...
 
-</openvidu-hangouts>
+</opv-hangouts>
 ```
 
 [openvidu-server]: https://github.com/OpenVidu/openvidu/tree/master/openvidu-server
