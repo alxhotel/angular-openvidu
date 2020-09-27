@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 
 // Sanitize URL
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -24,7 +24,7 @@ export abstract class StreamInternalComponent implements OnInit {
 	// Protected variables
 	protected stream: Stream;
 
-	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer) {}
+	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer2) {}
 
 	@Input('stream')
 	get stream(): Stream { return this.stream; }

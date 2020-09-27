@@ -1,4 +1,4 @@
-import { Component, EventEmitter, ViewEncapsulation, OnInit, Input, ViewChild, ElementRef, Renderer, Output } from '@angular/core';
+import { Component, EventEmitter, ViewEncapsulation, OnInit, Input, ViewChild, ElementRef, Renderer2, Output } from '@angular/core';
 import { Stream } from 'openvidu-browser';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ParticipantData } from '../../openvidu.directive';
@@ -22,7 +22,7 @@ export class StreamHangoutsComponent extends StreamInternalComponent {
 	@ViewChild('name') name: ElementRef;
 	@ViewChild('videoStream') videoStream: ElementRef;
 
-	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer, protected intl: OpenViduHangoutsIntl) {
+	constructor(protected safeUrlPipe: SafeUrlPipe, protected renderer: Renderer2, protected intl: OpenViduHangoutsIntl) {
 		super(safeUrlPipe, renderer);
 	}
 

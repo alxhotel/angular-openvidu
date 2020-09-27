@@ -149,7 +149,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		}
 	}
 
-	get micEnabled(): void {
+	get micEnabled(): boolean {
 		return (this.myCamera && this.myCamera.getWebRtcPeer() && this.myCamera.getWebRtcPeer().audioEnabled);
 	}
 
@@ -157,7 +157,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 		this.myCamera.getWebRtcPeer().audioEnabled = enabled;
 	}
 
-	get camEnabled(): void {
+	get camEnabled(): boolean {
 		return (this.myCamera && this.myCamera.getWebRtcPeer() && this.myCamera.getWebRtcPeer().videoEnabled);
 	}
 
@@ -534,7 +534,7 @@ export class OpenViduDirective implements OnDestroy, OnChanges {
 	/**
 	 * Get current token to connect to OpenVidu server
 	 */
-	private getCurrentToken(): void {
+	private getCurrentToken(): string {
 		return (this.token)
 			? this.token
 			: 'dummytoken' + this.participantId;

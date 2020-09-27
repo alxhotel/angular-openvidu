@@ -1,6 +1,7 @@
 {
   "name": "angular-openvidu",
   "version": "0.8.0",
+  "description": "Simple, robust, OpenVidu room videochat component for Angular",
   "peerDependencies": {
     "@angular/animations": "^7.0.0",
     "@angular/cdk": "^7.0.0",
@@ -13,5 +14,21 @@
     "angular-bigscreen": "^3.2.0",
     "ng2-split-pane": "^1.4.0",
     "openvidu-browser": "1.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alxhotel/angular-openvidu.git"
+  },
+  "keywords": [
+    "openvidu",
+    "angular",
+    "videochat",
+    "component"
+  ],
+  "author": "Alex <alxmorais8@msn.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/alxhotel/angular-openvidu/issues"
+  },
+  "homepage": "https://github.com/alxhotel/angular-openvidu#readme"
 }
