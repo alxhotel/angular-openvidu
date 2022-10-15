@@ -1,0 +1,38 @@
+name: ci
+on: [push,pull_request]
+jobs:
+  test:
+    name: Node ${{ matrix.node }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        node:
+          - 'lts/*'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      # Update docker-engine using Ubuntu 'trusty' apt repo
+      #- curl -sSL "https://get.docker.com/gpg" | sudo -E apt-key add -
+      #- echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee -a /etc/apt/sources.list
+      #- sudo apt-get update
+      #- sudo apt-get install docker-engine
+      - run: docker version
+      - run: docker-compose version
+      # NPM packages
+      - run: npm install
+      # Setup docker
+      - run: docker-compose up --build -d
+      - run: docker ps
+      # Build
+      - run: npm run build
+      - run: npm run lint
+      - uses: GabrielBB/xvfb-action@v1
+        with:
+          run: npm run test
+      # Close docker
+      - run: docker-compose down
