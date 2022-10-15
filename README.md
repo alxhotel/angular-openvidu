@@ -1,7 +1,7 @@
 # angular-openvidu
 
 [![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
+[![Build Status][build-image]][build-url]
 [![Dependency Status][dependency-status-image]][dependency-status-url]
 [![Angular style guide][codestyle-image]][codestyle-url]
 
@@ -317,9 +317,9 @@ Apache Software License 2.0 ©
 
 [npm-image]: https://img.shields.io/npm/v/angular-openvidu.svg
 [npm-url]: https://www.npmjs.com/package/angular-openvidu
-[travis-image]: https://img.shields.io/travis/com/alxhotel/angular-openvidu/master.svg
-[travis-url]: https://travis-ci.com/alxhotel/angular-openvidu
-[dependency-status-image]: https://david-dm.org/alxhotel/angular-openvidu.svg
-[dependency-status-url]: https://david-dm.org/alxhotel/angular-openvidu
+[build-image]: https://img.shields.io/github/workflow/status/alxhotel/angular-openvidu/ci/master
+[build-url]: https://github.com/alxhotel/angular-openvidu/actions
+[dependency-status-image]: https://img.shields.io/librariesio/release/npm/angular-openvidu
+[dependency-status-url]: https://libraries.io/npm/angular-openvidu
 [codestyle-image]: https://img.shields.io/badge/code_style-codelyzer-brightgreen.svg
 [codestyle-url]: https://github.com/mgechev/codelyzer
